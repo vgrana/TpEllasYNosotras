@@ -1,6 +1,6 @@
 {
     "info":{
-       "title":"Gestion de stock",
+       "title":"Gestion de cuenta corriente",
        "version":"1.0.0",
        "description":"TPFinal",
        "contact":{
@@ -24,7 +24,7 @@
        },
        {
           "name":"CuentasCorrientes",
-          "description":"cuentas corrientes de los clientes"
+          "description":"saldo de deuda de los clientes"
        }
     ],
     "consumes":[
