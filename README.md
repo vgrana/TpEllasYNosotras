@@ -12,7 +12,7 @@
 Artículo | Cliente | Venta | Cuenta Corriente
 -- | -- | -- |---
 código | n°cliente | fechaVenta | fenchaEntrega
-descripción | apellido | totalVenta | montoTotal
+descripción | apellido | totalVenta | totalDeVenta
 cantidad | nombre |      formaDePago| montoCobrado
 precio |dirección |                 | montoACobrar
 disponible | email |                | 
