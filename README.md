@@ -11,7 +11,7 @@
 
 Artículo | Cliente | Venta | Cuenta Corriente
 -- | -- | -- |---
-código | n°cliente | fechaVenta | fenchaEntrega
+código | n°cliente | fechaDeVenta | fenchaDePago
 descripción | apellido | totalVenta | totalDeVenta
 cantidad | nombre |      formaDePago| montoCobrado
 precio |dirección |                 | montoACobrar
@@ -40,13 +40,16 @@ Damos de alta un:
  * fecha: 12/04/2020
  * totalVenta: 980
  * formaDePago: CONTADO
- * montoCobrado: 980
- * montoACobrar: 0 
 
- Realizamos una venta en cuenta corriente:
+  Realizamos una venta en cuenta corriente:
  * fecha: 12/04/2020
  * totalVenta: 980
- * formaDePago: CUENTA CORRIENTE
+ * formaDePago: CuentaCorriente
+ 
+
+ Registramos la venta en cuenta corriente:
+ * fechaDePago: 12/04/2020
+ * totalDeVenta: 980
  * montoCobrado: 500
  * montoACobrar: 380
  * apellido: RIQUELME

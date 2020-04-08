@@ -24,7 +24,7 @@ function init() {
   var server = express();
   server.use(bodyParser.json());
 
-  server.use('/ellasynosotras',swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  server.use('/gestionTienda',swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
   server.use("(/:type/*)|(/:type)", (req, res, next) => {

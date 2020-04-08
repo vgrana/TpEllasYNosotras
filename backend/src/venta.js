@@ -1,6 +1,6 @@
 class Venta{
-    constructor(_fecha,_totalVenta,_formaDePago){
-        this.fecha=_fecha;
+    constructor(_fechaDeVenta,_totalVenta,_formaDePago){
+        this.fechaDeVenta=_fechaDeVenta;
         this.totalVenta=_totalVenta;
         this.formaDePago=_formaDePago;
      

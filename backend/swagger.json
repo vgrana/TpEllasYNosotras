@@ -1,6 +1,6 @@
 {
     "info":{
-       "title":"Gestion de cuenta corriente",
+       "title":"Gestion de stock",
        "version":"1.0.0",
        "description":"TPFinal",
        "contact":{
@@ -22,14 +22,10 @@
           "name":"Clientes",
           "description":"clientes de la tienda"
        },
-      {
-         "name":"Ventas",
-         "description":"monto total de ventas"
-      },
-      {
+       {
           "name":"CuentasCorrientes",
-          "description":"saldo de deuda de los clientes"
-      }
+          "description":"cuentas corrientes de los clientes"
+       }
     ],
     "consumes":[
        "application/json"
@@ -275,157 +271,7 @@
                 }
              }
           }
-       },
-       "/ventas":{
-         "get":{
-            "tags":[
-               "Ventasa"
-            ],
-            "summary":"Lista todas las ventas de la tienda",
-            "responses":{
-               "200":{
-                  "description":"Ok",
-                  "schema":{
-                     "type":"array",
-                     "items":{
-                        "$ref":"#/definitions/ventas"
-                     }
-                  }
-               }
-            }
-         },
-         "post":{
-            "tags":[
-               "Ventas"
-            ],
-            "summary":"Agrega una venta a la lista",
-            "description":"Objeto venta",
-            "parameters":[
-               {
-                  "name":"Venta",
-                  "in":"body",
-                  "required":true,
-                  "schema":{
-                     "$ref":"#/definitions/venta"
-                  }
-               }
-            ],
-            "produces":[
-               "application/json"
-            ],
-            "responses":{
-               "204":{
-                  "description":"Ok",
-                  "schema":{
-                     "$ref":"#/definitions/ventas"
-                  }
-               }
-            }
-         },
-         "put":{
-            "summary":"Edita una venta",
-            "tags":[
-               "Ventas"
-            ],
-            "parameters":[
-               {
-                  "in":"body",
-                  "name":"body",
-                  "required":true,
-                  "description":"Venta con modificaciones",
-                  "schema":{
-                     "$ref":"#/definitions/venta"
-                  }
-               }
-            ],
-            "responses":{
-               "204":{
-                  "description":"OK",
-                  "schema":{
-                     "$ref":"#/definitions/venta"
-                  }
-               },
-               "404":{
-                  "description":"No se puede encontrar la venta."
-               }
-            }
-         }
-      },
-      "/cuentasCorrientes":{
-         "get":{
-            "tags":[
-               "CuentasCorrientes"
-            ],
-            "summary":"Lista todas las cuentas corrientes con sus importes adeudados",
-            "responses":{
-               "200":{
-                  "description":"Ok",
-                  "schema":{
-                     "type":"array",
-                     "items":{
-                        "$ref":"#/definitions/cuentasCorrientes"
-                     }
-                  }
-               }
-            }
-         },
-         "post":{
-            "tags":[
-               "CuentaCorriente"
-            ],
-            "summary":"Agrega una venta en cuenta corriente al listado",
-            "description":"Objeto cuentaCorriente",
-            "parameters":[
-               {
-                  "name":"CuentaCorriente",
-                  "in":"body",
-                  "required":true,
-                  "schema":{
-                     "$ref":"#/definitions/cuentaCorriente"
-                  }
-               }
-            ],
-            "produces":[
-               "application/json"
-            ],
-            "responses":{
-               "204":{
-                  "description":"Ok",
-                  "schema":{
-                     "$ref":"#/definitions/cuentaCorrientes"
-                  }
-               }
-            }
-         },
-         "put":{
-            "summary":"Edita una cuenta corriente ",
-            "tags":[
-               "CuentasCorrientes"
-            ],
-            "parameters":[
-               {
-                  "in":"body",
-                  "name":"body",
-                  "required":true,
-                  "description":"Cuenta corriente con modificaciones",
-                  "schema":{
-                     "$ref":"#/definitions/cuentaCorriente"
-                  }
-               }
-            ],
-            "responses":{
-               "204":{
-                  "description":"OK",
-                  "schema":{
-                     "$ref":"#/definitions/cuentaCorriente"
-                  }
-               },
-               "404":{
-                  "description":"No se puede encontrar la cuenta corriente."
-               }
-            }
-         }
-      }
+       }
     },
     "definitions":{
        "id":{
@@ -513,52 +359,6 @@
                 }
              }
           }
-       },
-       "venta":{
-         "type":"object",
-         "properties":{
-            "fecha":{
-               "required":true,
-               "type":"string",
-               "example":"12-03-2020"
-            },
-            "totalVenta":{
-               "required":true,
-               "type":"string",
-               "example":"1500"
-            },
-            "formaDePago":{
-               "required":true,
-               "type":"string",
-               "example":"CuentaCorriente"
-            }
-         },
-         "cuentaCorriente":{
-            "type":"object",
-            "properties":{
-               "fechaDePago":{
-                  "required":true,
-                  "type":"string",
-                  "example":"20-03-2020"
-               },
-               "totalVenta":{
-                  "required":true,
-                  "type":"string",
-                  "example":"1500"
-               },
-               "montoCobrado":{
-                  "required":true,
-                  "type":"string",
-                  "example":"300"
-               },
-               "montoACobrar":{
-                  "required":true,
-                  "type":"string",
-                  "example":"1200"
-               }
-                 
-            }
-         } 
        }
     }
  }

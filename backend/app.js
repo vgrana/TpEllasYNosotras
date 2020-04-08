@@ -22,5 +22,6 @@ mongoConnection.connect((db)=>{
     server.register(clienteHome);
     server.register(articuloHome);
     server.register(cuentaCorrienteHome);
+    server.register(ventaHome);
     server.init();
 })
