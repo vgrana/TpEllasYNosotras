@@ -1,11 +1,9 @@
 class Venta{
-    constructor(_fecha,_totalVenta,_montoCobrado,_montoACobrar){
+    constructor(_fecha,_totalVenta,_formaDePago){
         this.fecha=_fecha;
         this.totalVenta=_totalVenta;
-        this.montoCobrado=_montoCobrado
-        this.montoACobrar=_montoACobrar;
-       
-    
+        this.formaDePago=_formaDePago;
+     
     }
 
 }
