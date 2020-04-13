@@ -1,6 +1,7 @@
 import React from "react"; 
-import { BrowserRouter as Router,Route, Switch, Path, Link } from "react-router-dom"; 
+import { BrowserRouter as Router,Route, Switch, Link } from "react-router-dom"; 
 import FormularioCliente from "./components/FormularioCliente"; 
+import FormularioCuentaCorriente from "./components/FormularioCuentaCorriente"
 import "./App.css"; 
 
 
@@ -16,7 +17,7 @@ function App() {
                     </a>
                     <ul id="menuCliente" class="dropdown-content">
                         <li><Link to="/agregarCliente">Agregar cliente</Link></li>
-                        <li><Link to="/">Cliente Cuenta Corriente</Link></li>
+                        <li><Link to="/agregarCuentaCorriente">Cliente Cuenta Corriente</Link></li>
                         <li class="divider"></li>
                         <li><Link to="/">Listado de clientes</Link></li>
                     </ul>
@@ -33,6 +34,7 @@ function App() {
         <main>
             <Switch>
                 <Route path="/agregarCliente" component={FormularioCliente} />
+                <Route path="/agregarCuentaCorriente" component={FormularioCuentaCorriente} />
             </Switch>
         </main>
     </Router>
