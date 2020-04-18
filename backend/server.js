@@ -74,6 +74,21 @@ function init() {
     res.status(204).end();  
   });
   
+  server.get("/:type", (req, res) => {
+    var query = {}
+    if (req.query.consulta) {
+        console.log("Query:" + req.query.consulta) 
+        var Consulta = (req.query.consulta)
+        query = rsqlMongoDB (Consulta)
+    } 
+    home = homes[req.params.type]
+
+    home.find(query,
+      (allObjects) => {
+        res.json(allObjects) 
+        res.end()
+      })         
+  })
 
   
 

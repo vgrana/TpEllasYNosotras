@@ -56,86 +56,50 @@ class FormularioCliente extends React.Component {
   }
     render() { 
         return (
-          <div className="container">
-          <div className="row">
-              <div className="col s6 m5">
-                  <div className="row card-panel ">
-                      <div className="card-panel #ffebee red lighten-5">
-                          <form onSubmit={this.handleSubmit}>
-                            <div>
-                              <input className="validate"
-                                type="numbrer" 
-                                required
-                                name="n_cliente" 
-                                placeholder="" id="dni" 
-                                // value={this.state.cliente.n_cliente} 
-                                onChange={this.handleChange} />                      
-                              </div>
-                              <label for="dni">DNI</label>
-                              <div>
-                                <input className="validate"
-                                  id="apellido" 
-                                  type="text"
-                                  required 
-                                  name="apellido" 
-                                  placeholder="" 
-                                  // value={this.state.cliente.descripcion} 
-                                  onChange={this.handleChange}/>
-                                  <label for="apellido">Apellido</label>
-                                </div>
-                                <div>
-                                  <input  
-                                    type="text" 
-                                    name="nombre" 
-                                    placeholder="" 
-                                    id="nombre" 
-                                    // value={this.state.articulo.cantidad} 
-                                    onChange={this.handleChange}/>
-                                    <label for="nombre">Nombre</label>
-                                </div>
-                                <div>
-                                  <input 
-                                    type="text" 
-                                    name="direccion" 
-                                    placeholder="" 
-                                    id="direccion" 
-                                     // value={this.state.articulo.precio} 
-                                    onChange={this.handleChange}/>
-                                    <label for="direccion">Dirección</label>
-                                </div>
-                                <div>
-                                  <input className="validate"
-                                    type="email" 
-                                    name="email" 
-                                    placeholder="" 
-                                    id="email" 
-                                    required
-                                     // value={this.state.articulo.precio} 
-                                    onChange={this.handleChange}/>
-                                    <label for="email">Email</label>
-                                </div>
-                                <div>
-                                  <input className="validate"
-                                  type="text" 
-                                  required 
-                                  name="telefono" 
-                                  placeholder="" 
-                                  id="telefono" // value={this.state.cliente.importe} 
-                                  onChange={this.handleChange} 
-                                      />
-                                      <label for="telefono">Teléfono</label>
-                                  </div>
-                                  <button type="submit" className="btn #660066" style={{ margin: "2px" }}>
-                                      Guardar
-                                  </button>
-                             
-                          </form>
-                          
-                      </div>
+<div className="container">
+    <div className="row col s4">
+
+        <div className="row card-panel col s4 ">
+            <div className="card-panel #ffebee red lighten-5 col 6">
+                <form onSubmit={this.handleSubmit}>
+                    <div className="input-field col s6">
+                        <input className="validate" type="number" required name="n_cliente" id="dni" onChange={this.handleChange} />
+                        <label for="dni">DNI</label>
                     </div>
-              </div>
-          </div>
+                    <div className="row">
+                    <div className="input-field col s6">
+                        <input className="validate" id="apellido" type="text" required name="apellido" onChange={this.handleChange}/>
+                        <label for="apellido">Apellido</label>
+                    </div>
+                    </div>
+                    <div className="input-field col s5">
+                        <input type="text" name="nombre" required id="nombre" onChange={this.handleChange}/>
+                        <label for="nombre">Nombre</label>
+                    </div>
+                    <div className="input-field col s6">
+                        <input type="text" name="direccion" id="direccion" onChange={this.handleChange}/>
+                        <label for="direccion">Dirección</label>
+                    </div>
+                    <div className="input-field col s12">
+                        <input className="validate" type="email" name="email" id="email" onChange={this.handleChange}/>
+                        <label for="email">Email</label>
+                    </div>
+                    <div className="input-field col s7">
+                        <input className="validate" type="text" required name="telefono" id="telefono" onChange={this.handleChange} />
+                        <label for="telefono">Teléfono</label>
+                    </div>
+                    <div className="input-field col s3">
+                        <button type="submit" className="btn #660066" style={{ margin: "2px" }}>
+                            Guardar
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
         </div>
+    </div>
+</div>        
 ); 
  }
 }
