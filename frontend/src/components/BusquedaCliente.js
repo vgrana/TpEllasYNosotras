@@ -65,9 +65,9 @@ limpiezaFormListaClientes(){
   this.limpiarFormulario();
   this.listadoDeTodosLosClientes();
 }   
-select(unGasto) {
-  console.log(unGasto);
-  this.setState({ cliente: unGasto });
+select(unCliente) {
+  console.log(unCliente);
+  this.setState({ cliente: unCliente });
 }
 
 
@@ -95,16 +95,13 @@ select(unGasto) {
        var elApellido = this.state.clientes.filter(
         item => apellido === item.apellido
       );
-      this.setState({ clientes: elApellido,
-                      transaccion: elApellido });
+      this.setState({ clientes: elApellido});
       
      }
-asignarCuenelCliente(elCliente){
-// this.props.(cliente);
-console.log(elCliente);
-}
+
     renderRows() {
        return this.state.clientes.map((unCliente, index) => {
+         
         return (
            <Cliente
              cliente={unCliente}
@@ -112,7 +109,6 @@ console.log(elCliente);
             actualizarListaDeClientes={this.actualizarListaDeClientes}
             seleccionado={this.clienteSeleccionado}
             />
-         
          );
          
        });
@@ -120,7 +116,9 @@ console.log(elCliente);
      }
   
     render() { return(
+      
 <div className="container">
+
   <form onSubmit={this.handleSubmit} id="formulario" className="input-field col s8">
       <div className="row">
           <div className="input-field col s5">
@@ -156,6 +154,7 @@ console.log(elCliente);
             {this.renderRows()}
           </tbody>
     </table>
+    
   </div>
 
 ); }

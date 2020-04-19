@@ -85,7 +85,7 @@ montoAdeudado(){
         return (
           <Transaccion
             transaccion={unaTransaccion}
-            
+            selectorT={this.selectTransaccion}
             actualizarListaDeTransacciones={this.actualizarListaDeTransacciones}
             
           />
@@ -95,6 +95,9 @@ montoAdeudado(){
     transaccionAdd(){
       this.listado();
     }
-    
+    selectTransaccion(unaTransaccion){
+      console.log(unaTransaccion);
+      this.setState({transaccion:unaTransaccion})
+    }
 }
 export default Transacciones;

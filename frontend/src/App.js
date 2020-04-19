@@ -14,23 +14,23 @@ function App() {
     <Router>
         <header>
             <nav>
-                <div class="nav-wrapper">
-                    <a href="#!" class="brand-logo right">
+                <div className="nav-wrapper">
+                    <a href="#!" className="brand-logo right">
                       Ellas y Nosotras
                     </a>
-                    <ul id="menuCliente" class="dropdown-content">
+                    <ul id="menuCliente" className="dropdown-content">
                         <li><Link to="/agregarCliente">Agregar cliente</Link></li>
                         <li><Link to="/agregarTransaccion">Transacciones</Link></li>
                          <li><Link to="/listadoTransacciones">ListadoTransacciones</Link></li>
                         <li><Link to="/busquedaCliente">Búsqueda de cliente</Link></li>
-                        <li class="divider"></li>
+                        <li className="divider"></li>
                         <li><Link to="/"></Link></li>
                     </ul>
-                    <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <ul id="nav-mobile" className="left hide-on-med-and-down">
                         <li><Link to="/">Inicio</Link></li>
                         <li><Link to="/">Artículo</Link></li>
-                        <li><a class="dropdown-trigger" href="#!" data-target="menuCliente">Cliente
-                            <i class="material-icons right">arrow_drop_down</i></a></li>
+                        <li><a className="dropdown-trigger" href="#!" data-target="menuCliente">Cliente
+                            <i className="material-icons right">arrow_drop_down</i></a></li>
                         <li><Link to="/">Facturación</Link></li>
                     </ul>
                 </div>

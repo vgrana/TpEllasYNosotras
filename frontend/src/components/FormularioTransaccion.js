@@ -1,12 +1,14 @@
 import React from "react" ;
 
 import Transacciones from "./Transacciones";
-import BusquedaCliente from "./BusquedaCliente"
+import BusquedaCliente from "./BusquedaCliente";
+import Cliente from "./Cliente";
 class FormularioTransaccion extends React.Component{
 
     constructor(props) {
         super(props);
-        this.state = { transaccion: props.transaccion };
+        this.state = { transaccion: props.transaccion,
+                        seleccionado: props.cliente };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.estadoInicial=this.estadoInicial.bind(this);
@@ -28,6 +30,7 @@ class FormularioTransaccion extends React.Component{
        
     }
     handleSubmit() {
+    this.agregarMovimientoAlCliente(this.transaccion._id)
         this.agregarTransaccion();
     }
 
@@ -42,6 +45,9 @@ class FormularioTransaccion extends React.Component{
     }
 
 agregarMovimientoAlCliente(unaTransaccion){
+    this.setState({cliente:({transaccion:unaTransaccion})})
+
+    console.log(unaTransaccion);
 
 
 }
@@ -64,11 +70,13 @@ agregarMovimientoAlCliente(unaTransaccion){
           return(
             
             <div className="container">
-     <BusquedaCliente></BusquedaCliente>
+     <BusquedaCliente  cliente={this.cliente}>
+
+     </BusquedaCliente>
                <form className="col s8" onSubmit={this.handleSubmit} >
                     <div className="card-panel #ffebee red lighten-5">
                         <div className="row ">
-                            <div class="input-field col s4">
+                            <div className="input-field col s4">
                                 <input className="validate" 
                                 type="date" 
                                 required 
@@ -82,7 +90,7 @@ agregarMovimientoAlCliente(unaTransaccion){
                                     <label for="fechaDeTransaccion">Fecha de entrega</label>
                                 </div>
                             </div>
-                            <div class="input-field col s3">
+                            <div className="input-field col s3">
                                 <input className="validate" id="importeTotal" type="text" required name="importeTotal" title="Ingrese el importe de la opeación"
                                  onChange={this.handleChange} 
                                 //  value={this.state.transaccion.totalTransaccion}
@@ -90,15 +98,18 @@ agregarMovimientoAlCliente(unaTransaccion){
                                  />
                                 <label for="importeTotal">Total transacción</label>
                             </div>
-                            <div class="input-field col s3">
+                            <div className="input-field col s3">
                                 <input type="text" name="montoCobrado" required  id="montoCobrado" title="ingrese el monto entregado por el cliente"  onChange={this.handleChange} />
                                     <label for="montoCobrado">Entrega</label>
                             </div>
                            
-                            <div class="input-field col s12">
+                            <div className="input-field col s12">
                             <button type="submit" className="btn #660066" style={{ margin: "2px" }}>
                                 Guardar
                             </button>
+                            {/* <button onClick={this.agregarMovimientoAlCliente} className="btn #660066" style={{ margin: "2px" }}>
+                                Guardar
+                            </button>  */}
                             </div>
 
                            

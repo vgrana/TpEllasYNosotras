@@ -6,10 +6,10 @@ constructor(props) {
     super(props);
     
     this.actualizarListadoClientes = this.actualizarListadoClientes.bind(this);
-    this.selectGasto = this.selectGasto.bind(this);
+    this.selectCliente = this.selectCliente.bind(this);
     }
   
-    selectGasto() {
+    selectCliente() {
       this.props.selector(this.props.cliente);
     }   
 
@@ -32,7 +32,7 @@ constructor(props) {
          <td>                       
         <button className="btn #660066" 
         style={{ margin: "2px" }}
-        onClick={this.selectGasto}
+        onClick={this.selectCliente}
         >
 
            Agregar Transaccion

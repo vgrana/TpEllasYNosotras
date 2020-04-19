@@ -5,16 +5,15 @@ constructor(props) {
     super(props);
     
     this.actualizar = this.actualizar.bind(this);
-    this.laTransaccion=this.laTransaccion.bind(this);
+    this.selectTransaccion=this.selectTransaccion.bind(this);
   }
-
   
-  
+  selectTransaccion(){
+    this.props.selectorT(this.props.transaccion._id);
+  }
   actualizar() {
     this.props.actualizarListaDeTransacciones(this.props.transaccion);
   }
-  
-
     render() {
     return (
     
@@ -23,15 +22,15 @@ constructor(props) {
          <td>{this.props.transaccion.importeTotal}</td>
         <td>{this.props.transaccion.montoCobrado}</td>
 <td>
-          {/* <button
-            type="button"
+          {/* <button 
+            onClick={this.transaccion}
             className="btn #283593 indigo darken-3"
             style={{ margin: "2px" }}
            
             
           >
             Ver Que ponerle a la transaccion
-          </button> */}
+          </button> */} */}
     </td>      
      
         </tr>
