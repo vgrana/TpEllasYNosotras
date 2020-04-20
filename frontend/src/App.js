@@ -20,7 +20,7 @@ function App() {
                     </a>
                     <ul id="menuCliente" className="dropdown-content">
                         <li><Link to="/agregarCliente">Agregar cliente</Link></li>
-                        <li><Link to="/agregarTransaccion">Transacciones</Link></li>
+                        <li><Link to="/agregarTransaccion">Agregar transacción a cliente</Link></li>
                          <li><Link to="/listadoTransacciones">ListadoTransacciones</Link></li>
                         <li><Link to="/busquedaCliente">Búsqueda de cliente</Link></li>
                         <li className="divider"></li>

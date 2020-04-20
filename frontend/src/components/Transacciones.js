@@ -35,8 +35,7 @@ class Transacciones extends React.Component{
                <h3>Como nos está yendo con las ventas</h3>
               </div>
               <table className="left responsive-table highlight">
-              {/* // "responsive-table highlight overflow:auto;"> */}
-          
+                  
                   <thead className="bordered hoverable">
                     <tr className="border: green 7px solid">
                     <th>Fecha operación</th>

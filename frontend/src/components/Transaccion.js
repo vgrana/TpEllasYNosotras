@@ -21,7 +21,7 @@ constructor(props) {
          <td>{this.props.transaccion.fechaTransaccion}</td>
          <td>{this.props.transaccion.importeTotal}</td>
         <td>{this.props.transaccion.montoCobrado}</td>
-<td>
+      <td>
           {/* <button 
             onClick={this.transaccion}
             className="btn #283593 indigo darken-3"
@@ -30,7 +30,7 @@ constructor(props) {
             
           >
             Ver Que ponerle a la transaccion
-          </button> */} */}
+          </button> */} 
     </td>      
      
         </tr>

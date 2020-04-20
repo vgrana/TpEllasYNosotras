@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FormularioTransaccion from './FormularioTransaccion'
+// import FormularioTransaccion from './FormularioTransaccion'
 class Cliente extends React.Component{
 constructor(props) {
     super(props);
@@ -9,11 +9,9 @@ constructor(props) {
     this.selectCliente = this.selectCliente.bind(this);
     }
   
-    selectCliente() {
+  selectCliente() {
       this.props.selector(this.props.cliente);
     }   
-
-  
 
   actualizarListadoClientes() {
     this.props.actualizarListaDeClientes(this.props.cliente);
@@ -31,21 +29,11 @@ constructor(props) {
         <td>{this.props.cliente.telefono}</td>
          <td>                       
         <button className="btn #660066" 
-        style={{ margin: "2px" }}
+         style={{ margin: "2px" }}
         onClick={this.selectCliente}
-        >
-
-           Agregar Transaccion
-  
-          
-          </button>
-</td>
+        >Agregar Transaccion</button>
+        </td>
       </tr>
-      
-    );
-    
-  }
-  
-  
+      );}
 }
 export default Cliente;

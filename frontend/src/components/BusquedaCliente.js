@@ -14,17 +14,32 @@ class BusquedaCliente extends React.Component {
                    n_cliente: '',
                    apellido: ''
                  };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit1 = this.handleSubmit1.bind(this);
+    this.handleChange1 = this.handleChange1.bind(this);
     this.listadoResultanteBusqueda=this.listadoResultanteBusqueda.bind(this);
     this.listadoDeTodosLosClientes=this.listadoDeTodosLosClientes.bind(this);
     this.limpiezaFormListaClientes=this.limpiezaFormListaClientes.bind(this);
     this.select=this.select.bind(this);
-    // this.laTransaccion=this.laTransaccion.bind(this);
-    // this.clienteSeleccionado=this.clienteSeleccionado.bind(this);
+    this.NumberList=this.NumberList.bind(this);
     }
+NumberList(props) {
+const clientes = props.clientes;
+        const listItems = clientes.map((cliente) =>
+          <li key={cliente.toString()}>
+            {cliente}
+          </li>
+        );
+        return (
+          <ul>{listItems}</ul>   
+        );}  
 
-  handleChange(e) {
+    
+
+
+
+
+
+  handleChange1(e) {
     const target = e.target;
     const value = target.value;
     const name = target.name;
@@ -53,10 +68,6 @@ class BusquedaCliente extends React.Component {
         .then( clts => this.setState({clientes: clts}));   
   }
 
-listadoResultanteBusqueda(){
-  this.listadoBusqueda();
-}
-
 limpiarFormulario() {
   document.getElementById("apellido").value = "" ;
 }
@@ -67,13 +78,11 @@ limpiezaFormListaClientes(){
 }   
 select(unCliente) {
   console.log(unCliente);
-  this.setState({ cliente: unCliente });
+  this.setState({ seleccionado: unCliente });
 }
 
 
-
-
-  handleSubmit(event) {
+  handleSubmit1(event) {
     var consulta
     if(this.state.apellido == ""){
       this.listadoBusqueda(consulta);
@@ -84,19 +93,17 @@ select(unCliente) {
     }
     event.preventDefault();
     }
-
- elCliente(unCliente) {
-      var cliente = this.state.clientes.filter(item => item._id === cliente._id);
-      // this.setState({ transacciones: unCliente });
-    }
-
-
+  
+  listadoResultanteBusqueda(){
+    this.listadoBusqueda();
+  }
+  
  resultadoBusqueda(apellido) {
        var elApellido = this.state.clientes.filter(
         item => apellido === item.apellido
       );
       this.setState({ clientes: elApellido});
-      
+       console.log(elApellido);
      }
 
     renderRows() {
@@ -106,24 +113,28 @@ select(unCliente) {
            <Cliente
              cliente={unCliente}
              selector={this.select}
-            actualizarListaDeClientes={this.actualizarListaDeClientes}
+            // actualizarListaDeClientes={this.actualizarListaDeClientes}
             seleccionado={this.clienteSeleccionado}
             />
-         );
-         
-       });
-      
+            );
+        });
      }
   
-    render() { return(
+    render() {
+    //    var clientes = this.state.cliente;        
+    //     <BusquedaCliente clientes={clientes} />,
+    //     document.getElementById('root')
+        
+        
+        return(
       
 <div className="container">
 
-  <form onSubmit={this.handleSubmit} id="formulario" className="input-field col s8">
+  <form onSubmit={this.handleSubmit1} id="formulario" className="input-field col s8">
       <div className="row">
           <div className="input-field col s5">
             <div>
-            <input name="apellido" id="apellido" onChange={this.handleChange} />
+            <input name="apellido" id="apellido" onChange={this.handleChange1} />
             <label for="apelllido">Apellido del cliente</label>
           </div>
           </div>
@@ -135,10 +146,7 @@ select(unCliente) {
           onClick={this.limpiezaFormListaClientes}>Nueva búsqueda</button>
       </div>
   </form>
-  
-
-
-  
+        
     <table className="table">
       <thead>
         <tr>
