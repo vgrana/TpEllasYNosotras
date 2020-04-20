@@ -8,7 +8,8 @@ import BusquedaCliente from "./BusquedaCliente"
 class Transacciones extends React.Component{
     constructor(props) {
         super(props);
-        this.state = { transacciones: []}
+        this.state = { transacciones: []
+                  }
         this.montoAdeudado=this.montoAdeudado.bind(this);
         this.listadoDeTransacciones=this.listadoDeTransacciones.bind(this);
         this.transaccionAdd=this.transaccionAdd.bind(this);

@@ -1,5 +1,5 @@
 import React from "react";
-
+import Clientes from "./Clientes";
 
 class FormularioCliente extends React.Component {
   constructor(props) {
@@ -95,9 +95,16 @@ class FormularioCliente extends React.Component {
                     </div>
 
                 </form>
-
+              
             </div>
         </div>
+       
+        <div className="container">
+    <div className="row col s4">
+   
+    <Clientes></Clientes>
+    </div>
+</div>
     </div>
 </div>        
 ); 

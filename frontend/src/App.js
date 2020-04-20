@@ -22,7 +22,7 @@ function App() {
                         <li><Link to="/agregarCliente">Agregar cliente</Link></li>
                         <li><Link to="/agregarTransaccion">Agregar transacción a cliente</Link></li>
                          <li><Link to="/listadoTransacciones">ListadoTransacciones</Link></li>
-                        <li><Link to="/busquedaCliente">Búsqueda de cliente</Link></li>
+                        <li><Link to="/clientes">Listado de clientes</Link></li>
                         <li className="divider"></li>
                         <li><Link to="/"></Link></li>
                     </ul>
@@ -39,8 +39,8 @@ function App() {
         <main>
             <Switch>
                 <Route path="/agregarCliente" component={FormularioCliente} />
-                <Route path="/agregarTransaccion" component={FormularioTransaccion} />
-                <Route path="/busquedaCliente" component={BusquedaCliente}/>
+                <Route path="/agregarTransaccion" component={BusquedaCliente} />
+                <Route path="/clientes" component={Clientes}/>
                 <Route path="/listadoTransacciones" component={Transacciones}/>
             </Switch>
         </main>

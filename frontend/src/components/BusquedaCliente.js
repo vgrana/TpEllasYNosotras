@@ -1,45 +1,29 @@
 import React from 'react';
 
 import Cliente from './Cliente';
-import Transaccion from './Transaccion'
-import FormularioTransaccion from './FormularioTransaccion'
+import Clientes from './Clientes';
+import FormularioTransaccion from './FormularioTransaccion';
+import Transaccion from './Transaccion';
 
 class BusquedaCliente extends React.Component {
   constructor(props) {
     super(props);
     this.state = { clientes: [],
                    selecccionado: {},
-                   transaccion:{},
-                   cliente: props.cliente,
-                   n_cliente: '',
+                   
+                //    n_cliente: '',
                    apellido: ''
                  };
-    this.handleSubmit1 = this.handleSubmit1.bind(this);
-    this.handleChange1 = this.handleChange1.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.listadoResultanteBusqueda=this.listadoResultanteBusqueda.bind(this);
     this.listadoDeTodosLosClientes=this.listadoDeTodosLosClientes.bind(this);
     this.limpiezaFormListaClientes=this.limpiezaFormListaClientes.bind(this);
-    this.select=this.select.bind(this);
-    this.NumberList=this.NumberList.bind(this);
+    this.clienteSeleccionado=this.clienteSeleccionado.bind(this);
+    // this.NumberList=this.NumberList.bind(this);
     }
-NumberList(props) {
-const clientes = props.clientes;
-        const listItems = clientes.map((cliente) =>
-          <li key={cliente.toString()}>
-            {cliente}
-          </li>
-        );
-        return (
-          <ul>{listItems}</ul>   
-        );}  
 
-    
-
-
-
-
-
-  handleChange1(e) {
+  handleChange(e) {
     const target = e.target;
     const value = target.value;
     const name = target.name;
@@ -76,13 +60,13 @@ limpiezaFormListaClientes(){
   this.limpiarFormulario();
   this.listadoDeTodosLosClientes();
 }   
-select(unCliente) {
+clienteSeleccionado(unCliente) {
   console.log(unCliente);
   this.setState({ seleccionado: unCliente });
+  
 }
 
-
-  handleSubmit1(event) {
+  handleSubmit(event) {
     var consulta
     if(this.state.apellido == ""){
       this.listadoBusqueda(consulta);
@@ -91,30 +75,51 @@ select(unCliente) {
       consulta = '?consulta=apellido=="'+this.state.apellido+'"'
       this.listadoBusqueda(consulta);
     }
-    event.preventDefault();
+    // event.preventDefault();
     }
   
   listadoResultanteBusqueda(){
     this.listadoBusqueda();
+  }
+
+  elSeleccionado(){
+   this.props.elSeleccionado(this.props.cliente._id); 
+    
   }
   
  resultadoBusqueda(apellido) {
        var elApellido = this.state.clientes.filter(
         item => apellido === item.apellido
       );
-      this.setState({ clientes: elApellido});
+      this.setState({ clientes: elApellido})
+                        // selecccionado);
        console.log(elApellido);
      }
 
-    renderRows() {
-       return this.state.clientes.map((unCliente, index) => {
+    
+    renderRows(props) {
+        // var clientes=props.clientes;
+        // var listaClientes=clientes.map((unCliente)=>
+        // <li key={unCliente.toString()}>
+        //     {unCliente}
+        // </li>);
+        // return(
+        //     <ul>{listaClientes}</ul>
+           
+        
+        // );
+        
+
+       return this.state.clientes.map((unCliente) => {
          
         return (
            <Cliente
+            
              cliente={unCliente}
-             selector={this.select}
+             clienteSeleccionado={this.clienteSeleccionado}
             // actualizarListaDeClientes={this.actualizarListaDeClientes}
             seleccionado={this.clienteSeleccionado}
+          
             />
             );
         });
@@ -130,11 +135,11 @@ select(unCliente) {
       
 <div className="container">
 
-  <form onSubmit={this.handleSubmit1} id="formulario" className="input-field col s8">
+  <form onSubmit={this.handleSubmit} id="formulario" className="input-field col s8">
       <div className="row">
           <div className="input-field col s5">
             <div>
-            <input name="apellido" id="apellido" onChange={this.handleChange1} />
+            <input name="apellido" id="apellido" onChange={this.handleChange} />
             <label for="apelllido">Apellido del cliente</label>
           </div>
           </div>
@@ -146,7 +151,8 @@ select(unCliente) {
           onClick={this.limpiezaFormListaClientes}>Nueva búsqueda</button>
       </div>
   </form>
-        
+       <div className="input-field col s7">
+    
     <table className="table">
       <thead>
         <tr>
@@ -162,8 +168,15 @@ select(unCliente) {
             {this.renderRows()}
           </tbody>
     </table>
-    
+    <div className="input-field col s7">
+        <FormularioTransaccion    clienteSeleccionado={this.elSeleccionado} > </FormularioTransaccion>
   </div>
+    </div>
+    <div className="row">
+  
+  </div>
+  </div>
+
 
 ); }
 

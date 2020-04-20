@@ -10,9 +10,9 @@ constructor(props) {
     }
   
   selectCliente() {
-      this.props.selector(this.props.cliente);
+      this.props.clienteSeleccionado(this.props.cliente);
     }   
-
+  
   actualizarListadoClientes() {
     this.props.actualizarListaDeClientes(this.props.cliente);
   }
@@ -28,10 +28,10 @@ constructor(props) {
         <td>{this.props.cliente.email}</td>
         <td>{this.props.cliente.telefono}</td>
          <td>                       
-        <button className="btn #660066" 
-         style={{ margin: "2px" }}
+        <button className="btn waves-effect waves-red" 
+        //  style={{ margin: "1px" }}
         onClick={this.selectCliente}
-        >Agregar Transaccion</button>
+        >Transacción</button>
         </td>
       </tr>
       );}

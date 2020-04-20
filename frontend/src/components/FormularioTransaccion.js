@@ -7,15 +7,19 @@ class FormularioTransaccion extends React.Component{
 
     constructor(props) {
         super(props);
-        this.state = { transaccion: props.transaccion,
-                        cliente: props.transaccion,
-                        seleccionado: props.cliente };
+        this.state = { transaccion: {},
+                      transacciones:[],
+                        cliente: props.cliente,
+                        seleccionado:{}
+                       
+                     };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.estadoInicial=this.estadoInicial.bind(this);
         this.losClientes=this.losClientes.bind(this);
         this.selectCliente=this.selectCliente.bind(this);
         this.agregarTransaccion=this.agregarTransaccion.bind(this);
+        this.elSeleccionado=this.elSeleccionado.bind(this);
        
     }
     componentWillReceiveProps(props) {
@@ -27,7 +31,10 @@ class FormularioTransaccion extends React.Component{
     selectCliente(props) {
         this.setState({seleccionado: props.seleccionado});
       }   
-  
+    elSeleccionado(unCliente){
+          this.setState({seleccionado:unCliente})
+      }
+   
 
     handleChange(event) {
         var newTransaccion = Object.assign({}, this.state.transaccion);
@@ -39,10 +46,10 @@ class FormularioTransaccion extends React.Component{
     handleSubmit(event) {
     // this.props.transaccionCreada(this.transaccion._id)
     this.agregarTransaccion();
-    this.agregarTransaccionACliente();
+    // this.agregarTransaccionACliente();
     // this.agregarMovimientoAlCliente();
        
-    event.preventDefault(event);
+    // event.preventDefault(event);
     }
 
     estadoInicial() {
@@ -55,19 +62,18 @@ class FormularioTransaccion extends React.Component{
         });
     }
    
-agregarMovimientoAlCliente(unaTransaccion){
-    var cliente = this.state.seleccionado.filter(
-        item => cliente._id === item._id
-      );
-    this.setState({seleccionado:unaTransaccion})
-    
-    console.log(unaTransaccion);
-}
-agregarTransacionAlCliente(){
-var seleccionado= this.state.seleccionado._id
-console.log(seleccionado);
+    // pasarTransaccionAlCliente(unaTransaccion){
+    //     this.setState({transaccion:unaTransaccion})
+    // }
+//     pasarLatransaccion(){
+//         return <BusquedaCliente transaccion={this.props.pasarTransaccionAlCliente}
+// ></BusquedaCliente>    }
 
-    fetch("http://localhost:60000/cliente" + seleccionado , {
+    agregarTransacionAlCliente(){
+        ////ver!!!
+    var seleccionado= this.state.seleccionado._id
+    console.log(seleccionado);
+   fetch("http://localhost:60000/cliente" + seleccionado , {
         method: "POST",
         body: JSON.stringify(this.state.seleccionado),
         headers: {
@@ -93,24 +99,23 @@ console.log(seleccionado);
         .then(this.estadoInicial);
     }
    
-
-    // enviarIdTransaccionACliente = () =>{
-    //     return <BusquedaCliente transaccionCreada = {unaTransaccion}/>;
-    // }
-
-
-
-
       render(){
           return(
-            
-            <div className="container">
-    <BusquedaCliente  selector={this.select} ></BusquedaCliente>
-
-               <form className="col s8" onSubmit={this.handleSubmit} id="formulario" >
-                    <div className="card-panel #ffebee red lighten-5">
+              
+<div className="container">
+               <form  onSubmit={this.handleSubmit} input-field s12 id="formulario" >
+               <div className="row">
+                    <div className="card-panel #ffebee red lighten-4">
                         <div className="row ">
-                            <div className="input-field col s4">
+                        <div className="card-panel #ffebee red lighten-4">
+                        <div className="row">
+                        <label> Nombre del cliente</label>
+                        </div>
+                        <div className="row">
+                        <label> Apellido del cliente</label>
+                        </div>
+                        </div>
+                            <div className="input-field col s5">
                                 <input className="validate" 
                                 type="date" 
                                 required 
@@ -144,13 +149,16 @@ console.log(seleccionado);
                             {/* <button type="submit" className="btn #660066" style={{ margin: "2px" }}>
                                 Guardar
                             </button> */}
-                            <button onClick={()=>this.agregarMovimientoAlCliente(this.props.transaccion)} className="btn #660066" style={{ margin: "2px" }}>
+                            <button 
+                            type="submit"
+                            // onClick={this.pasarTransaccionAlCliente(this.props.transaccion)} 
+                            className="btn #660066" style={{ margin: "2px" }}>
                                 Guardar
                             </button> 
                             </div>
 
                            
-                            
+                            </div>
                              </div>
                     </div>
                     
@@ -159,7 +167,7 @@ console.log(seleccionado);
 
      {/* </BusquedaCliente>             */}
         </div>
-          );
+                 );
       } 
 
 }

@@ -9,7 +9,7 @@ constructor(props) {
   }
   
   selectTransaccion(){
-    this.props.selectorT(this.props.transaccion._id);
+    this.props.selectorT(this.props.transaccion);
   }
   actualizar() {
     this.props.actualizarListaDeTransacciones(this.props.transaccion);
