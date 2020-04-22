@@ -14,7 +14,7 @@ constructor(props) {
     }   
   
   actualizarListadoClientes() {
-    this.props.actualizarListaDeClientes(this.props.cliente);
+    this.props.actualizarListaDeClientes(this.props.cliente._id);
   }
 
     render() {

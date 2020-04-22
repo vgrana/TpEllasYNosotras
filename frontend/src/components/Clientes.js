@@ -1,16 +1,12 @@
 import React from "react"
 import Cliente from "./Cliente";
 
-
-
-
 class Clientes extends React.Component{
     constructor(props) {
         super(props);
         this.state = { clientes: []
-                  }
-        
-      }
+        }        
+    }
     
     componentWillMount() {
       this.listadoClientes();  
@@ -20,21 +16,15 @@ class Clientes extends React.Component{
       fetch(`http://localhost:60000/clientes`)
         .then( res => res.json())
         .then( ctes => this.setState({clientes: ctes}));
-
     }
+
     listadoDeClientes(){
       this.listadoClientes();
     }
-          
-        
-        render() {
+    render() {
             return(
               <div className="container">
-              
-             
-              
-              <table className="left responsive-table highlight offset:20 ">
-              
+              <table className="left responsive-table highlight offset:20 ">              
                   <thead className="bordered hoverable ">
                     <tr className="border: green 7px solid">
                     <th>N° cliente</th>
@@ -48,14 +38,12 @@ class Clientes extends React.Component{
                     </thead>
                       <tbody className="bordered hoverable  ">
                         {this.clienteRows()}
-                      </tbody>
-                    
+                      </tbody>                    
                 </table>
-                              </div>
+                </div>
                 );
             }
        
-    
     actualizarListaDeClientes(unCliente) {
       var clienteActualizado = this.state.clientes.filter(
         item => clienteActualizado._id !== item._id
@@ -63,17 +51,9 @@ class Clientes extends React.Component{
       this.setState({ clientes: unCliente });
     }
     clienteRows() {
-        return this.state.clientes.map((unCliente) => {
-         
+        return this.state.clientes.map((unCliente) => {  
             return (
-               <Cliente
-                
-                 cliente={unCliente}
-                 clienteSeleccionado={this.clienteSeleccionado}
-                // actualizarListaDeClientes={this.actualizarListaDeClientes}
-                seleccionado={this.clienteSeleccionado}
-              
-                />
+               <Cliente cliente={unCliente} clienteSeleccionado={this.clienteSeleccionado}/>
         );
       });
     }

@@ -32,9 +32,12 @@ class Transacciones extends React.Component{
         render() {
             return(
               <div className="container">
+              
               <div className="">
                <h3>Como nos está yendo con las ventas</h3>
               </div>
+
+
               <table className="left responsive-table highlight">
                   
                   <thead className="bordered hoverable">
@@ -99,5 +102,7 @@ montoAdeudado(){
       console.log(unaTransaccion);
       this.setState({transaccion:unaTransaccion})
     }
+    
+
 }
 export default Transacciones;

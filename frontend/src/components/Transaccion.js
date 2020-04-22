@@ -3,11 +3,13 @@ import React from 'react';
 class Transaccion extends React.Component{
 constructor(props) {
     super(props);
-    
+ this.state = {
+                   selecccionado: {}
+ }
+
     this.actualizar = this.actualizar.bind(this);
-    this.selectTransaccion=this.selectTransaccion.bind(this);
+    this.selectTransaccion=this.selectTransaccion.bind(this);  
   }
-  
   selectTransaccion(){
     this.props.selectorT(this.props.transaccion);
   }
@@ -15,8 +17,7 @@ constructor(props) {
     this.props.actualizarListaDeTransacciones(this.props.transaccion);
   }
     render() {
-    return (
-    
+    return ( 
        <tr key={this.props.transaccion._id}> 
          <td>{this.props.transaccion.fechaTransaccion}</td>
          <td>{this.props.transaccion.importeTotal}</td>
@@ -31,13 +32,11 @@ constructor(props) {
           >
             Ver Que ponerle a la transaccion
           </button> */} 
+          {/* <a>{this.props.transaccion} </a> */}
     </td>      
      
         </tr>
     );
-  }
-  laTransaccion(){
-    this.props.laTransaccion2(this.props.transaccion);
   }
 }
 export default Transaccion;

@@ -7,41 +7,36 @@ class FormularioTransaccion extends React.Component{
 
     constructor(props) {
         super(props);
-        this.state = { transaccion: {},
-                      transacciones:[],
-                        cliente: props.cliente,
-                        seleccionado:{}
-                       
-                     };
+        this.state = {  transaccion: {},
+                        cliente: this.props.cliente
+                    };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.estadoInicial=this.estadoInicial.bind(this);
-        this.losClientes=this.losClientes.bind(this);
-        this.selectCliente=this.selectCliente.bind(this);
         this.agregarTransaccion=this.agregarTransaccion.bind(this);
-        this.elSeleccionado=this.elSeleccionado.bind(this);
        
+        // this.clienteSeleccionado=this.clienteSeleccionado.bind(this);
+    
+        // this.listadlistadoDeTodosLosClientes=this.listadlistadoDeTodosLosClientes.bind(this);
     }
     componentWillReceiveProps(props) {
-       this.setState({ transaccion: props.transaccion });
+        console.log(props);
+    // // //hicimos con pablo
+       this.setState({ cliente:props.cliente });
+    // // // //    this.listadlistadoDeTodosLosClientes(props);
+    // // // this.clienteSeleccionado();
+    // }
     }
-    losClientes(){
-        this.props.listadoDeClientes();
-    }
-    selectCliente(props) {
-        this.setState({seleccionado: props.seleccionado});
-      }   
-    elSeleccionado(unCliente){
-          this.setState({seleccionado:unCliente})
-      }
-   
-
+      
+     // listadlistadoDeTodosLosClientes(props){
+    //     this.setState({clientes:props.cliente});
+    // }
+    
+        
     handleChange(event) {
         var newTransaccion = Object.assign({}, this.state.transaccion);
         newTransaccion[event.target.name] = event.target.value;
-        this.setState({transaccion: newTransaccion});
-        
-       
+        this.setState({transaccion: newTransaccion});    
     }
     handleSubmit(event) {
     // this.props.transaccionCreada(this.transaccion._id)
@@ -62,28 +57,10 @@ class FormularioTransaccion extends React.Component{
         });
     }
    
-    // pasarTransaccionAlCliente(unaTransaccion){
-    //     this.setState({transaccion:unaTransaccion})
-    // }
+   
 //     pasarLatransaccion(){
 //         return <BusquedaCliente transaccion={this.props.pasarTransaccionAlCliente}
 // ></BusquedaCliente>    }
-
-    agregarTransacionAlCliente(){
-        ////ver!!!
-    var seleccionado= this.state.seleccionado._id
-    console.log(seleccionado);
-   fetch("http://localhost:60000/cliente" + seleccionado , {
-        method: "POST",
-        body: JSON.stringify(this.state.seleccionado),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        }
-      })
-      
-      .then(this.estadoInicial);
-  }
 
  
     agregarTransaccion() {
@@ -100,6 +77,7 @@ class FormularioTransaccion extends React.Component{
     }
    
       render(){
+        //   let el=this.props.cliente
           return(
               
 <div className="container">
@@ -109,13 +87,14 @@ class FormularioTransaccion extends React.Component{
                         <div className="row ">
                         <div className="card-panel #ffebee red lighten-4">
                         <div className="row">
+                        <a></a>
                         <label> Nombre del cliente</label>
                         </div>
                         <div className="row">
                         <label> Apellido del cliente</label>
                         </div>
                         </div>
-                            <div className="input-field col s5">
+                            <div className="input-field col s4">
                                 <input className="validate" 
                                 type="date" 
                                 required 
@@ -123,53 +102,46 @@ class FormularioTransaccion extends React.Component{
                                 id="fechaDeTransaccion" 
                                 title="Ingrese la fecha de operación" 
                                 // value={this.state.transaccion.fechaTransaccion}
-                                 onChange={this.handleChange} 
-                                       />
-                                <div>
-                                    <label for="fechaDeTransaccion">Fecha de entrega</label>
-                                </div>
+                                 onChange={this.handleChange}/>
+                                <div><label>Fecha de entrega</label></div>
                             </div>
                             <div className="input-field col s3">
-                                <input className="validate" id="importeTotal" type="text" required name="importeTotal" title="Ingrese el importe de la opeación"
-                                 onChange={this.handleChange} 
+                                <input className="validate" id="importeTotal" maxlength="8" size="4" type="float" required name="importeTotal" title="Ingrese el importe de la opeación"
+                                 onChange={this.handleChange}  
                                 //  value={this.state.transaccion.importeTotal}
-
-                                 />
-                                <label for="importeTotal">Total transacción</label>
+                                />
+                                {/* <label>Total transacción</label> */}
+                                <a>Importe transacción</a>
                             </div>
-                            <div className="input-field col s3">
-                                <input type="text" name="montoCobrado" required
+                            <div className="input-field col s2">
+                                <input type="float" maxlength="8" size="4" name="montoCobrado" required
                                 // value={this.state.transaccion.montoCobrado}
                                   id="montoCobrado" title="ingrese el monto entregado por el cliente" 
                                    onChange={this.handleChange} />
-                                    <label for="montoCobrado">Entrega</label>
+                                   
+                                   <a> Entrega</a>
+                                    {/* <label>Entrega</label> */}
                             </div>
                            
-                            <div className="input-field col s12">
-                            {/* <button type="submit" className="btn #660066" style={{ margin: "2px" }}>
+                            <div className="input-field col s3">
+                             {/* <button type="submit" className="btn #660066" style={{ margin: "2px" }}>
                                 Guardar
-                            </button> */}
+                            </button>  */}
                             <button 
-                            type="submit"
-                            // onClick={this.pasarTransaccionAlCliente(this.props.transaccion)} 
+                           
+                            onClick={this.props.clienteSeleccionado} 
                             className="btn #660066" style={{ margin: "2px" }}>
                                 Guardar
                             </button> 
                             </div>
-
-                           
                             </div>
                              </div>
-                    </div>
-                    
+                    </div>                    
                 </form>
-     {/* <BusquedaCliente  cliente={this.cliente}> */}
-
-     {/* </BusquedaCliente>             */}
         </div>
                  );
       } 
-
+ 
 }
        
 export default FormularioTransaccion;

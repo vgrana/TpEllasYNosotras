@@ -9,8 +9,8 @@ class BusquedaCliente extends React.Component {
   constructor(props) {
     super(props);
     this.state = { clientes: [],
-                   selecccionado: {},
-                   
+                   selecccionado: '',
+                   cliente:{},
                 //    n_cliente: '',
                    apellido: ''
                  };
@@ -20,7 +20,7 @@ class BusquedaCliente extends React.Component {
     this.listadoDeTodosLosClientes=this.listadoDeTodosLosClientes.bind(this);
     this.limpiezaFormListaClientes=this.limpiezaFormListaClientes.bind(this);
     this.clienteSeleccionado=this.clienteSeleccionado.bind(this);
-    // this.NumberList=this.NumberList.bind(this);
+  
     }
 
   handleChange(e) {
@@ -59,12 +59,13 @@ limpiarFormulario() {
 limpiezaFormListaClientes(){
   this.limpiarFormulario();
   this.listadoDeTodosLosClientes();
-}   
+} 
+
 clienteSeleccionado(unCliente) {
-  console.log(unCliente);
-  this.setState({ seleccionado: unCliente });
-  
+      this.setState({ seleccionado: unCliente });
 }
+
+
 
   handleSubmit(event) {
     var consulta
@@ -75,66 +76,26 @@ clienteSeleccionado(unCliente) {
       consulta = '?consulta=apellido=="'+this.state.apellido+'"'
       this.listadoBusqueda(consulta);
     }
-    // event.preventDefault();
+    // event.preventDefault(event);
     }
   
   listadoResultanteBusqueda(){
     this.listadoBusqueda();
   }
 
-  elSeleccionado(){
-   this.props.elSeleccionado(this.props.cliente._id); 
-    
-  }
-  
  resultadoBusqueda(apellido) {
-       var elApellido = this.state.clientes.filter(
+       var elCliente = this.state.clientes.filter(
         item => apellido === item.apellido
       );
-      this.setState({ clientes: elApellido})
-                        // selecccionado);
-       console.log(elApellido);
+      this.setState({ clientes: elCliente})
+       console.log(elCliente);
      }
-
     
-    renderRows(props) {
-        // var clientes=props.clientes;
-        // var listaClientes=clientes.map((unCliente)=>
-        // <li key={unCliente.toString()}>
-        //     {unCliente}
-        // </li>);
-        // return(
-        //     <ul>{listaClientes}</ul>
-           
-        
-        // );
-        
-
-       return this.state.clientes.map((unCliente) => {
-         
-        return (
-           <Cliente
-            
-             cliente={unCliente}
-             clienteSeleccionado={this.clienteSeleccionado}
-            // actualizarListaDeClientes={this.actualizarListaDeClientes}
-            seleccionado={this.clienteSeleccionado}
-          
-            />
-            );
-        });
-     }
+    
   
-    render() {
-    //    var clientes = this.state.cliente;        
-    //     <BusquedaCliente clientes={clientes} />,
-    //     document.getElementById('root')
-        
-        
+    render() { 
         return(
-      
 <div className="container">
-
   <form onSubmit={this.handleSubmit} id="formulario" className="input-field col s8">
       <div className="row">
           <div className="input-field col s5">
@@ -169,7 +130,14 @@ clienteSeleccionado(unCliente) {
           </tbody>
     </table>
     <div className="input-field col s7">
-        <FormularioTransaccion    clienteSeleccionado={this.elSeleccionado} > </FormularioTransaccion>
+    <FormularioTransaccion    
+        // listadoDeTodosLosClientes={this.props.listadoDeTodosLosClientes}
+        // pusimos con pablo
+        //   cliente={this.state.selecccionado} 
+        cliente= {this.state.seleccionado}
+       
+          > </FormularioTransaccion>
+        
   </div>
     </div>
     <div className="row">
@@ -180,8 +148,20 @@ clienteSeleccionado(unCliente) {
 
 ); }
 
-
-
+renderRows() {
+       return this.state.clientes.map((unCliente) => {     
+        return (
+           
+           <Cliente
+             cliente={unCliente}
+             clienteSeleccionado={this.clienteSeleccionado}>
+            {/* // actualizarListaDeClientes={this.actualizarListaDeClientes}
+           // seleccionado={this.clienteSeleccionado} */}    
+            </Cliente>
+           
+ );
+        });
+     }
 
 
    

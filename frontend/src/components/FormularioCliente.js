@@ -4,7 +4,7 @@ import Clientes from "./Clientes";
 class FormularioCliente extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { cliente: props.cliente };
+    this.state = { cliente:{} };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.estadoInicial=this.estadoInicial.bind(this);
@@ -54,6 +54,10 @@ class FormularioCliente extends React.Component {
       .then(this.estadoInicial());
       
   }
+
+
+
+
     render() { 
         return (
 <div className="container">
@@ -63,29 +67,35 @@ class FormularioCliente extends React.Component {
             <div className="card-panel #ffebee red lighten-5 col 6">
                 <form onSubmit={this.handleSubmit}>
                     <div className="input-field col s6">
-                        <input className="validate" type="number" required name="n_cliente" id="dni" onChange={this.handleChange} />
+                        <input className="validate" type="number"  
+                        required name="n_cliente" id="dni" onChange={this.handleChange} value={this.state.cliente.n_cliente}/>
                         <label for="dni">DNI</label>
                     </div>
                     <div className="row">
                     <div className="input-field col s6">
-                        <input className="validate" id="apellido" type="text" required name="apellido" onChange={this.handleChange}/>
+                        <input className="validate" id="apellido" type="text" required name="apellido"
+                         onChange={this.handleChange} value={this.state.cliente.apellido}/>
                         <label for="apellido">Apellido</label>
                     </div>
                     </div>
                     <div className="input-field col s5">
-                        <input type="text" name="nombre" required id="nombre" onChange={this.handleChange}/>
+                     <input className="validate" id="nombre" type="text" required name="nombre"
+                         onChange={this.handleChange} value={this.state.cliente.nombre}/>
                         <label for="nombre">Nombre</label>
                     </div>
-                    <div className="input-field col s6">
-                        <input type="text" name="direccion" id="direccion" onChange={this.handleChange}/>
+                     <div className="input-field col s7">
+                     <input className="validate" id="direccion" type="text" required name="direccion"
+                         onChange={this.handleChange} value={this.state.cliente.direccion}/>
                         <label for="direccion">Dirección</label>
                     </div>
                     <div className="input-field col s12">
-                        <input className="validate" type="email" name="email" id="email" onChange={this.handleChange}/>
+                        <input className="validate" type="email" name="email" id="email" onChange={this.handleChange}
+                        value={this.state.cliente.email}/>
                         <label for="email">Email</label>
                     </div>
                     <div className="input-field col s7">
-                        <input className="validate" type="text" required name="telefono" id="telefono" onChange={this.handleChange} />
+                        <input className="validate" type="text" required name="telefono" id="telefono" onChange={this.handleChange}
+                        value={this.state.cliente.telefono} />
                         <label for="telefono">Teléfono</label>
                     </div>
                     <div className="input-field col s3">
