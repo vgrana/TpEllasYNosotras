@@ -3,9 +3,7 @@ import React from 'react';
 class Transaccion extends React.Component{
 constructor(props) {
     super(props);
- this.state = {
-                   selecccionado: {}
- }
+
 
     this.actualizar = this.actualizar.bind(this);
     this.selectTransaccion=this.selectTransaccion.bind(this);  

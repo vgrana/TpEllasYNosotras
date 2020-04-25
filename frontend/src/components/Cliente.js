@@ -5,6 +5,7 @@ class Cliente extends React.Component{
 constructor(props) {
     super(props);
     
+
     this.actualizarListadoClientes = this.actualizarListadoClientes.bind(this);
     this.selectCliente = this.selectCliente.bind(this);
     }

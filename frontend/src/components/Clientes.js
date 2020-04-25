@@ -4,8 +4,9 @@ import Cliente from "./Cliente";
 class Clientes extends React.Component{
     constructor(props) {
         super(props);
-        this.state = { clientes: []
-        }        
+        this.state = { clientes: []}
+        this.listadoClientes=this.listadoClientes.bind(this);              
+              
     }
     
     componentWillMount() {
@@ -13,7 +14,7 @@ class Clientes extends React.Component{
     }
     
     listadoClientes(){
-      fetch(`http://localhost:60000/clientes`)
+      fetch(`http://localhost:8888/clientes`)
         .then( res => res.json())
         .then( ctes => this.setState({clientes: ctes}));
     }

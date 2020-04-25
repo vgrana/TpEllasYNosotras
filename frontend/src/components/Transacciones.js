@@ -19,7 +19,7 @@ class Transacciones extends React.Component{
       this.listado();  
     }
     listado(){
-      fetch(`http://localhost:60000/transacciones`)
+      fetch(`http://localhost:8888/transacciones`)
         .then( res => res.json())
         .then( ctas => this.setState({transacciones: ctas}));
 

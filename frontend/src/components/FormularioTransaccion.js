@@ -7,44 +7,37 @@ class FormularioTransaccion extends React.Component{
 
     constructor(props) {
         super(props);
-        this.state = {  transaccion: {},
-                        cliente: this.props.cliente
+        this.state = {  
+                        cliente: this.props.cliente,
+                        
                     };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.estadoInicial=this.estadoInicial.bind(this);
-        this.agregarTransaccion=this.agregarTransaccion.bind(this);
-       
-        // this.clienteSeleccionado=this.clienteSeleccionado.bind(this);
-    
-        // this.listadlistadoDeTodosLosClientes=this.listadlistadoDeTodosLosClientes.bind(this);
+        this.agregarTransaccion=this.agregarTransaccion.bind(this); 
+        // this.agregarTransaccionACliente=this.agregarTransaccionACliente.bind(this);
     }
+
     componentWillReceiveProps(props) {
-        console.log(props);
-    // // //hicimos con pablo
-       this.setState({ cliente:props.cliente });
-    // // // //    this.listadlistadoDeTodosLosClientes(props);
-    // // // this.clienteSeleccionado();
-    // }
+        // console.log(props);
+        this.setState({ cliente:props.cliente });
     }
-      
-     // listadlistadoDeTodosLosClientes(props){
-    //     this.setState({clientes:props.cliente});
-    // }
-    
         
     handleChange(event) {
         var newTransaccion = Object.assign({}, this.state.transaccion);
         newTransaccion[event.target.name] = event.target.value;
-        this.setState({transaccion: newTransaccion});    
+        newTransaccion["clienteId"]= this.state.cliente._id;
+        this.setState({ transaccion: newTransaccion
+
+                        
+                        });   
+         
     }
     handleSubmit(event) {
-    // this.props.transaccionCreada(this.transaccion._id)
+   
     this.agregarTransaccion();
-    // this.agregarTransaccionACliente();
-    // this.agregarMovimientoAlCliente();
-       
-    // event.preventDefault(event);
+    
+//    event.preventDefault(event)
     }
 
     estadoInicial() {
@@ -57,14 +50,10 @@ class FormularioTransaccion extends React.Component{
         });
     }
    
-   
-//     pasarLatransaccion(){
-//         return <BusquedaCliente transaccion={this.props.pasarTransaccionAlCliente}
-// ></BusquedaCliente>    }
 
- 
-    agregarTransaccion() {
-        fetch(`http://localhost:60000/transacciones`, {
+    agregarTransaccion(event) {
+        // console.log(this.state.transaccion)
+        fetch(`http://localhost:8888/transacciones` , {
           method: "POST",
           body: JSON.stringify(this.state.transaccion),
           headers: {
@@ -77,10 +66,8 @@ class FormularioTransaccion extends React.Component{
     }
    
       render(){
-        //   let el=this.props.cliente
           return(
-              
-<div className="container">
+            <div className="container">
                <form  onSubmit={this.handleSubmit} input-field s12 id="formulario" >
                <div className="row">
                     <div className="card-panel #ffebee red lighten-4">
@@ -117,22 +104,21 @@ class FormularioTransaccion extends React.Component{
                                 <input type="float" maxlength="8" size="4" name="montoCobrado" required
                                 // value={this.state.transaccion.montoCobrado}
                                   id="montoCobrado" title="ingrese el monto entregado por el cliente" 
-                                   onChange={this.handleChange} />
-                                   
+                                   onChange={this.handleChange} />                       
                                    <a> Entrega</a>
-                                    {/* <label>Entrega</label> */}
+            
                             </div>
                            
-                            <div className="input-field col s3">
-                             {/* <button type="submit" className="btn #660066" style={{ margin: "2px" }}>
+                             <div className="input-field col s3">
+                             <button type="submit" className="btn #660066" style={{ margin: "2px" }}>
                                 Guardar
-                            </button>  */}
-                            <button 
-                           
-                            onClick={this.props.clienteSeleccionado} 
+                            </button>  
+                             {/* <button  
+                            
+                            onClick={this.agregarTransaccionACliente} 
                             className="btn #660066" style={{ margin: "2px" }}>
                                 Guardar
-                            </button> 
+                            </button>    */}
                             </div>
                             </div>
                              </div>

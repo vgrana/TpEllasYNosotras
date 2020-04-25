@@ -36,13 +36,15 @@ class FormularioCliente extends React.Component {
         nombre: "",
         direccion: "",
         email: "",
-        telefono: ""
+        telefono: "",
+        transacciones: []
+      
       }
     });
   }
 
   agregarCliente() {
-    fetch(`http://localhost:60000/clientes`, {
+    fetch(`http://localhost:8888/clientes`, {
       method: "POST",
       body: JSON.stringify(this.state.cliente),
       headers: {
@@ -74,28 +76,36 @@ class FormularioCliente extends React.Component {
                     <div className="row">
                     <div className="input-field col s6">
                         <input className="validate" id="apellido" type="text" required name="apellido"
-                         onChange={this.handleChange} value={this.state.cliente.apellido}/>
+                         onChange={this.handleChange} 
+                        //  value={this.state.cliente.apellido}
+                        />
                         <label for="apellido">Apellido</label>
                     </div>
                     </div>
                     <div className="input-field col s5">
                      <input className="validate" id="nombre" type="text" required name="nombre"
-                         onChange={this.handleChange} value={this.state.cliente.nombre}/>
+                         onChange={this.handleChange} 
+                        //  value={this.state.cliente.nombre}
+                         />
                         <label for="nombre">Nombre</label>
                     </div>
                      <div className="input-field col s7">
                      <input className="validate" id="direccion" type="text" required name="direccion"
-                         onChange={this.handleChange} value={this.state.cliente.direccion}/>
+                         onChange={this.handleChange} 
+                        //  value={this.state.cliente.direccion}
+                         />
                         <label for="direccion">Dirección</label>
                     </div>
                     <div className="input-field col s12">
                         <input className="validate" type="email" name="email" id="email" onChange={this.handleChange}
-                        value={this.state.cliente.email}/>
+                        // value={this.state.cliente.email}
+                        />
                         <label for="email">Email</label>
                     </div>
                     <div className="input-field col s7">
                         <input className="validate" type="text" required name="telefono" id="telefono" onChange={this.handleChange}
-                        value={this.state.cliente.telefono} />
+                        // value={this.state.cliente.telefono} 
+                        />
                         <label for="telefono">Teléfono</label>
                     </div>
                     <div className="input-field col s3">

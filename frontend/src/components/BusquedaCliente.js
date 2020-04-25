@@ -12,7 +12,8 @@ class BusquedaCliente extends React.Component {
                    selecccionado: '',
                    cliente:{},
                 //    n_cliente: '',
-                   apellido: ''
+                   apellido: '',
+                  
                  };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -35,19 +36,19 @@ class BusquedaCliente extends React.Component {
 
   listadoBusqueda(consulta) {
     if(consulta != null){
-      fetch(`http://localhost:60000/clientes` + consulta)
+      fetch(`http://localhost:8888/clientes` + consulta)
         .then( res => res.json())
         .then( clts => this.setState({clientes: clts}));
      
     }
     if(consulta == null){
-      fetch(`http://localhost:60000/clientes`)
+      fetch(`http://localhost:8888/clientes`)
         .then( res => res.json())
         .then( clts => this.setState({clientes: clts}));   
     }
   }
   listadoDeTodosLosClientes(){
-    fetch(`http://localhost:60000/clientes`)
+    fetch(`http://localhost:8888/clientes`)
         .then( res => res.json())
         .then( clts => this.setState({clientes: clts}));   
   }
@@ -87,7 +88,7 @@ clienteSeleccionado(unCliente) {
        var elCliente = this.state.clientes.filter(
         item => apellido === item.apellido
       );
-      this.setState({ clientes: elCliente})
+      this.setState({ clientes: elCliente._id})
        console.log(elCliente);
      }
     
