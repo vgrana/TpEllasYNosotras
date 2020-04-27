@@ -6,6 +6,7 @@ swaggerUi=require('swagger-ui-express');
 var server = express();
 morgan= require('morgan')
 
+
 var homes = {}
 const swaggerDefinition =require("./swagger.json");
 
@@ -56,58 +57,37 @@ function init() {
       res.end() })  
   })
 
+
   server.put("/:type", (req, res) => {
     home = homes[req.params.type]
     home.update(req.body)
     res.status(204).end();  
   })
 
+  server.put("/:type/:id", (req, res) => {
+    var p=req.params.id
 
-// server.post("/:type/", (req, res) => {
-//     home = homes[req.params.type]
-//     home.insert(req.body)
-//     res.status(204).end();  
-//   })
-
-
-
-
-
-  server.post("/:type/", (req, res) => {
-  
-  const idCliente= req.body.clienteId
-  const montoCobrado= req.body.montoCobrado
-  const laTransaccion= req.body
-  const tipo= req.params.type
-
-  if(tipo === "transacciones"){
-    var j= home.insert({_idClienteTransaccion:laTransaccion.clienteId, transaccion:laTransaccion})
-    
-   
+    home = homes[req.params.type]
+    home.update({transacciones:req.body})
+    // res.json(allObjects) 
+    res.status(204).end();  
       
-}
-    /////////////andaaa
-  // var j= home.insert({"_id": idCliente, "id":idCliente, "transacciones":[laTransaccion.clienteId]})
-///////////////////
-// var j= home.insert({[laTransaccion.clienteId]:[laTransaccion]})
-  // console.log("es del tipo" + tipo)
-/////////anda pero agrega una tranasaccion con el id del cliente//////////// -/
+      })         
 
-/// anda diez punto pruebas/////////
-// var j= home.insert({ _idClienteTransaccion:laTransaccion.clienteId, transaccion:laTransaccion})
- 
-  home = homes[req.params.type]
-        home.insert(req.body)
-        res.status(204).end();    
- 
-  
-  // else{
-  
-    // var j= home.insert({[idCliente]:[laTransaccion]})
-  // }  
-    
+    // m.update({transacciones:req.body})
+    // res.status(204).end();  
+
+
+  // update({transacciones:{}},{col:89})
+
+
+
+
+server.post("/:type/", (req, res) => {
+    home = homes[req.params.type]
+    home.insert(req.body)
+    res.status(204).end();  
   })
-
 
 
   server.delete("/:type/:id", (req, res) => {
@@ -132,7 +112,24 @@ function init() {
       })         
   })
 
-
+  // server.put("/clientes/:clienteId", (req, res) => {
+    
+  //    var bady= req.body
+  //    var clienteId= req.params._id
+  //   clientes.find(clienteId,(allObjects)=>{
+  //     var t= res.json(allObjects)
+  //     console.log(t)
+  //     res.end()
+  //   })})
+    
+    // home.find(query,
+    //   (allObjects) => {
+    //     res.json(allObjects) 
+    //     res.end()
+    //   })         
+  // })
+     //     res.status(204).end();
+ 
 // server.post("/transacciones", (req, res) => {
 //   var transaccion= req.params.transacciones
   
@@ -164,6 +161,7 @@ server.listen(8888, () => {
     console.log("Server running on port 8888");
   });
 }
+
 exports.init = init;
 exports.register = register;
 

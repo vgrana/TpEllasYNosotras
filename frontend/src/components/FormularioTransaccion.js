@@ -9,36 +9,49 @@ class FormularioTransaccion extends React.Component{
         super(props);
         this.state = {  
                         cliente: this.props.cliente,
+                        transaccion: {}
                         
                     };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.estadoInicial=this.estadoInicial.bind(this);
         this.agregarTransaccion=this.agregarTransaccion.bind(this); 
-        // this.agregarTransaccionACliente=this.agregarTransaccionACliente.bind(this);
+        this.agregarTransaccionACliente=this.agregarTransaccionACliente.bind(this);
+        this.actualizarEstado=this.actualizarEstado.bind(this);
+        
     }
 
     componentWillReceiveProps(props) {
-        // console.log(props);
+        
         this.setState({ cliente:props.cliente });
     }
-        
+    actualizarEstado() {
+        this.setState((evento) => {
+                     // Importante: lee `state` en vez de `this.state` al actualizar.
+          return {transaccion: evento}
+          
+        });
+         
+      }
+    
     handleChange(event) {
         var newTransaccion = Object.assign({}, this.state.transaccion);
         newTransaccion[event.target.name] = event.target.value;
         newTransaccion["clienteId"]= this.state.cliente._id;
-        this.setState({ transaccion: newTransaccion
+        this.setState({ transaccion: newTransaccion });   
+            
+           
+        
+        
+    }
 
-                        
-                        });   
-         
-    }
     handleSubmit(event) {
-   
-    this.agregarTransaccion();
+    this.agregarTransaccion(event);
     
-//    event.preventDefault(event)
+    // this.agregarTransaccionACliente(event)
+//  event.preventDefault(event)
     }
+    
 
     estadoInicial() {
         this.setState({
@@ -50,9 +63,10 @@ class FormularioTransaccion extends React.Component{
         });
     }
    
+    
 
     agregarTransaccion(event) {
-        // console.log(this.state.transaccion)
+       
         fetch(`http://localhost:8888/transacciones` , {
           method: "POST",
           body: JSON.stringify(this.state.transaccion),
@@ -60,9 +74,37 @@ class FormularioTransaccion extends React.Component{
             Accept: "application/json",
             "Content-Type": "application/json"
           }
+          
         })
-        .then(res=>this.props.transaccionAdd()) 
+        // // .then(res=>this.props.transaccionAdd()) 
+        
+        .then(this.agregarTransaccionACliente())
+        // .then(this.actualizarEstado)
         .then(this.estadoInicial);
+    }
+
+
+    // agregarTransaccionACliente(transaccion){
+    //     console.log(transaccion)
+    //     // var laTransaccion= transaccion
+    //      this.setState.cliente.transacciones({transaccion:transaccion})
+       
+    // }
+    agregarTransaccionACliente(){
+        console.log(this.state.transaccion)
+    fetch('http://localhost:8888/clientes/ ' + this.state.cliente._id, {
+        method: 'PUT',
+        body: JSON.stringify(this.state.transaccion),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+       
+    })
+    ///hacer la aactualizacion del cliente
+    // .then(res => this.props.actualizarClienteConTransacciones(this.actualizarEstado))
+    
+                
     }
    
       render(){
@@ -74,7 +116,8 @@ class FormularioTransaccion extends React.Component{
                         <div className="row ">
                         <div className="card-panel #ffebee red lighten-4">
                         <div className="row">
-                        <a></a>
+
+                        <legend> Agregar movimiento</legend>
                         <label> Nombre del cliente</label>
                         </div>
                         <div className="row">

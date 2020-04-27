@@ -15,7 +15,7 @@ mongoConnection.connect((db)=>{
     transaccion =new Transaccion("3/03/2020","1500","200")
     transaccion2=new Transaccion("23/01/2020","0","2")
     cliente= new Cliente("27826286","grandi","valeria","palacios", "444437", 
-    "valeriagrandi@hotmail.com",[])
+    "valeriagrandi@hotmail.com")
     articuloHome.insert(new Articulo("","camisa",3,1200,true))
     transaccionHome.insert(transaccion)
     transaccionHome.insert(transaccion2)

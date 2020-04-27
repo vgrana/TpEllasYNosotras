@@ -14,6 +14,9 @@ constructor(props) {
   actualizar() {
     this.props.actualizarListaDeTransacciones(this.props.transaccion);
   }
+
+  
+
     render() {
     return ( 
        <tr key={this.props.transaccion._id}> 

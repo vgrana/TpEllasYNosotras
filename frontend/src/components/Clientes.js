@@ -16,7 +16,9 @@ class Clientes extends React.Component{
     listadoClientes(){
       fetch(`http://localhost:8888/clientes`)
         .then( res => res.json())
-        .then( ctes => this.setState({clientes: ctes}));
+        .then( ctes => this.setState({clientes: ctes}))
+        
+       
     }
 
     listadoDeClientes(){
@@ -51,6 +53,9 @@ class Clientes extends React.Component{
       );
       this.setState({ clientes: unCliente });
     }
+
+  
+
     clienteRows() {
         return this.state.clientes.map((unCliente) => {  
             return (

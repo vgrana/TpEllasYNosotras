@@ -40,7 +40,7 @@ function App() {
             <Switch>
                 <Route path="/agregarCliente" component={FormularioCliente} />
                 <Route path="/agregarTransaccion" component={BusquedaCliente} />
-                <Route path="/clientes" component={Clientes}/>
+                <Route path="/clientes/listado" component={Clientes}/>
                 <Route path="/listadoTransacciones" component={Transacciones}/>
             </Switch>
         </main>

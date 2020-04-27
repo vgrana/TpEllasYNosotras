@@ -1,22 +1,30 @@
 import React from 'react';
+import FormularioCliente from './FormularioCliente';
 
 // import FormularioTransaccion from './FormularioTransaccion'
 class Cliente extends React.Component{
 constructor(props) {
     super(props);
-    
+     
 
     this.actualizarListadoClientes = this.actualizarListadoClientes.bind(this);
     this.selectCliente = this.selectCliente.bind(this);
+    this.editarCliente=this.editarCliente.bind(this);
+  
     }
   
   selectCliente() {
       this.props.clienteSeleccionado(this.props.cliente);
     }   
-  
+
+    editarCliente(){
+      this.props.editarCliente(this.props.cliente);
+    }
+
   actualizarListadoClientes() {
     this.props.actualizarListaDeClientes(this.props.cliente._id);
   }
+  
 
     render() {
       
@@ -33,6 +41,14 @@ constructor(props) {
         //  style={{ margin: "1px" }}
         onClick={this.selectCliente}
         >Transacción</button>
+        <button
+            type="button"
+            className="btn #283593 indigo darken-3"
+            style={{ margin: "2px" }}
+            onClick={this.editarCliente}
+          >
+            <i className="material-icons">edit</i>
+          </button>
         </td>
       </tr>
       );}

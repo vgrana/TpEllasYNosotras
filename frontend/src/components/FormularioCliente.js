@@ -19,6 +19,7 @@ class FormularioCliente extends React.Component {
     console.log("entre al handle...");
     var newCliente = Object.assign({}, this.state.cliente);
     newCliente[event.target.name] = event.target.value;
+    newCliente["transacciones"]=[{}];
     this.setState({ cliente: newCliente });
     console.log(newCliente);
     
@@ -37,7 +38,7 @@ class FormularioCliente extends React.Component {
         direccion: "",
         email: "",
         telefono: "",
-        transacciones: []
+        
       
       }
     });
@@ -57,7 +58,19 @@ class FormularioCliente extends React.Component {
       
   }
 
-
+  editarcliente(unCliente){
+      fetch("http://localhost:8888/clientes", {
+        method: "PUT",
+        body: JSON.stringify(this.state.cliente),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      })
+        .then(res => this.props.clienteEditado(this.state.cliente))
+        .then(this.estadoInicial);
+    }
+  
 
 
     render() { 
@@ -70,7 +83,10 @@ class FormularioCliente extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className="input-field col s6">
                         <input className="validate" type="number"  
-                        required name="n_cliente" id="dni" onChange={this.handleChange} value={this.state.cliente.n_cliente}/>
+                        required name="n_cliente" id="dni" onChange={this.handleChange} 
+                        // value={this.state.cliente.n_cliente}
+
+                        />
                         <label for="dni">DNI</label>
                     </div>
                     <div className="row">

@@ -90,6 +90,7 @@ montoAdeudado(){
             transaccion={unaTransaccion}
             selectorT={this.selectTransaccion}
             actualizarListaDeTransacciones={this.actualizarListaDeTransacciones}
+            listadoDeTransacciones={this.listadoDeTransacciones}
             
           />
         );

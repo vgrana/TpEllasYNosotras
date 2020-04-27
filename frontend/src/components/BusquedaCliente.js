@@ -13,6 +13,7 @@ class BusquedaCliente extends React.Component {
                    cliente:{},
                 //    n_cliente: '',
                    apellido: '',
+                   transaccion: props.transaccion
                   
                  };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,7 +22,8 @@ class BusquedaCliente extends React.Component {
     this.listadoDeTodosLosClientes=this.listadoDeTodosLosClientes.bind(this);
     this.limpiezaFormListaClientes=this.limpiezaFormListaClientes.bind(this);
     this.clienteSeleccionado=this.clienteSeleccionado.bind(this);
-  
+    this.editarCliente=this.editarCliente.bind(this);
+       
     }
 
   handleChange(e) {
@@ -66,8 +68,6 @@ clienteSeleccionado(unCliente) {
       this.setState({ seleccionado: unCliente });
 }
 
-
-
   handleSubmit(event) {
     var consulta
     if(this.state.apellido == ""){
@@ -88,7 +88,7 @@ clienteSeleccionado(unCliente) {
        var elCliente = this.state.clientes.filter(
         item => apellido === item.apellido
       );
-      this.setState({ clientes: elCliente._id})
+      this.setState({ clientes: elCliente})
        console.log(elCliente);
      }
     
@@ -112,6 +112,7 @@ clienteSeleccionado(unCliente) {
           <button type="button" className="btn #660066" style={{ margin: "2px" }} 
           onClick={this.limpiezaFormListaClientes}>Nueva búsqueda</button>
       </div>
+     
   </form>
        <div className="input-field col s7">
     
@@ -130,13 +131,15 @@ clienteSeleccionado(unCliente) {
             {this.renderRows()}
           </tbody>
     </table>
+    
     <div className="input-field col s7">
     <FormularioTransaccion    
         // listadoDeTodosLosClientes={this.props.listadoDeTodosLosClientes}
         // pusimos con pablo
         //   cliente={this.state.selecccionado} 
         cliente= {this.state.seleccionado}
-       
+        editarCliente={this.editarCliente}
+        agregarTransaccionACliente={this.agregarTransaccionACliente}
           > </FormularioTransaccion>
         
   </div>
@@ -149,13 +152,21 @@ clienteSeleccionado(unCliente) {
 
 ); }
 
+editarCliente(unCliente) {
+  alert("lo logre")
+  // var newCliente = this.state.clientes.map((item) => (unCliente._id != item._id) ? item : unCliente)
+  // this.setState({ clientes: newCliente, selecccionado: {} })
+}
+
+
 renderRows() {
        return this.state.clientes.map((unCliente) => {     
         return (
            
            <Cliente
              cliente={unCliente}
-             clienteSeleccionado={this.clienteSeleccionado}>
+             clienteSeleccionado={this.clienteSeleccionado}
+             editarCliente= {this.editarCliente}>
             {/* // actualizarListaDeClientes={this.actualizarListaDeClientes}
            // seleccionado={this.clienteSeleccionado} */}    
             </Cliente>
