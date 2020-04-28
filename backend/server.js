@@ -65,15 +65,29 @@ function init() {
   })
 
   server.put("/:type/:id", (req, res) => {
-    var p=req.params.id
+    var id= req.body;
+    //{} destructurar
+    // const  id  = req.params;
+    
+   console.log("hola soy id" + id  )
 
-    home = homes[req.params.type]
-    home.update({transacciones:req.body})
-    // res.json(allObjects) 
+    // home = homes[req.params.type]
+      
+      
+    
+    // home.update({ type_id:id},  {$set: { $transacciones: a } })
+    // home.update({},{$push:{transacciones:a}})   
+    // // home.update({"p":"transacciones"},{"p.$transacciones":req.body}})
+    //  home.update (, {$push: {transacciones: a}})
+      // home.findByIdAndUpdate(req.params.id, req.body, function (err, allObjects) {
+      //     if (err) return next(err);
+      //     res.json(allObjects);
+      // })
     res.status(204).end();  
       
-      })         
-
+      }) 
+           
+    
     // m.update({transacciones:req.body})
     // res.status(204).end();  
 

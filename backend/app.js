@@ -3,6 +3,7 @@ Cliente =require("./src/cliente");
 Articulo= require("./src/articulo");
 Transaccion=require("./src/transaccion");
 
+
 mongoConnection= require("./src/mongo/mongoConnection")
 Home= require("./src/mongo/mongoHome")
 

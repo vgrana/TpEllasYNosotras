@@ -19,7 +19,7 @@ class FormularioCliente extends React.Component {
     console.log("entre al handle...");
     var newCliente = Object.assign({}, this.state.cliente);
     newCliente[event.target.name] = event.target.value;
-    newCliente["transacciones"]=[{}];
+    newCliente["transacciones"]=[];
     this.setState({ cliente: newCliente });
     console.log(newCliente);
     

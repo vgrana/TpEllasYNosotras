@@ -10,6 +10,7 @@ class FormularioTransaccion extends React.Component{
         this.state = {  
                         cliente: this.props.cliente,
                         transaccion: {}
+                       
                         
                     };
         this.handleChange = this.handleChange.bind(this);
@@ -18,7 +19,7 @@ class FormularioTransaccion extends React.Component{
         this.agregarTransaccion=this.agregarTransaccion.bind(this); 
         this.agregarTransaccionACliente=this.agregarTransaccionACliente.bind(this);
         this.actualizarEstado=this.actualizarEstado.bind(this);
-        
+        this.actualizarClienteConTransacciones=this.actualizarClienteConTransacciones.bind(this);            
     }
 
     componentWillReceiveProps(props) {
@@ -38,18 +39,17 @@ class FormularioTransaccion extends React.Component{
         var newTransaccion = Object.assign({}, this.state.transaccion);
         newTransaccion[event.target.name] = event.target.value;
         newTransaccion["clienteId"]= this.state.cliente._id;
-        this.setState({ transaccion: newTransaccion });   
-            
+        this.setState({ transaccion: newTransaccion });          
            
         
         
     }
 
     handleSubmit(event) {
-    this.agregarTransaccion(event);
-    
+    this.agregarTransaccion();
+     
     // this.agregarTransaccionACliente(event)
-//  event.preventDefault(event)
+    // event.preventDefault(event)
     }
     
 
@@ -66,7 +66,7 @@ class FormularioTransaccion extends React.Component{
     
 
     agregarTransaccion(event) {
-       
+       console.log("acaaaaa" + event)
         fetch(`http://localhost:8888/transacciones` , {
           method: "POST",
           body: JSON.stringify(this.state.transaccion),
@@ -79,8 +79,8 @@ class FormularioTransaccion extends React.Component{
         // // .then(res=>this.props.transaccionAdd()) 
         
         .then(this.agregarTransaccionACliente())
-        // .then(this.actualizarEstado)
-        .then(this.estadoInicial);
+        .then(this.actualizarEstado())
+        .then(this.estadoInicial());
     }
 
 
@@ -91,20 +91,33 @@ class FormularioTransaccion extends React.Component{
        
     // }
     agregarTransaccionACliente(){
-        console.log(this.state.transaccion)
-    fetch('http://localhost:8888/clientes/ ' + this.state.cliente._id, {
+            fetch('http://localhost:8888/clientes/ ' + this.state.cliente._id, {
         method: 'PUT',
-        body: JSON.stringify(this.state.transaccion),
+        body: JSON.stringify(this.state.transaccion._id),
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
        
     })
+   
     ///hacer la aactualizacion del cliente
-    // .then(res => this.props.actualizarClienteConTransacciones(this.actualizarEstado))
-    
-                
+    // .then(res => this.actualizarClienteConTransacciones())
+        
+    }
+
+    actualizarClienteConTransacciones(){
+        console.log(this.state.transaccion)
+    fetch('http://localhost:8888/clientes/ ' ,{
+        method: 'GET',
+         
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+       
+    })
+
     }
    
       render(){
@@ -131,21 +144,21 @@ class FormularioTransaccion extends React.Component{
                                 name="fechaTransaccion" 
                                 id="fechaDeTransaccion" 
                                 title="Ingrese la fecha de operación" 
-                                // value={this.state.transaccion.fechaTransaccion}
+                                 value={this.state.transaccion.fechaTransaccion}
                                  onChange={this.handleChange}/>
                                 <div><label>Fecha de entrega</label></div>
                             </div>
                             <div className="input-field col s3">
                                 <input className="validate" id="importeTotal" maxlength="8" size="4" type="float" required name="importeTotal" title="Ingrese el importe de la opeación"
                                  onChange={this.handleChange}  
-                                //  value={this.state.transaccion.importeTotal}
+                                value={this.state.transaccion.importeTotal}
                                 />
                                 {/* <label>Total transacción</label> */}
                                 <a>Importe transacción</a>
                             </div>
                             <div className="input-field col s2">
                                 <input type="float" maxlength="8" size="4" name="montoCobrado" required
-                                // value={this.state.transaccion.montoCobrado}
+                                value={this.state.transaccion.montoCobrado}
                                   id="montoCobrado" title="ingrese el monto entregado por el cliente" 
                                    onChange={this.handleChange} />                       
                                    <a> Entrega</a>
