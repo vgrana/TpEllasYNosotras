@@ -64,17 +64,30 @@ function init() {
     res.status(204).end();  
   })
 
-  server.put("/:type/:id", (req, res) => {
-    var id= req.body;
-    //{} destructurar
-    // const  id  = req.params;
-    
-   console.log("hola soy id" + id  )
-
+  server.put("/:cliente/:id", (req, res) => {
     // home = homes[req.params.type]
-      
-      
+    var transaccion= req.body;
+    var r= transaccion.importeTotal
+    //{} destructurar
+    const  id  = req.params.id;
+    console.log("hola soy id " + transaccion  + "id "+ id )
+
     
+    home.find({"_id": id},
+      (allObjects) => { 
+    // / console.log("aca eñ" + (allO))
+    home.update({id},{$push:{transacciones: r}} )
+
+    res.json(allObjects) 
+   
+      }) 
+    })   
+    
+    
+
+
+
+
     // home.update({ type_id:id},  {$set: { $transacciones: a } })
     // home.update({},{$push:{transacciones:a}})   
     // // home.update({"p":"transacciones"},{"p.$transacciones":req.body}})
@@ -83,19 +96,9 @@ function init() {
       //     if (err) return next(err);
       //     res.json(allObjects);
       // })
-    res.status(204).end();  
-      
-      }) 
-           
-    
-    // m.update({transacciones:req.body})
     // res.status(204).end();  
-
-
-  // update({transacciones:{}},{col:89})
-
-
-
+      
+  
 
 server.post("/:type/", (req, res) => {
     home = homes[req.params.type]

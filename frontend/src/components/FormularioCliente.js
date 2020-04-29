@@ -19,6 +19,7 @@ class FormularioCliente extends React.Component {
     console.log("entre al handle...");
     var newCliente = Object.assign({}, this.state.cliente);
     newCliente[event.target.name] = event.target.value;
+    ///tambien lo podria agregar en el server con el push
     newCliente["transacciones"]=[];
     this.setState({ cliente: newCliente });
     console.log(newCliente);
@@ -27,19 +28,18 @@ class FormularioCliente extends React.Component {
 
   handleSubmit(event) {
     this.agregarCliente();
+    // event.preventDefault(event);
   }
 
   estadoInicial() {
     this.setState({
       cliente: {
-        n_cliente: "",
-        apellido: "",
-        nombre: "",
-        direccion: "",
-        email: "",
-        telefono: "",
-        
-      
+        n_cliente: " ",
+        apellido: " ",
+        nombre: " ",
+        direccion: " ",
+        email: " ",
+        telefono: " "     
       }
     });
   }
@@ -53,9 +53,7 @@ class FormularioCliente extends React.Component {
         "Content-Type": "application/json"
       }
     })
-      
       .then(this.estadoInicial());
-      
   }
 
   editarcliente(unCliente){
@@ -68,7 +66,7 @@ class FormularioCliente extends React.Component {
         }
       })
         .then(res => this.props.clienteEditado(this.state.cliente))
-        .then(this.estadoInicial);
+        .then(this.estadoInicial());
     }
   
 

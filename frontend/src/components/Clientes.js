@@ -4,9 +4,11 @@ import Cliente from "./Cliente";
 class Clientes extends React.Component{
     constructor(props) {
         super(props);
-        this.state = { clientes: []}
-        this.listadoClientes=this.listadoClientes.bind(this);              
-              
+        this.state = { clientes: [],
+                        seleccionado: {}}
+        this.listadoClientes=this.listadoClientes.bind(this);  
+        this.clienteSeleccionado=this.clienteSeleccionado.bind(this);            
+        this.editarCliente=this.editarCliente.bind(this);         
     }
     
     componentWillMount() {
@@ -23,6 +25,15 @@ class Clientes extends React.Component{
 
     listadoDeClientes(){
       this.listadoClientes();
+    }
+
+    clienteSeleccionado(unCliente) {
+      this.setState({ seleccionado: unCliente });
+    }
+    editarCliente(unCliente) {
+      alert("no se puede editar...estamos trabajando en en ello")
+    // var newCliente = this.state.clientes.map((item) => (unCliente._id != item._id) ? item : unCliente)
+    // this.setState({ clientes: newCliente, selecccionado: {} })
     }
     render() {
             return(
@@ -53,18 +64,17 @@ class Clientes extends React.Component{
       );
       this.setState({ clientes: unCliente });
     }
-
-  
-
+ 
     clienteRows() {
         return this.state.clientes.map((unCliente) => {  
             return (
-               <Cliente cliente={unCliente} clienteSeleccionado={this.clienteSeleccionado}/>
+               <Cliente cliente={unCliente}  editarCliente={this.editarCliente} 
+               clienteSeleccionado={this.clienteSeleccionado}/>
         );
       });
     }
-    clientesAdd(){
-      this.listadoClientes();
-    }
+    // clientesAdd(){
+    //   this.listadoClientes();
+    // }
     }
 export default Clientes;

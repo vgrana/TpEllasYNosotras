@@ -24,16 +24,16 @@ constructor(props) {
          <td>{this.props.transaccion.importeTotal}</td>
         <td>{this.props.transaccion.montoCobrado}</td>
       <td>
-          {/* <button 
+          <button 
             onClick={this.transaccion}
             className="btn #283593 indigo darken-3"
             style={{ margin: "2px" }}
            
             
           >
-            Ver Que ponerle a la transaccion
-          </button> */} 
-          {/* <a>{this.props.transaccion} </a> */}
+            <i className="material-icons">edit</i>
+          </button>
+           {/* <a>{this.props.transaccion} </a>  */}
     </td>      
      
         </tr>

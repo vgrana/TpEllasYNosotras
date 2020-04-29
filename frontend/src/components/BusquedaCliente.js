@@ -13,12 +13,11 @@ class BusquedaCliente extends React.Component {
                    cliente:{},
                 //    n_cliente: '',
                    apellido: '',
-                   transaccion: props.transaccion
+                  //  transaccion: props.transaccion
                   
                  };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.listadoResultanteBusqueda=this.listadoResultanteBusqueda.bind(this);
     this.listadoDeTodosLosClientes=this.listadoDeTodosLosClientes.bind(this);
     this.limpiezaFormListaClientes=this.limpiezaFormListaClientes.bind(this);
     this.clienteSeleccionado=this.clienteSeleccionado.bind(this);
@@ -80,9 +79,6 @@ clienteSeleccionado(unCliente) {
     // event.preventDefault(event);
     }
   
-  listadoResultanteBusqueda(){
-    this.listadoBusqueda();
-  }
 
  resultadoBusqueda(apellido) {
        var elCliente = this.state.clientes.filter(
@@ -91,9 +87,8 @@ clienteSeleccionado(unCliente) {
       this.setState({ clientes: elCliente})
        console.log(elCliente);
      }
-    
-    
   
+     
     render() { 
         return(
 <div className="container">
@@ -133,15 +128,11 @@ clienteSeleccionado(unCliente) {
     </table>
     
     <div className="input-field col s7">
-    <FormularioTransaccion    
-        // listadoDeTodosLosClientes={this.props.listadoDeTodosLosClientes}
-        // pusimos con pablo
-        //   cliente={this.state.selecccionado} 
+    <FormularioTransaccion     
         cliente= {this.state.seleccionado}
         editarCliente={this.editarCliente}
         agregarTransaccionACliente={this.agregarTransaccionACliente}
           > </FormularioTransaccion>
-        
   </div>
     </div>
     <div className="row">
@@ -152,11 +143,11 @@ clienteSeleccionado(unCliente) {
 
 ); }
 
-editarCliente(unCliente) {
-  alert("lo logre")
+  editarCliente(unCliente) {
+    alert("no se puede editar...estamos trabajando en en ello")
   // var newCliente = this.state.clientes.map((item) => (unCliente._id != item._id) ? item : unCliente)
   // this.setState({ clientes: newCliente, selecccionado: {} })
-}
+  }
 
 
 renderRows() {

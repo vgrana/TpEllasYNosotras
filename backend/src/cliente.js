@@ -8,9 +8,7 @@ class Cliente{
         this.direccion=_direccion;
         this.telefono=_telefono;
         this.email=_email;
-    
-        
-    }
+     }
 
 }
 module.exports= Cliente;
