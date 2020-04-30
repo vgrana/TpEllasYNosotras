@@ -3,6 +3,7 @@ bodyParser = require("body-parser");
 var cors = require('cors');
 swaggerJSDoc=require('swagger-jsdoc');
 swaggerUi=require('swagger-ui-express');
+ClienteHome = require("./src/mongo/clienteHome")
 
 
 var homes = {}
@@ -26,7 +27,6 @@ function init() {
 
   server.use('/gestionTienda',swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-
   server.use("(/:type/*)|(/:type)", (req, res, next) => {
       if (!homes[req.params.type]) {
           console.log(` home de ${req.params.type} no existe`  )
@@ -39,6 +39,19 @@ function init() {
   })
 
   server.use(cors())
+
+  server.post("/clientes/:id", (req, res) => {
+    clienteHome = new ClienteHome(db)
+    clienteId = req.params.id
+    tx = req.body
+    clienteHome.agregarTx(clienteId, tx, (result, cliente) => {
+      if (result == "error") {
+        res.status(400).end();
+      } else {
+        res.status(200).send(cliente);
+      }
+    }) 
+  })
 
   server.get("/:type", (req, res) => {
     home = homes[req.params.type]
