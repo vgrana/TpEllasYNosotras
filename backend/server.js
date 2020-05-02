@@ -6,16 +6,10 @@ swaggerUi=require('swagger-ui-express');
 var server = express();
 morgan= require('morgan')
 
-
+ClienteHome = require("./src/mongo/clienteHome")
 var homes = {}
-const swaggerDefinition =require("./swagger.json");
 
 server.use(morgan ('dev'));
-const options ={
-  swaggerDefinition , apis: ['home'],
-};
-const swaggerSpec= swaggerJSDoc(options);
-
 
 function register(home) {
   console.log(`registering handlers for ${home.type}`)
@@ -26,9 +20,6 @@ function init() {
   // const API_PORT = process.env.PORT || 8888;
   // var server = express();
   server.use(express.json());
-
-  server.use('/gestionTienda',swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
 
   server.use("(/:type/*)|(/:type)", (req, res, next) => {
       if (!homes[req.params.type]) {
@@ -50,6 +41,22 @@ function init() {
         res.end() })       
   })
 
+server.get("/clientes/:id", (req, res) => {
+  var clienteId= req.params.id
+  clienteHome.getCliente(clienteId, (allObjects)=>{
+    clienteHome.find({"_id": id.transacciones},
+      (allObjects) => { 
+  
+
+    res.json(allObjects) 
+    console.log(clienteId)
+    // res.json(allObjects)
+    // res.end()
+    })
+}) 
+})
+  
+
   server.get("/:type/:id", (req, res) => {
     home = homes[req.params.type]
     home.get(req.params.id, (myObject) => { 
@@ -64,47 +71,44 @@ function init() {
     res.status(204).end();  
   })
 
-  server.put("/:cliente/:id", (req, res) => {
-    // home = homes[req.params.type]
-    var transaccion= req.body;
-    var r= transaccion.importeTotal
-    //{} destructurar
-    const  id  = req.params.id;
-    console.log("hola soy id " + transaccion  + "id "+ id )
+  // server.put("/:cliente/:id", (req, res) => {
+  //   // home = homes[req.params.type]
+  //   var transaccion= req.body;
+  //   var r= transaccion.importeTotal
+  //   //{} destructurar
+  //   const  id  = req.params.id;
+  //   console.log("hola soy id " + transaccion  + "id "+ id )
 
     
-    home.find({"_id": id},
-      (allObjects) => { 
-    // / console.log("aca eñ" + (allO))
-    home.update({id},{$push:{transacciones: r}} )
+  //   home.find({"_id": id},
+  //     (allObjects) => { 
+  //   // / console.log("aca eñ" + (allO))
+  //   home.update({id},{$push:{transacciones: r}} )
 
-    res.json(allObjects) 
+  //   res.json(allObjects) 
    
-      }) 
-    })   
-    
-    
+  //     }) 
+  //   })   
 
-
-
-
-    // home.update({ type_id:id},  {$set: { $transacciones: a } })
-    // home.update({},{$push:{transacciones:a}})   
-    // // home.update({"p":"transacciones"},{"p.$transacciones":req.body}})
-    //  home.update (, {$push: {transacciones: a}})
-      // home.findByIdAndUpdate(req.params.id, req.body, function (err, allObjects) {
-      //     if (err) return next(err);
-      //     res.json(allObjects);
-      // })
-    // res.status(204).end();  
-      
-  
-
-server.post("/:type/", (req, res) => {
+  server.post("/:type/", (req, res) => {
     home = homes[req.params.type]
     home.insert(req.body)
     res.status(204).end();  
   })
+  server.post("/clientes/:id", (req, res) => {
+    // clienteHome = new ClienteHome("clientes",db)
+    clienteId = req.params.id
+    tx = req.body
+    clienteHome.agregarTx(clienteId, tx, (result, cliente) => {
+      if (result == "error") {
+        res.status(400).end();
+      } else {
+        res.status(200).send(cliente);
+      }
+    }) 
+  })
+
+
 
 
   server.delete("/:type/:id", (req, res) => {
@@ -128,6 +132,12 @@ server.post("/:type/", (req, res) => {
         res.end()
       })         
   })
+
+
+
+
+
+ 
 
   // server.put("/clientes/:clienteId", (req, res) => {
     

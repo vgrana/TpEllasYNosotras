@@ -9,17 +9,21 @@ constructor(props) {
 
     this.actualizarListadoClientes = this.actualizarListadoClientes.bind(this);
     this.selectCliente = this.selectCliente.bind(this);
-    this.editarCliente=this.editarCliente.bind(this);
+    this.listarLasTransacciones=this.listarLasTransacciones.bind(this)
+    // this.editarCliente=this.editarCliente.bind(this);
   
     }
   
   selectCliente() {
       this.props.clienteSeleccionado(this.props.cliente);
     }   
-
-    editarCliente(){
-      this.props.editarCliente(this.props.cliente);
+    listarLasTransacciones(){
+      this.props.clienteTransacciones(this.props.cliente)
     }
+
+    // editarCliente(){
+    //   this.props.editarCliente(this.props.cliente);
+    // }
 
   actualizarListadoClientes() {
     this.props.actualizarListaDeClientes(this.props.cliente._id);
@@ -45,9 +49,17 @@ constructor(props) {
             type="button"
             className="btn #283593 indigo darken-3"
             style={{ margin: "2px" }}
-            onClick={this.editarCliente}
+            onClick={this.selectCliente}
           >
             <i className="material-icons">edit</i>
+          </button>
+           <button
+            type="button"
+            className="btn #283593 indigo darken-3"
+            style={{ margin: "2px" }}
+            onClick={this.listarLasTransacciones}
+          >
+            <i className="material-icons">list</i>
           </button>
         </td>
       </tr>

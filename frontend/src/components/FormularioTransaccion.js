@@ -16,16 +16,15 @@ class FormularioTransaccion extends React.Component{
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.estadoInicial=this.estadoInicial.bind(this);
-        this.agregarTransaccion=this.agregarTransaccion.bind(this); 
-        // this.agregarTransaccionACliente=this.agregarTransaccionACliente.bind(this);
-        this.actualizarEstado=this.actualizarEstado.bind(this);
-        // this.actualizarClienteConTransacciones=this.actualizarClienteConTransacciones.bind(this);            
+        this.agregarTransaccion=this.agregarTransaccion.bind(this);
+       
     }
 
-    componentWillReceiveProps(props) {
+    componentWillReceiveProps(props) {    
+        this.setState({ cliente:props.cliente });           
         
-        this.setState({ cliente:props.cliente });
     }
+
     actualizarEstado() {
         this.setState((evento) => {
                      // Importante: lee `state` en vez de `this.state` al actualizar.
@@ -34,38 +33,71 @@ class FormularioTransaccion extends React.Component{
         });
          
       }
+
+    nombreCliente(cliente){
+
+    }
     
     handleChange(event) {
+        if(this.state.cliente == null){
+            alert('debe seleccionar un cliente')
+            this.estadoInicial();
+        }
+        else{
         var newTransaccion = Object.assign({}, this.state.transaccion);
         newTransaccion[event.target.name] = event.target.value;
         newTransaccion["clienteId"]= this.state.cliente._id;
-        this.setState({ transaccion: newTransaccion });          
-           
-        
-        
+        this.setState({ transaccion: newTransaccion,
+                       });          
+
+        }
     }
+        
+    
 
     handleSubmit(event) {
     this.agregarTransaccion(event);
+    this.props.actualizarEstadoSeleccionado(this.state.cliente);
     event.preventDefault(event)
     }
+
     
 
     estadoInicial() {
         this.setState({
-          transaccion: {
-            fechaTransaccion: " ",
-            importeTotal: " ",
-            montoCobrado: " "
-            }
+            transaccion: {
+                fechaTransaccion: " ",
+                importeTotal: " ",
+                montoCobrado: " "
+                }
         });
     }
    
     
 
-    agregarTransaccion(event) {
+    // agregarTransaccion(event) {
+    //    console.log("acaaaaa" + event)
+    //     fetch(`http://localhost:8888/transacciones` , {
+    //       method: "POST",
+    //       body: JSON.stringify(this.state.transaccion),
+    //       headers: {
+    //         Accept: "application/json",
+    //         "Content-Type": "application/json"
+    //       }
+          
+    //     })
+    //     // // .then(res=>this.props.transaccionAdd()) 
+    //     .then(this.actualizarEstado()) 
+    //     .then(this.agregarTransaccionACliente())
+    //     .then(this.estadoInicial())
+        
+       
+    // }
+
+
+  agregarTransaccion(event) {
        console.log("acaaaaa" + event)
-        fetch(`http://localhost:8888/transacciones` , {
+        fetch(`http://localhost:8888/clientes/` + this.state.cliente._id, {
           method: "POST",
           body: JSON.stringify(this.state.transaccion),
           headers: {
@@ -75,40 +107,21 @@ class FormularioTransaccion extends React.Component{
           
         })
         // // .then(res=>this.props.transaccionAdd()) 
-        .then(this.actualizarEstado()) 
-        .then(this.agregarTransaccionACliente())
-       
+        
+        // .then(this.agregarTransaccionACliente())
+        .then(this.actualizarEstado())
         .then(this.estadoInicial());
     }
 
 
-//   agregarTransaccion(event) {
-//        console.log("acaaaaa" + event)
-//         fetch(`http://localhost:8888/clientes/` + this.state.cliente._id, {
-//           method: "PUT",
-//           body: JSON.stringify(this.state.transaccion),
-//           headers: {
-//             Accept: "application/json",
-//             "Content-Type": "application/json"
-//           }
-          
-//         })
-//         // // .then(res=>this.props.transaccionAdd()) 
-        
-//         .then(this.agregarTransaccionACliente())
-//         .then(this.actualizarEstado())
-//         .then(this.estadoInicial());
-//     }
 
 
-
-
-    // agregarTransaccionACliente(transaccion){
-    //     console.log(transaccion)
-    //     // var laTransaccion= transaccion
-    //      this.setState.cliente.transacciones({transaccion:transaccion})
+    agregarTransaccionACliente(transaccion){
+        console.log(transaccion)
+        // var laTransaccion= transaccion
+         this.setState.cliente.transacciones({transaccion:transaccion})
        
-    // }
+    }
     agregarTransaccionACliente(){
             fetch('http://localhost:8888/clientes/' + this.state.cliente._id, {
         method: 'PUT',
@@ -120,24 +133,24 @@ class FormularioTransaccion extends React.Component{
         
     })
    
-    ///hacer la aactualizacion del cliente
-    // .then(res => this.actualizarClienteConTransacciones())
+    //hacer la aactualizacion del cliente
+    .then(res => this.actualizarClienteConTransacciones())
         
 }  
 
-    actualizarClienteConTransacciones(){
-        console.log(this.state.transaccion)
-    fetch('http://localhost:8888/clientes/' ,{
-        method: 'GET',
+    // actualizarClienteConTransacciones(){
+    //     console.log(this.state.transaccion)
+    // fetch('http://localhost:8888/clientes/' ,{
+    //     method: 'GET',
          
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
+    //     headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json'
+    //     }
        
-    })
+    // })
 
-    }
+    // }
    
       render(){
           return(
@@ -150,8 +163,11 @@ class FormularioTransaccion extends React.Component{
                         <div className="row">
 
                         <legend> Agregar movimiento</legend>
+                       
+                        <label>{this.state.transaccion.idCliente}</label>
                         <label> Nombre del cliente</label>
                         </div>
+     
                         <div className="row">
                         <label> Apellido del cliente</label>
                         </div>

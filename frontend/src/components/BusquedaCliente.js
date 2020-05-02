@@ -5,6 +5,7 @@ import Clientes from './Clientes';
 import FormularioTransaccion from './FormularioTransaccion';
 import Transaccion from './Transaccion';
 
+
 class BusquedaCliente extends React.Component {
   constructor(props) {
     super(props);
@@ -13,7 +14,8 @@ class BusquedaCliente extends React.Component {
                    cliente:{},
                 //    n_cliente: '',
                    apellido: '',
-                  //  transaccion: props.transaccion
+                   transacciones: [],
+                   clienTransacciones: []
                   
                  };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,6 +24,10 @@ class BusquedaCliente extends React.Component {
     this.limpiezaFormListaClientes=this.limpiezaFormListaClientes.bind(this);
     this.clienteSeleccionado=this.clienteSeleccionado.bind(this);
     this.editarCliente=this.editarCliente.bind(this);
+
+this.actualizarEstadoSeleccionado=this.actualizarEstadoSeleccionado.bind(this);
+this.clienteTransacciones=this.clienteTransacciones.bind(this);
+
        
     }
 
@@ -32,7 +38,7 @@ class BusquedaCliente extends React.Component {
     this.setState({[name]:value});
   }
   componentWillMount() {
-    this.listadoBusqueda()
+    this.listadoDeTodosLosClientes()
   }
 
   listadoBusqueda(consulta) {
@@ -53,7 +59,6 @@ class BusquedaCliente extends React.Component {
         .then( res => res.json())
         .then( clts => this.setState({clientes: clts}));   
   }
-
 limpiarFormulario() {
   document.getElementById("apellido").value = "" ;
 }
@@ -62,10 +67,15 @@ limpiezaFormListaClientes(){
   this.limpiarFormulario();
   this.listadoDeTodosLosClientes();
 } 
-
 clienteSeleccionado(unCliente) {
+ 
       this.setState({ seleccionado: unCliente });
+    
 }
+ clienteTransacciones(unCliente){
+      this.setState({clienTransacciones:unCliente.transacciones})
+      console.log("son la transa" + this.state.cliente)
+    }
 
   handleSubmit(event) {
     var consulta
@@ -76,7 +86,7 @@ clienteSeleccionado(unCliente) {
       consulta = '?consulta=apellido=="'+this.state.apellido+'"'
       this.listadoBusqueda(consulta);
     }
-    // event.preventDefault(event);
+     event.preventDefault(event);
     }
   
 
@@ -87,11 +97,18 @@ clienteSeleccionado(unCliente) {
       this.setState({ clientes: elCliente})
        console.log(elCliente);
      }
+
+    actualizarEstadoSeleccionado(){
+      //  alert('yo soy el q reinicio')
+      this.setState({seleccionado: {} })
+    
+    }
+   
   
-     
-    render() { 
+      render() { 
         return(
 <div className="container">
+
   <form onSubmit={this.handleSubmit} id="formulario" className="input-field col s8">
       <div className="row">
           <div className="input-field col s5">
@@ -130,17 +147,41 @@ clienteSeleccionado(unCliente) {
     <div className="input-field col s7">
     <FormularioTransaccion     
         cliente= {this.state.seleccionado}
-        editarCliente={this.editarCliente}
-        agregarTransaccionACliente={this.agregarTransaccionACliente}
+        // editarCliente={this.editarCliente}
+        // agregarTransaccionACliente={this.agregarTransaccionACliente}
+        // actualizarEstadoSeleccionado={this.props.actualizarEstadoSeleccionado}
           > </FormularioTransaccion>
-  </div>
+    </div>
     </div>
     <div className="row">
   
   </div>
-  </div>
 
 
+ <div className="container">
+                  <div className="">
+                      <h3>Como nos está yendo con las ventas</h3>
+                  </div>
+                  <table className="left responsive-table highlight">
+                      <thead className="bordered hoverable">
+                          <tr className="border: green 7px solid">
+                              <th>Fecha operación</th>
+                              <th>Total operación </th>
+                              <th>Monto entregado</th>
+                          </tr>
+                      </thead>
+                      <tbody className="bordered hoverable">
+                          {this.transaccionRows()}
+                      </tbody>
+          
+                  </table>
+                  <tr className="border: green 7px solid">
+                      <th> Diferencia entre pagos y deudas</th>
+                      <th></th>
+                      <th>{this.montoAdeudado()}</th>
+                   </tr> 
+              </div> 
+          </div>
 ); }
 
   editarCliente(unCliente) {
@@ -152,22 +193,49 @@ clienteSeleccionado(unCliente) {
 
 renderRows() {
        return this.state.clientes.map((unCliente) => {     
-        return (
-           
-           <Cliente
-             cliente={unCliente}
-             clienteSeleccionado={this.clienteSeleccionado}
-             editarCliente= {this.editarCliente}>
-            {/* // actualizarListaDeClientes={this.actualizarListaDeClientes}
-           // seleccionado={this.clienteSeleccionado} */}    
+        return (           
+            <Cliente
+                cliente={unCliente}
+                clienteSeleccionado={this.clienteSeleccionado}
+                 clienteTransacciones={this.clienteTransacciones}
+                editarCliente= {this.editarCliente}>
             </Cliente>
-           
- );
-        });
-     }
+            );
+          });
+        }
 
 
-   
+
+transaccionRows(){
+  
+  return this.state.clienTransacciones.map((unaTransaccion, index) => {
+          return (
+            <Transaccion
+          transaccion={unaTransaccion} >
+          
+          </Transaccion>
+          );
+          })
+  }
+  montoAdeudado(){
+    
+
+          
+  var totalT =0 ;
+       var mCobrado= 0;
+                var totalDeuda=0;
+                this.state.clienTransacciones.forEach(g => {
+                  totalT += parseFloat(g.importeTotal) 
+                });
+                  this.state.clienTransacciones.forEach(g => {
+                    mCobrado += parseFloat(g.montoCobrado)
+                totalDeuda=totalT - mCobrado
+                
+                });
+                return totalDeuda;
+              
+         
+  }
 }
     
 export default BusquedaCliente;

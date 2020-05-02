@@ -27,7 +27,12 @@ class FormularioCliente extends React.Component {
   }
 
   handleSubmit(event) {
+    if(this.state.cliente._id){
+      this.editarcliente()
+    }
+    else{
     this.agregarCliente();
+    }
     // event.preventDefault(event);
   }
 
@@ -65,7 +70,7 @@ class FormularioCliente extends React.Component {
           "Content-Type": "application/json"
         }
       })
-        .then(res => this.props.clienteEditado(this.state.cliente))
+        .then(res => this.props.clienteChange(this.state.cliente))
         .then(this.estadoInicial());
     }
   
