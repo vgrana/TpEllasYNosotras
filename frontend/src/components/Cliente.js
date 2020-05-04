@@ -10,7 +10,7 @@ constructor(props) {
     this.actualizarListadoClientes = this.actualizarListadoClientes.bind(this);
     this.selectCliente = this.selectCliente.bind(this);
     this.listarLasTransacciones=this.listarLasTransacciones.bind(this)
-    // this.editarCliente=this.editarCliente.bind(this);
+    this.editarCliente=this.editarCliente.bind(this);
   
     }
   
@@ -21,9 +21,9 @@ constructor(props) {
       this.props.clienteTransacciones(this.props.cliente)
     }
 
-    // editarCliente(){
-    //   this.props.editarCliente(this.props.cliente);
-    // }
+    editarCliente(){
+      this.props.editarCliente(this.props.cliente);
+    }
 
   actualizarListadoClientes() {
     this.props.actualizarListaDeClientes(this.props.cliente._id);
@@ -44,7 +44,7 @@ constructor(props) {
         <button className="btn waves-effect waves-red" 
         //  style={{ margin: "1px" }}
         onClick={this.selectCliente}
-        >Transacción</button>
+        >Ver/Agregar Transacción</button>
         <button
             type="button"
             className="btn #283593 indigo darken-3"
@@ -53,14 +53,14 @@ constructor(props) {
           >
             <i className="material-icons">edit</i>
           </button>
-           <button
+           {/* <button
             type="button"
             className="btn #283593 indigo darken-3"
             style={{ margin: "2px" }}
-            onClick={this.listarLasTransacciones}
+            onClick={this.selectCliente}
           >
             <i className="material-icons">list</i>
-          </button>
+          </button> */}
         </td>
       </tr>
       );}

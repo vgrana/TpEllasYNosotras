@@ -94,7 +94,7 @@ class FormularioCliente extends React.Component {
                     </div>
                     <div className="row">
                     <div className="input-field col s6">
-                        <input className="validate" id="apellido" type="text" required name="apellido"
+                        <input className="validate  " id="apellido" type="text" required name="apellido"
                          onChange={this.handleChange} 
                         //  value={this.state.cliente.apellido}
                         />

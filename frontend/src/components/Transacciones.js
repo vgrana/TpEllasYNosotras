@@ -83,7 +83,8 @@ resultadoBusqueda(apellido) {
         .then( res => res.json())
         .then( clts => this.setState({clientes: clts}));   
   }  
-    
+   
+  
    
 
 limpiarFormulario() {
