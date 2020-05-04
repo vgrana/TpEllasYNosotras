@@ -26,9 +26,19 @@ constructor(props) {
     }
 
   actualizarListadoClientes() {
-    this.props.actualizarListaDeClientes(this.props.cliente._id);
+    this.props.actualizarListaDeClientes(this.props.cliente);
   }
-  
+    borrarCliente(id){
+      console.log("holisssss estoy en cliente" + id)
+    //    fetch(`http://localhost:8888/clientes` + id,{
+    //    method: "DELETE",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json"
+    //   }
+    // })
+    // .then(this.actualizarListadoClientes);
+    }
 
     render() {
       
@@ -49,18 +59,18 @@ constructor(props) {
             type="button"
             className="btn #283593 indigo darken-3"
             style={{ margin: "2px" }}
-            onClick={this.selectCliente}
+            // onClick={this.borrarCliente(this.props.cliente._id)}
           >
-            <i className="material-icons">edit</i>
+            <i className="material-icons">delete</i>
           </button>
-           {/* <button
+           <button
             type="button"
             className="btn #283593 indigo darken-3"
             style={{ margin: "2px" }}
-            onClick={this.selectCliente}
+            onClick= {this.selectCliente}
           >
-            <i className="material-icons">list</i>
-          </button> */}
+            <i className="material-icons">edit</i>
+          </button>
         </td>
       </tr>
       );}

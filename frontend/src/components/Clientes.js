@@ -1,5 +1,7 @@
 import React from "react"
 import Cliente from "./Cliente";
+import FormularioCliente from "./FormularioCliente";
+
 
 class Clientes extends React.Component{
     constructor(props) {
@@ -8,15 +10,23 @@ class Clientes extends React.Component{
                         seleccionado: {},
                         cliente: props.cliente
                       }
-        this.listadoClientes=this.listadoClientes.bind(this);  
+        this.listadoDeClientes=this.listadoDeClientes.bind(this);  
         this.clienteSeleccionado=this.clienteSeleccionado.bind(this);            
-        this.editarCliente=this.editarCliente.bind(this);         
+        this.editarCliente=this.editarCliente.bind(this);        
+        this.actualizarListaDeClientes=this.actualizarListaDeClientes.bind(this); 
+        this.clienteChange=this.clienteChange.bind(this);
+      
     }
     
     componentWillMount() {
       this.listadoClientes();  
     
     }
+    clienteSeleccionado(unCliente) {
+    this.setState({ seleccionado: unCliente });
+    console.log("el cliente" + unCliente.nombre)
+   
+  }
     
     listadoClientes(){
       fetch(`http://localhost:8888/clientes`)
@@ -29,10 +39,6 @@ class Clientes extends React.Component{
     listadoDeClientes(){
       this.listadoClientes();
     }
-
-    clienteSeleccionado(unCliente) {
-      this.setState({ seleccionado: unCliente });
-    }
     editarCliente(unCliente) {
       alert("no se puede editar...estamos trabajando en en ello")
     // var newCliente = this.state.seleccionado.map((item) => (unCliente._id != item._id) ? item : unCliente)
@@ -41,6 +47,15 @@ class Clientes extends React.Component{
     render() {
             return(
               <div className="container">
+              
+              <FormularioCliente cliente={this.state.seleccionado}
+                  clienteChange={this.clienteChange}
+                  actualizarListaDeClientes={this.actualizarListaDeClientes}
+                  listadoDeClientes={this.listadoDeClientes}>
+              </FormularioCliente>
+              
+            
+             <div className="row"> 
               <table className="left responsive-table highlight offset:20 ">              
                   <thead className="bordered hoverable ">
                     <tr className="border: green 7px solid">
@@ -57,9 +72,18 @@ class Clientes extends React.Component{
                         {this.clienteRows()}
                       </tbody>                    
                 </table>
+               </div> 
                 </div>
                 );
             }
+
+
+ clienteChange(unCliente) {
+    var newCliente = this.state.clientes.map(item =>
+      unCliente._id != item._id ? item : unCliente
+    );
+    this.setState({ clientes: newCliente, seleccionado: {} });
+  }
 
       
     actualizarListaDeClientes(unCliente) {
@@ -73,7 +97,9 @@ class Clientes extends React.Component{
         return this.state.clientes.map((unCliente) => {  
             return (
                <Cliente cliente={unCliente}   
-               clienteSeleccionado={this.clienteSeleccionado}/>
+               clienteSeleccionado={this.clienteSeleccionado}
+               actualizarListaDeClientes={this.actualizarListaDeClientes}
+               clienteChange={this.clienteChange}/>
         );
       });
     }

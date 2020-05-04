@@ -95,7 +95,7 @@ server.get("/clientes/:id", (req, res) => {
     home.insert(req.body)
     res.status(204).end();  
   })
-  server.post("/clientes/:id", (req, res) => {
+  server.put("/clientes/:id", (req, res) => {
     // clienteHome = new ClienteHome("clientes",db)
     clienteId = req.params.id
     tx = req.body

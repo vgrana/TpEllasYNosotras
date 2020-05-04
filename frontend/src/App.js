@@ -21,8 +21,8 @@ function App() {
                     <ul id="menuCliente" className="dropdown-content">
                         <li><Link to="/agregarCliente">Agregar cliente</Link></li>
                         <li><Link to="/agregarTransaccion">Agregar transacción a cliente</Link></li>
-                         <li><Link to="/listadoTransacciones">Listado de Transacciones</Link></li>
-                        <li><Link to="/clientes/listado">Listado de clientes</Link></li>
+                         {/* <li><Link to="/listadoTransacciones">Listado de Transacciones</Link></li>
+                        <li><Link to="/clientes/listado">Listado de clientes</Link></li> */}
                         <li className="divider"></li>
                         <li><Link to="/"></Link></li>
                     </ul>
@@ -38,7 +38,7 @@ function App() {
         </header>
         <main>
             <Switch>
-                <Route path="/agregarCliente" component={FormularioCliente} />
+                <Route path="/agregarCliente" component={Clientes} />
                 <Route path="/agregarTransaccion" component={BusquedaCliente} />
                 <Route path="/clientes/listado" component={Clientes}/>
                 <Route path="/listadoTransacciones" component={Transacciones}/>

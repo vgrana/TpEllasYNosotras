@@ -60,7 +60,7 @@ class FormularioTransaccion extends React.Component {
   agregarTransaccion(event) {
     console.log("acaaaaa" + event);
     fetch(`http://localhost:8888/clientes/` + this.state.cliente._id, {
-      method: "POST",
+      method: "PUT",
       body: JSON.stringify(this.state.transaccion),
       headers: {
         Accept: "application/json",
@@ -69,12 +69,13 @@ class FormularioTransaccion extends React.Component {
     })
     //   // // .then(res=>this.props.transaccionAdd())
 
-    // .then(this.props.actualizarTransacciones(this.state.transaccion, this.state.cliente))
-    // // .then(trans => this.setState({ transaccion: trans }))
+    .then(this.props.listadoDeTodosLosClientes())
+    // //.then(trans => this.setState({ transaccion: trans }))
       .then(this.estadoInicial());
   }
  
   render() {
+    
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} input-field s12 id="formulario">

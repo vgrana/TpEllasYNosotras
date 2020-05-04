@@ -4,15 +4,17 @@ import Clientes from "./Clientes";
 class FormularioCliente extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { cliente:{} };
+    this.state = { cliente:this.props.cliente };
+                  // cliente:{}
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.estadoInicial=this.estadoInicial.bind(this);
    
   }
   componentWillReceiveProps(props) {
-    console.log(props);
+    // console.log(props);
     this.setState({ cliente: props.cliente });
+    console.log("de formulario" + this.state.cliente)
   }
 
   handleChange(event) {
@@ -33,7 +35,7 @@ class FormularioCliente extends React.Component {
     else{
     this.agregarCliente();
     }
-    // event.preventDefault(event);
+    event.preventDefault(event);
   }
 
   estadoInicial() {
@@ -58,10 +60,11 @@ class FormularioCliente extends React.Component {
         "Content-Type": "application/json"
       }
     })
+      .then(this.props.actualizarListaDeClientes())  
       .then(this.estadoInicial());
   }
 
-  editarcliente(unCliente){
+  editarcliente(){
       fetch("http://localhost:8888/clientes", {
         method: "PUT",
         body: JSON.stringify(this.state.cliente),
@@ -71,6 +74,7 @@ class FormularioCliente extends React.Component {
         }
       })
         .then(res => this.props.clienteChange(this.state.cliente))
+        .then(this.props.actualizarListaDeClientes())
         .then(this.estadoInicial());
     }
   
@@ -87,7 +91,7 @@ class FormularioCliente extends React.Component {
                     <div className="input-field col s6">
                         <input className="validate" type="number"  
                         required name="n_cliente" id="dni" onChange={this.handleChange} 
-                        // value={this.state.cliente.n_cliente}
+                        value={this.state.cliente.n_cliente}
 
                         />
                         <label for="dni">DNI</label>
@@ -96,7 +100,7 @@ class FormularioCliente extends React.Component {
                     <div className="input-field col s6">
                         <input className="validate  " id="apellido" type="text" required name="apellido"
                          onChange={this.handleChange} 
-                        //  value={this.state.cliente.apellido}
+                         value={this.state.cliente.apellido}
                         />
                         <label for="apellido">Apellido</label>
                     </div>
@@ -104,26 +108,26 @@ class FormularioCliente extends React.Component {
                     <div className="input-field col s5">
                      <input className="validate" id="nombre" type="text" required name="nombre"
                          onChange={this.handleChange} 
-                        //  value={this.state.cliente.nombre}
+                         value={this.state.cliente.nombre}
                          />
                         <label for="nombre">Nombre</label>
                     </div>
                      <div className="input-field col s7">
                      <input className="validate" id="direccion" type="text" required name="direccion"
                          onChange={this.handleChange} 
-                        //  value={this.state.cliente.direccion}
+                         value={this.state.cliente.direccion}
                          />
                         <label for="direccion">Dirección</label>
                     </div>
                     <div className="input-field col s12">
                         <input className="validate" type="email" name="email" id="email" onChange={this.handleChange}
-                        // value={this.state.cliente.email}
+                        value={this.state.cliente.email}
                         />
                         <label for="email">Email</label>
                     </div>
                     <div className="input-field col s7">
                         <input className="validate" type="text" required name="telefono" id="telefono" onChange={this.handleChange}
-                        // value={this.state.cliente.telefono} 
+                        value={this.state.cliente.telefono} 
                         />
                         <label for="telefono">Teléfono</label>
                     </div>
@@ -138,12 +142,11 @@ class FormularioCliente extends React.Component {
             </div>
         </div>
        
-        <div className="container">
+        {/* <div className="container">
     <div className="row col s4">
    
-    <Clientes></Clientes>
     </div>
-</div>
+</div> */}
     </div>
 </div>        
 ); 

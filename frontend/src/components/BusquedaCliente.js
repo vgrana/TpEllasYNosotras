@@ -4,6 +4,7 @@ import Cliente from "./Cliente";
 import Clientes from "./Clientes";
 import FormularioTransaccion from "./FormularioTransaccion";
 import Transaccion from "./Transaccion";
+import Transacciones from "./Transacciones"
 
 class BusquedaCliente extends React.Component {
   constructor(props) {
@@ -11,11 +12,11 @@ class BusquedaCliente extends React.Component {
     this.state = {
       clientes: [],
       selecccionado: "",
-      cliente: {},
+      // cliente: {},
       //    n_cliente: '',
       apellido: "",
-      transacciones: [],
-      clienTransacciones: [],
+    
+      clienTransacciones: []
      
      
 
@@ -31,10 +32,11 @@ class BusquedaCliente extends React.Component {
     this.actualizarEstadoSeleccionado = this.actualizarEstadoSeleccionado.bind(
       this
     );
-    // this.clienteTransacciones=this.clienteTransacciones.bind(this);
+   
   }
 
   handleChange(e) {
+
     const target = e.target;
     const value = target.value;
     const name = target.name;
@@ -43,13 +45,6 @@ class BusquedaCliente extends React.Component {
   componentWillMount() {
     this.listadoDeTodosLosClientes();
   }
-
-// actualizarTransacciones(trans, cliente){
-//  this.setState({seleccionado:cliente})
-//  this.setState({clienTransac:trans})
-// }
-
-
 
   listadoBusqueda(consulta) {
     if (consulta != null) {
@@ -105,6 +100,7 @@ class BusquedaCliente extends React.Component {
     //  alert('yo soy el q reinicio')
     this.setState({ seleccionado: {} });
   }
+  
 
   render() {
     return (
@@ -164,36 +160,25 @@ class BusquedaCliente extends React.Component {
             <FormularioTransaccion
               cliente={this.state.seleccionado}
               // editarCliente={this.editarCliente}
+              clienTransacciones={this.state.clienTransacciones}
+              listadoDeTodosLosClientes={this.listadoDeTodosLosClientes}
               // agregarTransaccionACliente={this.agregarTransaccionACliente}
               // actualizarEstadoSeleccionado={this.props.actualizarEstadoSeleccionado}
+             
             >
               {" "}
             </FormularioTransaccion>
           </div>
         </div>
-        <div className="row"></div>
 
-        <div className="container">
-          <div className=""></div>
-          <table className="left responsive-table highlight">
-            <thead className="bordered hoverable">
-              <legend>Estado de cuenta</legend>
-              <tr className="border: green 7px solid">
-                <th>Fecha operación</th>
-                <th>Total operación </th>
-                <th>Monto entregado</th>
-              </tr>
-            </thead>
-            <tbody className="bordered hoverable">
-              {this.transaccionRows()}
-            </tbody>
-          </table>
-          <tr className="border: green 7px solid">
-            <th> Diferencia entre pagos y deudas</th>
-            <th></th>
-            <th>{this.montoAdeudado()}</th>
-          </tr>
-        </div>
+<Transacciones
+  cliente={this.state.seleccionado}
+  clienTransacciones={this.state.clienTransacciones}
+  listadoDeTodosLosClientes={this.listadoDeTodosLosClientes}
+  
+></Transacciones>
+
+        
       </div>
     );
   }
@@ -218,25 +203,25 @@ class BusquedaCliente extends React.Component {
     });
   }
 
-  transaccionRows() {
-    return this.state.clienTransacciones.map((unaTransaccion, index) => {
-      return <Transaccion transaccion={unaTransaccion}
-        ></Transaccion>;
-    });
-  }
-  montoAdeudado() {
-    var totalT = 0;
-    var mCobrado = 0;
-    var totalDeuda = 0;
-    this.state.clienTransacciones.forEach(g => {
-      totalT += parseFloat(g.importeTotal);
-    });
-    this.state.clienTransacciones.forEach(g => {
-      mCobrado += parseFloat(g.montoCobrado);
-      totalDeuda = totalT - mCobrado;
-    });
-    return totalDeuda;
-  }
+  // transaccionRows() {
+  //   return this.state.clienTransacciones.map((unaTransaccion, index) => {
+  //     return <Transaccion transaccion={unaTransaccion}
+  //       ></Transaccion>;
+  //   });
+  // }
+  // montoAdeudado() {
+  //   var totalT = 0;
+  //   var mCobrado = 0;
+  //   var totalDeuda = 0;
+  //   this.state.clienTransacciones.forEach(g => {
+  //     totalT += parseFloat(g.importeTotal);
+  //   });
+  //   this.state.clienTransacciones.forEach(g => {
+  //     mCobrado += parseFloat(g.montoCobrado);
+  //     totalDeuda = totalT - mCobrado;
+  //   });
+  //   return totalDeuda;
+  // }
 }
 
 export default BusquedaCliente;

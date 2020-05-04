@@ -27,13 +27,6 @@ class MongoHome{
             console.log(`Resultado de actualizar: ${JSON.stringify(result)}`)
         })
     }
-
-
-
-   
-
-
-
     
     find(query, callback) {
         this.persistentCollection.find(query).toArray( (error, result)=>{
