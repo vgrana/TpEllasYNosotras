@@ -13,18 +13,32 @@ class Transacciones extends React.Component{
       cliente: this.props.cliente,
       clienTransacciones:this.props.clienTransacciones
     };
- 
+//  this.laTransaccion=this.laTransaccion.bind(this);
  }
+
  componentWillReceiveProps(props) {
     this.setState({cliente: props.cliente });
     this.setState({clienTransacciones: props.clienTransacciones})
   }
- listadoClientes() {
-    fetch(`http://localhost:8888/clientes`)
-      .then(res => res.json())
-      .then(clts => this.setState({ clientes: clts }));
+   componentWillMount() {
+      this.listadoDeTodosLosClientes(); 
+    
   }
+  listadoDeTodosLosClientes(){
+    this.props.listadoDeTodosLosClientes()
+  }
+  // laTransaccion(unTransaccion){
+  //   this.setState({clienTransacciones:unTransaccion})
+  // }
+//  listadoClientes() {
+//     fetch(`http://localhost:8888/clientes`)
+//       .then(res => res.json())
+//       .then(clts => this.setState({ clientes: clts }));
+//   }
 
+//  actualizarTransacciones(transaccion){
+//    this.setState({clienTransacciones:transaccion})
+//  }
 
 render(){
   return(
@@ -71,11 +85,7 @@ console.log("dede transacciones" + this.state.clienTransacciones)
     });
     return totalDeuda;
   }
-//   listadoDeTodosLosClientes(){
-//     fetch(`http://localhost:8888/clientes`)
-//         .then( res => res.json())
-//         .then( clts => this.setState({clientes: clts}));   
-//   }  
+    
 
 }
 export default Transacciones;

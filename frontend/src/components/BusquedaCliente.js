@@ -63,6 +63,9 @@ class BusquedaCliente extends React.Component {
       .then(res => res.json())
       .then(clts => this.setState({ clientes: clts }));
   }
+
+
+
   limpiarFormulario() {
     document.getElementById("apellido").value = "";
   }
@@ -175,7 +178,7 @@ class BusquedaCliente extends React.Component {
   cliente={this.state.seleccionado}
   clienTransacciones={this.state.clienTransacciones}
   listadoDeTodosLosClientes={this.listadoDeTodosLosClientes}
-  
+
 ></Transacciones>
 
         

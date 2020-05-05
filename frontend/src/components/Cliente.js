@@ -7,27 +7,18 @@ constructor(props) {
     super(props);
      
 
-    this.actualizarListadoClientes = this.actualizarListadoClientes.bind(this);
-    this.selectCliente = this.selectCliente.bind(this);
-    this.listarLasTransacciones=this.listarLasTransacciones.bind(this)
+
+    this.selectCliente = this.selectCliente.bind(this);   
     this.editarCliente=this.editarCliente.bind(this);
-  
     }
   
   selectCliente() {
       this.props.clienteSeleccionado(this.props.cliente);
     }   
-    listarLasTransacciones(){
-      this.props.clienteTransacciones(this.props.cliente)
-    }
-
     editarCliente(){
       this.props.editarCliente(this.props.cliente);
     }
 
-  actualizarListadoClientes() {
-    this.props.actualizarListaDeClientes(this.props.cliente);
-  }
     borrarCliente(id){
       console.log("holisssss estoy en cliente" + id)
     //    fetch(`http://localhost:8888/clientes` + id,{

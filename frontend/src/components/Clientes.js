@@ -8,23 +8,25 @@ class Clientes extends React.Component{
         super(props);
         this.state = { clientes: [],
                         seleccionado: {},
-                        cliente: props.cliente
+                        cliente: props.cliente,
+                        clientTransacciones:props.clientTransacciones
                       }
         this.listadoDeClientes=this.listadoDeClientes.bind(this);  
         this.clienteSeleccionado=this.clienteSeleccionado.bind(this);            
-        this.editarCliente=this.editarCliente.bind(this);        
-        this.actualizarListaDeClientes=this.actualizarListaDeClientes.bind(this); 
-        this.clienteChange=this.clienteChange.bind(this);
+        // this.editarCliente=this.editarCliente.bind(this);        
+      
+        // this.clienteChange=this.clienteChange.bind(this);
       
     }
     
     componentWillMount() {
-      this.listadoClientes();  
+      this.listadoDeClientes();  
     
     }
     clienteSeleccionado(unCliente) {
-    this.setState({ seleccionado: unCliente });
-    console.log("el cliente" + unCliente.nombre)
+    this.setState({seleccionado: unCliente });
+    this.setState({clientTransacciones: unCliente.transacciones})
+    console.log("el cliente" + unCliente.nombre + "sus transa " + unCliente.transacciones)
    
   }
     
@@ -39,19 +41,20 @@ class Clientes extends React.Component{
     listadoDeClientes(){
       this.listadoClientes();
     }
-    editarCliente(unCliente) {
-      alert("no se puede editar...estamos trabajando en en ello")
-    // var newCliente = this.state.seleccionado.map((item) => (unCliente._id != item._id) ? item : unCliente)
-    // this.setState({ clientes: newCliente, selecccionado: {} })
-    }
+    // editarCliente(unCliente) {
+    //   alert("no se puede editar...estamos trabajando en en ello")
+    // // var newCliente = this.state.seleccionado.map((item) => (unCliente._id != item._id) ? item : unCliente)
+    // // this.setState({ clientes: newCliente, selecccionado: {} })
+    // }
     render() {
             return(
               <div className="container">
               
               <FormularioCliente cliente={this.state.seleccionado}
-                  clienteChange={this.clienteChange}
-                  actualizarListaDeClientes={this.actualizarListaDeClientes}
-                  listadoDeClientes={this.listadoDeClientes}>
+                clientTransacciones={this.state.clientTransacciones}
+                  // clienteChange={this.clienteChange}
+                  listadoDeClientes={this.listadoDeClientes}
+                  clientes={this.state.clientes}>
               </FormularioCliente>
               
             
@@ -77,34 +80,25 @@ class Clientes extends React.Component{
                 );
             }
 
-
- clienteChange(unCliente) {
-    var newCliente = this.state.clientes.map(item =>
-      unCliente._id != item._id ? item : unCliente
-    );
-    this.setState({ clientes: newCliente, seleccionado: {} });
-  }
-
-      
-    actualizarListaDeClientes(unCliente) {
-      var clienteActualizado = this.state.clientes.filter(
-        item => clienteActualizado._id !== item._id
-      );
-      this.setState({ clientes: unCliente });
-    }
- 
+///esto tiene q ir al server para q no me borre las transacciones/////
+//  clienteChange(unCliente) {
+//    console.log("estoy en cliente " +  unCliente)
+//     var newCliente = this.state.clientes.map(item =>
+//       unCliente._id != item._id ? item : unCliente
+//     );
+//     this.setState({ clientes: newCliente, seleccionado: {}  });
+//   }   
+   
     clienteRows() {
         return this.state.clientes.map((unCliente) => {  
             return (
                <Cliente cliente={unCliente}   
                clienteSeleccionado={this.clienteSeleccionado}
-               actualizarListaDeClientes={this.actualizarListaDeClientes}
-               clienteChange={this.clienteChange}/>
+              // clienteChange={this.clienteChange}
+              />
         );
       });
     }
-    // clientesAdd(){
-    //   this.listadoClientes();
-    // }
+    
     }
 export default Clientes;

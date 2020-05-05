@@ -8,18 +8,21 @@ class FormularioTransaccion extends React.Component {
     super(props);
     this.state = {
       cliente: this.props.cliente,
-      transaccion: {}
+      transaccion: {},
+      clienTransacciones:props.clienTransacciones
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.estadoInicial = this.estadoInicial.bind(this);
     this.agregarTransaccion = this.agregarTransaccion.bind(this);
+    // this.listadoDeTodosLosClientes=this.listadoDeTodosLosClientes.bind(this)
   }
 
   componentWillReceiveProps(props) {
     this.setState({ cliente: props.cliente });
+    this.setState({clienTransacciones:props.clienTransacciones})
   }
-
+ 
   actualizarEstado() {
     this.setState(evento => {
       // Importante: lee `state` en vez de `this.state` al actualizar.
@@ -34,16 +37,17 @@ class FormularioTransaccion extends React.Component {
       alert("debe seleccionar un cliente");
       this.estadoInicial();
     } else {
-      var newTransaccion = Object.assign({}, this.state.transaccion);
+      var newTransaccion = Object.assign({}, this.state.clienTransacciones);
       newTransaccion[event.target.name] = event.target.value;
       newTransaccion["clienteId"] = this.state.cliente._id;
-      this.setState({ transaccion: newTransaccion });
+      this.setState({ clienTransacciones: newTransaccion });
     }
   }
 
   handleSubmit(event) {
     this.agregarTransaccion(event);
-
+   
+  // }
     event.preventDefault(event);
   }
 
@@ -61,7 +65,7 @@ class FormularioTransaccion extends React.Component {
     console.log("acaaaaa" + event);
     fetch(`http://localhost:8888/clientes/` + this.state.cliente._id, {
       method: "PUT",
-      body: JSON.stringify(this.state.transaccion),
+      body: JSON.stringify(this.state.clienTransacciones),
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -69,9 +73,9 @@ class FormularioTransaccion extends React.Component {
     })
     //   // // .then(res=>this.props.transaccionAdd())
 
-    .then(this.props.listadoDeTodosLosClientes())
-    // //.then(trans => this.setState({ transaccion: trans }))
-      .then(this.estadoInicial());
+   
+  
+    .then(this.estadoInicial())
   }
  
   render() {
