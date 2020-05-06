@@ -13,7 +13,8 @@ class Transacciones extends React.Component{
       cliente: this.props.cliente,
       clienTransacciones:this.props.clienTransacciones
     };
-//  this.laTransaccion=this.laTransaccion.bind(this);
+// this.actualizarListaDeTransacciones=this.actualizarListaDeTransacciones.bind(this);
+this.actualizarTransacciones=this.actualizarTransacciones.bind(this);
  }
 
  componentWillReceiveProps(props) {
@@ -27,18 +28,14 @@ class Transacciones extends React.Component{
   listadoDeTodosLosClientes(){
     this.props.listadoDeTodosLosClientes()
   }
-  // laTransaccion(unTransaccion){
-  //   this.setState({clienTransacciones:unTransaccion})
-  // }
-//  listadoClientes() {
-//     fetch(`http://localhost:8888/clientes`)
-//       .then(res => res.json())
-//       .then(clts => this.setState({ clientes: clts }));
-//   }
 
-//  actualizarTransacciones(transaccion){
-//    this.setState({clienTransacciones:transaccion})
-//  }
+  actualizarTransacciones(unCliente){
+       console.log("sot la transa" + unCliente)
+    // this.setState({cliente:unCliente})
+    // this.setState({clienTransacciones:unCliente.transacciones})
+  
+  }
+ 
 
 render(){
   return(
@@ -69,6 +66,7 @@ render(){
 console.log("dede transacciones" + this.state.clienTransacciones)
     return this.state.clienTransacciones.map((unaTransaccion) => {
       return <Transaccion transaccion={unaTransaccion}
+        actualizarTransacciones={this.actualizarTransacciones}
         ></Transaccion>;
     });
   }
@@ -85,7 +83,7 @@ console.log("dede transacciones" + this.state.clienTransacciones)
     });
     return totalDeuda;
   }
-    
+  
 
 }
 export default Transacciones;

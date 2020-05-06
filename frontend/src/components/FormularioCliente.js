@@ -6,19 +6,20 @@ class FormularioCliente extends React.Component {
     super(props);
     this.state = { cliente:this.props.cliente,
                   clientTransacciones:props.clientTransacciones,
-                  clientes:props.clientes }
+                  clientes:props.clientes,
+                    }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.estadoInicial=this.estadoInicial.bind(this);
     this.listado=this.listado.bind(this);
    
+   
   }
   componentWillReceiveProps(props) {
-    // console.log(props);
-    this.setState({ cliente: props.cliente });
+    this.setState({cliente: props.cliente });
     this.setState({clientTransacciones: props.clientTransacciones})
     this.setState({clientes:props.clientes})
-    console.log("de formulario" + this.state.cliente + "las transa" + this.state.clientTransacciones)
+    
     
   }
    componentWillMount() {
@@ -30,27 +31,20 @@ class FormularioCliente extends React.Component {
     }
 
   handleChange(event) {
-
     console.log("entre al handle..." + event);
     var newCliente = Object.assign({}, this.state.cliente);
     newCliente[event.target.name] = event.target.value;
-    ///tambien lo podria agregar en el server con el push
-    newCliente["transacciones"]=[];
     this.setState({ cliente: newCliente });
-    console.log(newCliente);
-    
   }
 
-  handleSubmit(event) {
+  handleSubmit(event) {  
     if(this.state.cliente._id){
       this.editarcliente()
-
     }
     else{
-    this.agregarCliente();
-     event.preventDefault(event);
+      this.agregarCliente();
+      event.preventDefault(event);
     }
-   
   }
 
   estadoInicial() {
@@ -88,16 +82,13 @@ class FormularioCliente extends React.Component {
           "Content-Type": "application/json"
         }
       })
-        // .then(res => this.props.clienteChange(this.state.cliente)
-        // .then(this.setState({clientTransacciones:this.cliente.transacciones}))
         .then(this.props.listadoDeClientes)  
         .then(this.estadoInicial());
     }
-  
-
-
-    render() { 
-        return (
+ 
+ 
+  render() { 
+      return (
 <div className="container">
     <div className="row col s7">
 
@@ -152,17 +143,9 @@ class FormularioCliente extends React.Component {
                             Guardar
                         </button>
                     </div>
-
                 </form>
-              
             </div>
         </div>
-       
-        {/* <div className="container">
-    <div className="row col s4">
-   
-    </div>
-</div> */}
     </div>
 </div>        
 ); 

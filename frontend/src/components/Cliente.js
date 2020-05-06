@@ -9,27 +9,22 @@ constructor(props) {
 
 
     this.selectCliente = this.selectCliente.bind(this);   
-    this.editarCliente=this.editarCliente.bind(this);
+    this.borrarCliente= this.borrarCliente.bind(this);
+    this.actualizar=this.actualizar.bind(this);
     }
   
   selectCliente() {
       this.props.clienteSeleccionado(this.props.cliente);
     }   
-    editarCliente(){
-      this.props.editarCliente(this.props.cliente);
+    
+    borrarCliente(){
+      this.props.eliminarCliente(this.props.cliente);
     }
-
-    borrarCliente(id){
-      console.log("holisssss estoy en cliente" + id)
-    //    fetch(`http://localhost:8888/clientes` + id,{
-    //    method: "DELETE",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json"
-    //   }
-    // })
-    // .then(this.actualizarListadoClientes);
-    }
+    
+     
+  actualizar() {
+    this.props.actualizacionDeClientes(this.props.cliente);
+  }
 
     render() {
       
@@ -50,7 +45,7 @@ constructor(props) {
             type="button"
             className="btn #283593 indigo darken-3"
             style={{ margin: "2px" }}
-            // onClick={this.borrarCliente(this.props.cliente._id)}
+            onClick={this.borrarCliente}
           >
             <i className="material-icons">delete</i>
           </button>

@@ -8,51 +8,74 @@ class Clientes extends React.Component{
         super(props);
         this.state = { clientes: [],
                         seleccionado: {},
-                        cliente: props.cliente,
-                        clientTransacciones:props.clientTransacciones
+                        // cliente: props.cliente,
+                        clientTransacciones:props.clientTransacciones,
+                        cliente:{}
+                        
                       }
         this.listadoDeClientes=this.listadoDeClientes.bind(this);  
-        this.clienteSeleccionado=this.clienteSeleccionado.bind(this);            
-        // this.editarCliente=this.editarCliente.bind(this);        
-      
-        // this.clienteChange=this.clienteChange.bind(this);
-      
+        this.clienteSeleccionado=this.clienteSeleccionado.bind(this);  
+        this.eliminarCliente=this.eliminarCliente.bind(this); 
+        this.eliminandoCliente=this.eliminandoCliente.bind(this);
+        this.actualizacionDeClientes=this.actualizacionDeClientes.bind(this);
     }
     
     componentWillMount() {
       this.listadoDeClientes();  
-    
     }
+
     clienteSeleccionado(unCliente) {
     this.setState({seleccionado: unCliente });
     this.setState({clientTransacciones: unCliente.transacciones})
     console.log("el cliente" + unCliente.nombre + "sus transa " + unCliente.transacciones)
    
   }
+eliminarCliente(unCliente){
+    this.setState({cliente:unCliente});
+    if( (unCliente.transacciones.length) == 0){
+      this.eliminandoCliente(unCliente._id)
+      this.actualizacionDeClientes(unCliente)
     
+    }
+    else{
+      alert('el cliente no puede ser eliminado porque tiene transacciones en su cuenta')
+    }
+ }
+
+  eliminandoCliente(_id){
+       fetch('http://localhost:8888/clientes/' + _id, {
+          method: 'delete',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          },
+        })
+       .then(this.actualizacionDeClientes())
+    } 
+
     listadoClientes(){
       fetch(`http://localhost:8888/clientes`)
         .then( res => res.json())
-        .then( ctes => this.setState({clientes: ctes}))
-        
-       
+        .then( ctes => this.setState({clientes: ctes ,cliente:{}}))
+    
     }
-
     listadoDeClientes(){
       this.listadoClientes();
     }
-    // editarCliente(unCliente) {
-    //   alert("no se puede editar...estamos trabajando en en ello")
-    // // var newCliente = this.state.seleccionado.map((item) => (unCliente._id != item._id) ? item : unCliente)
-    // // this.setState({ clientes: newCliente, selecccionado: {} })
-    // }
+    actualizacionDeClientes(unCliente) {
+     var clienteActualizado = this.state.clientes.filter(
+      item => unCliente !== item
+      );
+    this.setState({ clientes: clienteActualizado, cliente:{} });
+   } 
+
+
     render() {
             return(
               <div className="container">
-              
               <FormularioCliente cliente={this.state.seleccionado}
                 clientTransacciones={this.state.clientTransacciones}
-                  // clienteChange={this.clienteChange}
+                  // actualizacionDeClientes={this.actualizacionDeClientes}
                   listadoDeClientes={this.listadoDeClientes}
                   clientes={this.state.clientes}>
               </FormularioCliente>
@@ -79,22 +102,15 @@ class Clientes extends React.Component{
                 </div>
                 );
             }
-
-///esto tiene q ir al server para q no me borre las transacciones/////
-//  clienteChange(unCliente) {
-//    console.log("estoy en cliente " +  unCliente)
-//     var newCliente = this.state.clientes.map(item =>
-//       unCliente._id != item._id ? item : unCliente
-//     );
-//     this.setState({ clientes: newCliente, seleccionado: {}  });
-//   }   
    
     clienteRows() {
         return this.state.clientes.map((unCliente) => {  
             return (
                <Cliente cliente={unCliente}   
                clienteSeleccionado={this.clienteSeleccionado}
-              // clienteChange={this.clienteChange}
+              eliminarCliente={this.eliminarCliente}
+               actualizacionDeClientes={this.actualizacionDeClientes}
+
               />
         );
       });

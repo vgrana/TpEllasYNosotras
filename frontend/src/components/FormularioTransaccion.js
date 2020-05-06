@@ -7,6 +7,7 @@ class FormularioTransaccion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      //el cliente seleccionado al q le voy a agregar la transaccion
       cliente: this.props.cliente,
       transaccion: {},
       clienTransacciones:props.clienTransacciones
@@ -16,38 +17,28 @@ class FormularioTransaccion extends React.Component {
     this.estadoInicial = this.estadoInicial.bind(this);
     this.agregarTransaccion = this.agregarTransaccion.bind(this);
     // this.listadoDeTodosLosClientes=this.listadoDeTodosLosClientes.bind(this)
+    // this.actualizarTransacciones=this.actualizarTransacciones.bind(this);
   }
 
   componentWillReceiveProps(props) {
-    this.setState({ cliente: props.cliente });
+    this.setState({cliente: props.cliente });
     this.setState({clienTransacciones:props.clienTransacciones})
   }
  
-  actualizarEstado() {
-    this.setState(evento => {
-      // Importante: lee `state` en vez de `this.state` al actualizar.
-      return { transaccion: evento };
-    });
-  }
-
-  
-
   handleChange(event) {
     if (this.state.cliente == null) {
       alert("debe seleccionar un cliente");
       this.estadoInicial();
     } else {
-      var newTransaccion = Object.assign({}, this.state.clienTransacciones);
+      var newTransaccion = Object.assign({}, this.state.transaccion);
       newTransaccion[event.target.name] = event.target.value;
       newTransaccion["clienteId"] = this.state.cliente._id;
-      this.setState({ clienTransacciones: newTransaccion });
+      this.setState({transaccion: newTransaccion });
     }
   }
 
   handleSubmit(event) {
     this.agregarTransaccion(event);
-   
-  // }
     event.preventDefault(event);
   }
 
@@ -65,19 +56,19 @@ class FormularioTransaccion extends React.Component {
     console.log("acaaaaa" + event);
     fetch(`http://localhost:8888/clientes/` + this.state.cliente._id, {
       method: "PUT",
-      body: JSON.stringify(this.state.clienTransacciones),
+      body: JSON.stringify(this.state.transaccion),
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       }
     })
-    //   // // .then(res=>this.props.transaccionAdd())
-
-   
-  
-    .then(this.estadoInicial())
+      
+      .then(this.props.listadoDeTodosLosClientes)
+      .then(this.estadoInicial())
   }
  
+ 
+
   render() {
     
     return (

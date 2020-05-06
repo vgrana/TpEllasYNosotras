@@ -7,6 +7,7 @@ class ClienteHome {
     }
 
     insert(elemento){
+        elemento.transacciones=[];
         this.clientes.insertOne(elemento,(error,result)=>{
             if(error) throw error
             console.log(`Resultado de insertar el elemento: ${JSON.stringify(result)}`)
@@ -40,6 +41,26 @@ class ClienteHome {
         })
     }
 
+borrarCliente(elementId,callback) {
+        var objectId = mongoDriver.ObjectID(elementId);
+        this.clientes.findOne({"_id":objectId}, (error, cliente)=>{
+            if(error)
+                callback("error")
+            else {
+                console.log("el cliente es" + objectId)
+                
+                this.clientes.deleteOne({"_id":objectId}, cliente, (error, result)=>{
+                    if(error)
+                        callback("error")
+                    else {
+                        console.log(`Resultado de borrar: ${JSON.stringify(result)}`)
+                        callback("ok", cliente)
+                    }
+                })
+            }
+        })
+}
+
     update(element) {
         var objectId = mongoDriver.ObjectID(element._id);
         element._id = objectId;
@@ -48,6 +69,10 @@ class ClienteHome {
             console.log(`Resultado de actualizar: ${JSON.stringify(result)}`)
         })
     }
+    
+
+
+
     find(query, callback) {
         this.clientes.find(query).toArray( (error, result)=>{
             if(error) throw error
@@ -60,6 +85,6 @@ class ClienteHome {
             callback(result)
         })
     }
-
+    
 }
 module.exports=ClienteHome;

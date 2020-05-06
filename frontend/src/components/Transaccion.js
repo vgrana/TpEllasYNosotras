@@ -12,7 +12,7 @@ constructor(props) {
     this.props.selectorT(this.props.transaccion);
   }
   actualizar() {
-    this.props.actualizarListaDeTransacciones(this.props.transaccion);
+    this.props.actualizarTransacciones(this.props.transaccion);
   }
 
   

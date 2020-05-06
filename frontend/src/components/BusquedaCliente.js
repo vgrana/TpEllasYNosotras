@@ -12,7 +12,7 @@ class BusquedaCliente extends React.Component {
     this.state = {
       clientes: [],
       selecccionado: "",
-      // cliente: {},
+      cliente: {},
       //    n_cliente: '',
       apellido: "",
     
@@ -27,11 +27,8 @@ class BusquedaCliente extends React.Component {
     this.limpiezaFormListaClientes = this.limpiezaFormListaClientes.bind(this);
     this.clienteSeleccionado = this.clienteSeleccionado.bind(this);
     this.editarCliente = this.editarCliente.bind(this);
-   
-
-    this.actualizarEstadoSeleccionado = this.actualizarEstadoSeleccionado.bind(
-      this
-    );
+    this.actualizarListaDeTransacciones=this.actualizarListaDeTransacciones.bind(this);
+    // this.actualizarEstadoSeleccionado = this.actualizarEstadoSeleccionado.bind(this  );
    
   }
 
@@ -75,7 +72,7 @@ class BusquedaCliente extends React.Component {
     this.listadoDeTodosLosClientes();
   }
   clienteSeleccionado(unCliente) {
-    this.setState({ seleccionado: unCliente });
+    this.setState({ cliente: unCliente });
     this.setState({ clienTransacciones: unCliente.transacciones });
   }
 
@@ -99,12 +96,20 @@ class BusquedaCliente extends React.Component {
     console.log(elCliente);
   }
 
-  actualizarEstadoSeleccionado() {
-    //  alert('yo soy el q reinicio')
-    this.setState({ seleccionado: {} });
-  }
+  // actualizarEstadoSeleccionado() {
+  //   //  alert('yo soy el q reinicio')
+  //   this.setState({ seleccionado: {} });
+  // }
   
+actualizarListaDeTransacciones(){
+  // this.setState({clienTransacciones:unaTransaccion})
+  // console.log("aca en busqueda" + unaTransaccion)
+  //   var actualizacion=this.state.clienTransacciones.filter(
+  //   item => unaTransaccion != item
+  //   );
+  // this.setState({clienTransacciones:actualizacion})
 
+}
   render() {
     return (
       <div className="container">
@@ -161,23 +166,20 @@ class BusquedaCliente extends React.Component {
 
           <div className="input-field col s7">
             <FormularioTransaccion
-              cliente={this.state.seleccionado}
-              // editarCliente={this.editarCliente}
+              cliente={this.state.cliente}             
               clienTransacciones={this.state.clienTransacciones}
               listadoDeTodosLosClientes={this.listadoDeTodosLosClientes}
-              // agregarTransaccionACliente={this.agregarTransaccionACliente}
-              // actualizarEstadoSeleccionado={this.props.actualizarEstadoSeleccionado}
-             
             >
-              {" "}
             </FormularioTransaccion>
           </div>
         </div>
 
 <Transacciones
-  cliente={this.state.seleccionado}
+  cliente={this.state.cliente}
   clienTransacciones={this.state.clienTransacciones}
   listadoDeTodosLosClientes={this.listadoDeTodosLosClientes}
+  clienteTransacciones={this.state.clienTransacciones}
+  actualizarListaDeTransacciones={this.actualizarListaDeTransacciones}
 
 ></Transacciones>
 

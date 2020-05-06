@@ -107,8 +107,18 @@ server.get("/clientes/:id", (req, res) => {
       }
     }) 
   })
-
-
+ server.delete("/:clientes/:id", (req, res) => {
+    clienteId = req.params.id
+    clienteHome.borrarCliente(clienteId, (result,cliente)=>{
+       if (result == "error") {
+        res.status(400).end();
+      } else {
+        res.status(200);
+      }
+    })
+  
+  });
+ 
 
 
   server.delete("/:type/:id", (req, res) => {

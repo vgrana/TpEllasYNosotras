@@ -40,6 +40,13 @@ class MongoHome{
             callback(result)
         })
     }
+    delete(elementId) {
+        var objectId = mongoDriver.ObjectID(elementId);
+        this.persistentCollection.deleteOne({"_id" : objectId}, (error, result)=>{
+            if(error) throw error
+            console.log(`Result of delete one: ${JSON.stringify(result)}`)
+        })    
+    }
     
 
 
