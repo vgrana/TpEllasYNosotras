@@ -7,35 +7,52 @@ class Clientes extends React.Component{
     constructor(props) {
         super(props);
         this.state = { clientes: [],
-                        seleccionado: {},
+                        // seleccionado: {},
                         // cliente: props.cliente,
                         clientTransacciones:props.clientTransacciones,
                         cliente:{}
                         
                       }
         this.listadoDeClientes=this.listadoDeClientes.bind(this);  
-        this.clienteSeleccionado=this.clienteSeleccionado.bind(this);  
+        // this.clienteSeleccionado=this.clienteSeleccionado.bind(this);  
         this.eliminarCliente=this.eliminarCliente.bind(this); 
         this.eliminandoCliente=this.eliminandoCliente.bind(this);
         this.actualizacionDeClientes=this.actualizacionDeClientes.bind(this);
+        this.editarCliente=this.editarCliente.bind(this);
+        this.estadoInicial=this.estadoInicial.bind(this);
     }
     
     componentWillMount() {
       this.listadoDeClientes();  
     }
 
+   estadoInicial() {
+    this.setState({
+      cliente: {n_cliente: " ", apellido: " ", nombre: " ", direccion: " ", email: " ", telefono: " "}
+    });
+  }
+
+editarCliente(unCliente){
+  console.log("en editar " + unCliente)
+  this.setState({cliente:unCliente});
+}
+
+
+
     clienteSeleccionado(unCliente) {
-    this.setState({seleccionado: unCliente });
-    this.setState({clientTransacciones: unCliente.transacciones})
-    console.log("el cliente" + unCliente.nombre + "sus transa " + unCliente.transacciones)
+      alert('ir a clientes/transacciones')
+     
+    // this.setState({cliente: unCliente });
+    // this.setState({clientTransacciones: unCliente.transacciones})
+    // console.log("el cliente" + unCliente.nombre + "sus transa " + unCliente.transacciones)
    
   }
 eliminarCliente(unCliente){
-    this.setState({cliente:unCliente});
+    this.setState({eliminarCliente:unCliente});
     if( (unCliente.transacciones.length) == 0){
       this.eliminandoCliente(unCliente._id)
       this.actualizacionDeClientes(unCliente)
-    
+      
     }
     else{
       alert('el cliente no puede ser eliminado porque tiene transacciones en su cuenta')
@@ -73,11 +90,14 @@ eliminarCliente(unCliente){
     render() {
             return(
               <div className="container">
-              <FormularioCliente cliente={this.state.seleccionado}
+              <FormularioCliente 
+              eliminarCliente={this.state.eliminarCliente}
+              cliente={this.state.cliente}
                 clientTransacciones={this.state.clientTransacciones}
                   // actualizacionDeClientes={this.actualizacionDeClientes}
                   listadoDeClientes={this.listadoDeClientes}
                   clientes={this.state.clientes}>
+                
               </FormularioCliente>
               
             
@@ -110,6 +130,7 @@ eliminarCliente(unCliente){
                clienteSeleccionado={this.clienteSeleccionado}
               eliminarCliente={this.eliminarCliente}
                actualizacionDeClientes={this.actualizacionDeClientes}
+               editarCliente={this.editarCliente}
 
               />
         );

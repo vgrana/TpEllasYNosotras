@@ -8,33 +8,38 @@ class FormularioTransaccion extends React.Component {
     super(props);
     this.state = {
       //el cliente seleccionado al q le voy a agregar la transaccion
+      clientes: this.props.clientes,
       cliente: this.props.cliente,
       transaccion: {},
-      clienTransacciones:props.clienTransacciones
+      clienTransacciones:props.clienTransacciones,
+      
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.estadoInicial = this.estadoInicial.bind(this);
     this.agregarTransaccion = this.agregarTransaccion.bind(this);
-    // this.listadoDeTodosLosClientes=this.listadoDeTodosLosClientes.bind(this)
-    // this.actualizarTransacciones=this.actualizarTransacciones.bind(this);
   }
 
   componentWillReceiveProps(props) {
+  
     this.setState({cliente: props.cliente });
+    // console.log("desde formulario transaccion props"  + props.cliente.nombre)
     this.setState({clienTransacciones:props.clienTransacciones})
+    this.setState({clientes:props.clientes})
+  
   }
  
   handleChange(event) {
-    if (this.state.cliente == null) {
-      alert("debe seleccionar un cliente");
-      this.estadoInicial();
-    } else {
+    
+    if (this.state.cliente.nombre == " ") {
+       alert("debe seleccionar un cliente");
+       this.estadoInicial();
+     } else {
       var newTransaccion = Object.assign({}, this.state.transaccion);
       newTransaccion[event.target.name] = event.target.value;
       newTransaccion["clienteId"] = this.state.cliente._id;
       this.setState({transaccion: newTransaccion });
-    }
+     }
   }
 
   handleSubmit(event) {
@@ -62,31 +67,23 @@ class FormularioTransaccion extends React.Component {
         "Content-Type": "application/json"
       }
     })
-      
-      .then(this.props.listadoDeTodosLosClientes)
-      .then(this.estadoInicial())
+    .then(this.props.transaccionesChange(this.state.cliente))
+    .then(this.estadoInicial())
   }
  
- 
-
-  render() {
-    
+  render() {   
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} input-field s12 id="formulario">
           <div className="row">
-            <div className="card-panel #ffebee red lighten-4">
+            <div className="card-panel responsive-card #ffebee red lighten-4">
               <div className="row ">
                 <div className="card-panel #ffebee red lighten-4">
                   <div className="row">
-                    <legend> Agregar movimiento</legend>
-
-                    <label>{this.state.transaccion.idCliente}</label>
-                    <label> Nombre del cliente</label>
-                  </div>
-
-                  <div className="row">
-                    <label> Apellido del cliente</label>
+                    <legend> Agregar movimiento a la cuenta de :
+                     <a>{this.state.cliente.nombre} </a>
+                     <a>{this.state.cliente.apellido}</a>
+                     </legend>
                   </div>
                 </div>
                 <div className="input-field col s4">
@@ -134,7 +131,6 @@ class FormularioTransaccion extends React.Component {
                   />
                   <a> Entrega</a>
                 </div>
-
                 <div className="input-field col s3">
                   <button
                     type="submit"
@@ -152,5 +148,4 @@ class FormularioTransaccion extends React.Component {
     );
   }
 }
-
 export default FormularioTransaccion;

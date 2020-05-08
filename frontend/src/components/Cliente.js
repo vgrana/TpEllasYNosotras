@@ -11,6 +11,7 @@ constructor(props) {
     this.selectCliente = this.selectCliente.bind(this);   
     this.borrarCliente= this.borrarCliente.bind(this);
     this.actualizar=this.actualizar.bind(this);
+    this.editCliente=this.editCliente.bind(this);
     }
   
   selectCliente() {
@@ -20,7 +21,9 @@ constructor(props) {
     borrarCliente(){
       this.props.eliminarCliente(this.props.cliente);
     }
-    
+    editCliente(){
+      this.props.editarCliente(this.props.cliente);
+    }
      
   actualizar() {
     this.props.actualizacionDeClientes(this.props.cliente);
@@ -53,7 +56,7 @@ constructor(props) {
             type="button"
             className="btn #283593 indigo darken-3"
             style={{ margin: "2px" }}
-            onClick= {this.selectCliente}
+            onClick={this.editCliente}
           >
             <i className="material-icons">edit</i>
           </button>

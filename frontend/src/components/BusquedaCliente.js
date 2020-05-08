@@ -11,7 +11,7 @@ class BusquedaCliente extends React.Component {
     super(props);
     this.state = {
       clientes: [],
-      selecccionado: "",
+      seleccionado: {},
       cliente: {},
       //    n_cliente: '',
       apellido: "",
@@ -27,9 +27,10 @@ class BusquedaCliente extends React.Component {
     this.limpiezaFormListaClientes = this.limpiezaFormListaClientes.bind(this);
     this.clienteSeleccionado = this.clienteSeleccionado.bind(this);
     this.editarCliente = this.editarCliente.bind(this);
-    this.actualizarListaDeTransacciones=this.actualizarListaDeTransacciones.bind(this);
+    // this.actualizarListaDeTransacciones=this.actualizarListaDeTransacciones.bind(this);
     // this.actualizarEstadoSeleccionado = this.actualizarEstadoSeleccionado.bind(this  );
-   
+    this.transaccionesChange=this.transaccionesChange.bind(this);
+    this.eliminarCliente=this.eliminarCliente.bind(this);   
   }
 
   handleChange(e) {
@@ -94,32 +95,33 @@ class BusquedaCliente extends React.Component {
     );
     this.setState({ clientes: elCliente });
     console.log(elCliente);
-  }
-
-  // actualizarEstadoSeleccionado() {
-  //   //  alert('yo soy el q reinicio')
-  //   this.setState({ seleccionado: {} });
-  // }
-  
-actualizarListaDeTransacciones(){
-  // this.setState({clienTransacciones:unaTransaccion})
-  // console.log("aca en busqueda" + unaTransaccion)
-  //   var actualizacion=this.state.clienTransacciones.filter(
-  //   item => unaTransaccion != item
-  //   );
-  // this.setState({clienTransacciones:actualizacion})
-
+  }  
+transaccionesChange(unCliente){
+  unCliente.preventDefault(unCliente)
+  this.setState({cliente:unCliente})
+  this.setState({clienTransacciones:unCliente.clienTransacciones})
 }
+
+editarCliente(unCliente){
+  alert('para cambiar las opciones del cliente ir a cliente')
+}
+
+eliminarCliente(unCliente){
+    alert('para eliminar un cliente ir a cliente')
+    }
+ 
   render() {
     return (
       <div className="container">
+      <div className="row input-field col s6"
+         >
         <form
           onSubmit={this.handleSubmit}
           id="formulario"
-          className="input-field col s8"
+          className="input-field col s10 responsive-form"
         >
           <div className="row">
-            <div className="input-field col s5">
+            <div className="input-field col s4">
               <div>
                 <input
                   name="apellido"
@@ -129,11 +131,9 @@ actualizarListaDeTransacciones(){
                 <label for="apelllido">Apellido del cliente</label>
               </div>
             </div>
-          </div>
-          <div className="input-field col s7">
             <button
               type="button"
-              className="btn #660066"
+              className="btn sm #660066"
               style={{ margin: "2px" }}
               onClick={() => this.resultadoBusqueda(this.state.apellido)}
             >
@@ -142,15 +142,16 @@ actualizarListaDeTransacciones(){
             <button
               type="button"
               className="btn #660066"
-              style={{ margin: "2px" }}
+              style={{ margin: "1px" }}
               onClick={this.limpiezaFormListaClientes}
             >
               Nueva búsqueda
             </button>
           </div>
         </form>
-        <div className="input-field col s7">
-          <table className="table">
+        </div>
+        <div className="input-field col s6 responsive-table">
+          <table className="responsive-table">
             <thead>
               <tr>
                 <th>N° cliente</th>
@@ -163,25 +164,27 @@ actualizarListaDeTransacciones(){
             </thead>
             <tbody>{this.renderRows()}</tbody>
           </table>
-
+          </div>
           <div className="input-field col s7">
             <FormularioTransaccion
               cliente={this.state.cliente}             
               clienTransacciones={this.state.clienTransacciones}
               listadoDeTodosLosClientes={this.listadoDeTodosLosClientes}
+              transaccionesChange={this.transaccionesChange}
             >
             </FormularioTransaccion>
           </div>
-        </div>
+        {/* </div> */}
 
-<Transacciones
-  cliente={this.state.cliente}
+ {/* <Transacciones
+  // cliente={this.state.cliente}
   clienTransacciones={this.state.clienTransacciones}
   listadoDeTodosLosClientes={this.listadoDeTodosLosClientes}
-  clienteTransacciones={this.state.clienTransacciones}
-  actualizarListaDeTransacciones={this.actualizarListaDeTransacciones}
-
-></Transacciones>
+  clientes={this.state.clientes}
+  cliente={this.state.cliente}
+  // clienTransacciones={this.state.clienTransacciones}
+  transaccionesChange={this.transaccionesChange}
+></Transacciones>  */}
 
         
       </div>
@@ -201,32 +204,16 @@ actualizarListaDeTransacciones(){
           cliente={unCliente}
           clienteSeleccionado={this.clienteSeleccionado}
           //  clienteTransacciones={this.clienteTransacciones}
-          // editarCliente= {this.editarCliente}
+          seleccionado={this.state.seleccionado}
+          editarCliente= {this.editarCliente}
+          eliminarCliente={this.eliminarCliente}
          
         ></Cliente>
       );
     });
   }
 
-  // transaccionRows() {
-  //   return this.state.clienTransacciones.map((unaTransaccion, index) => {
-  //     return <Transaccion transaccion={unaTransaccion}
-  //       ></Transaccion>;
-  //   });
-  // }
-  // montoAdeudado() {
-  //   var totalT = 0;
-  //   var mCobrado = 0;
-  //   var totalDeuda = 0;
-  //   this.state.clienTransacciones.forEach(g => {
-  //     totalT += parseFloat(g.importeTotal);
-  //   });
-  //   this.state.clienTransacciones.forEach(g => {
-  //     mCobrado += parseFloat(g.montoCobrado);
-  //     totalDeuda = totalT - mCobrado;
-  //   });
-  //   return totalDeuda;
-  // }
+  
 }
 
 export default BusquedaCliente;

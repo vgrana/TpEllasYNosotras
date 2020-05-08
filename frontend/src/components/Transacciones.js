@@ -11,31 +11,33 @@ class Transacciones extends React.Component{
     super(props);
     this.state = {
       cliente: this.props.cliente,
-      clienTransacciones:this.props.clienTransacciones
+      clienTransacciones:this.props.clienTransacciones,
+      clientes:this.props.clientes,
+      seleccionado:this.props.seleccionado
     };
 // this.actualizarListaDeTransacciones=this.actualizarListaDeTransacciones.bind(this);
-this.actualizarTransacciones=this.actualizarTransacciones.bind(this);
+// this.actualizarTransacciones=this.actualizarTransacciones.bind(this);
  }
 
  componentWillReceiveProps(props) {
-    this.setState({cliente: props.cliente });
+    this.setState({cliente: props.cliente })
     this.setState({clienTransacciones: props.clienTransacciones})
+    this.setState({clientes:props.clientes})
+    
   }
    componentWillMount() {
       this.listadoDeTodosLosClientes(); 
     
   }
   listadoDeTodosLosClientes(){
-    this.props.listadoDeTodosLosClientes()
+    // this.props.listadoDeTodosLosClientes()
   }
 
-  actualizarTransacciones(unCliente){
-       console.log("sot la transa" + unCliente)
-    // this.setState({cliente:unCliente})
-    // this.setState({clienTransacciones:unCliente.transacciones})
-  
+  transaccionesChange(unCliente){
+    console.log("a ver q llego a transacciones chang" + unCliente)
+    this.setState({cliente:unCliente})
+    this.setState({clienTransacciones:unCliente.clienTransacciones})
   }
- 
 
 render(){
   return(
@@ -50,20 +52,19 @@ render(){
               </tr>
             </thead>
             <tbody className="bordered hoverable">
-              {this.transaccionRows()}
+              {/* {this.transaccionRows()} */}
             </tbody>
           </table>
           <tr className="border: green 7px solid">
             <th> Diferencia entre pagos y deudas</th>
             <th></th>
-            <th>{this.montoAdeudado()}</th>
+            {/* <th>{this.montoAdeudado()}</th> */}
           </tr>
         </div>
 );
-
 }
- transaccionRows() {
-console.log("dede transacciones" + this.state.clienTransacciones)
+  transaccionRows() {
+  console.log("dede transacciones" + this.state.clienTransacciones)
     return this.state.clienTransacciones.map((unaTransaccion) => {
       return <Transaccion transaccion={unaTransaccion}
         actualizarTransacciones={this.actualizarTransacciones}
@@ -83,7 +84,5 @@ console.log("dede transacciones" + this.state.clienTransacciones)
     });
     return totalDeuda;
   }
-  
-
 }
 export default Transacciones;
