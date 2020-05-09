@@ -29,7 +29,7 @@ class BusquedaCliente extends React.Component {
     this.editarCliente = this.editarCliente.bind(this);
     // this.actualizarListaDeTransacciones=this.actualizarListaDeTransacciones.bind(this);
     // this.actualizarEstadoSeleccionado = this.actualizarEstadoSeleccionado.bind(this  );
-    this.transaccionesChange=this.transaccionesChange.bind(this);
+    // this.transaccionesChange=this.transaccionesChange.bind(this);
     this.eliminarCliente=this.eliminarCliente.bind(this);   
   }
 
@@ -96,11 +96,11 @@ class BusquedaCliente extends React.Component {
     this.setState({ clientes: elCliente });
     console.log(elCliente);
   }  
-transaccionesChange(unCliente){
-  unCliente.preventDefault(unCliente)
-  this.setState({cliente:unCliente})
-  this.setState({clienTransacciones:unCliente.clienTransacciones})
-}
+// transaccionesChange(unCliente){
+//   unCliente.preventDefault(unCliente)
+//   this.setState({cliente:unCliente})
+//   this.setState({clienTransacciones:unCliente.clienTransacciones})
+// }
 
 editarCliente(unCliente){
   alert('para cambiar las opciones del cliente ir a cliente')
@@ -170,7 +170,7 @@ eliminarCliente(unCliente){
               cliente={this.state.cliente}             
               clienTransacciones={this.state.clienTransacciones}
               listadoDeTodosLosClientes={this.listadoDeTodosLosClientes}
-              transaccionesChange={this.transaccionesChange}
+              // transaccionesChange={this.transaccionesChange}
             >
             </FormularioTransaccion>
           </div>
@@ -202,6 +202,8 @@ eliminarCliente(unCliente){
       return (
         <Cliente
           cliente={unCliente}
+          ////revisarlos me parece q no van todos!!
+          
           clienteSeleccionado={this.clienteSeleccionado}
           //  clienteTransacciones={this.clienteTransacciones}
           seleccionado={this.state.seleccionado}

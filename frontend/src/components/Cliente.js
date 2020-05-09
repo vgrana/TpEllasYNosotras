@@ -1,13 +1,10 @@
 import React from 'react';
 import FormularioCliente from './FormularioCliente';
 
-// import FormularioTransaccion from './FormularioTransaccion'
 class Cliente extends React.Component{
 constructor(props) {
     super(props);
-     
-
-
+   
     this.selectCliente = this.selectCliente.bind(this);   
     this.borrarCliente= this.borrarCliente.bind(this);
     this.actualizar=this.actualizar.bind(this);
@@ -41,15 +38,13 @@ constructor(props) {
         <td>{this.props.cliente.telefono}</td>
          <td>                       
         <button className="btn waves-effect waves-red" 
-        //  style={{ margin: "1px" }}
         onClick={this.selectCliente}
         >Ver/Agregar Transacción</button>
         <button
             type="button"
             className="btn #283593 indigo darken-3"
             style={{ margin: "2px" }}
-            onClick={this.borrarCliente}
-          >
+            onClick={this.borrarCliente}>
             <i className="material-icons">delete</i>
           </button>
            <button

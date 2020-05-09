@@ -17,17 +17,23 @@
    
   
     <div id="root"></div>
+
+   
     <script> 
         document.addEventListener('DOMContentLoaded',function(){
           M.AutoInit()
         });
         </script>
-       
 
-   
+    <script>       
+      document.addEventListener('DOMContentLoaded', function() {
+          var elems = document.querySelectorAll('.autocomplete');
+          var instances = M.Autocomplete.init(elems, options);
+        });
+   </script>
      
      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
      
-      <div classname="contenedor"></div>
+   
   </body>
 </html>

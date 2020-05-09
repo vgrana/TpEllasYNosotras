@@ -13,13 +13,13 @@ class ClienteHome {
             console.log(`Resultado de insertar el elemento: ${JSON.stringify(result)}`)
         })
     }
-    getCliente(elementId, callback) {
-        var objectId = mongoDriver.ObjectID(elementId);
-        return this.clientes.findOne({"_id" : objectId}, (error, result)=>{
-            if(error) throw error
-            callback(result)
-        })
-    }
+    // getCliente(elementId, callback) {
+    //     var objectId = mongoDriver.ObjectID(elementId);
+    //     return this.clientes.findOne({"_id" : objectId}, (error, result)=>{
+    //         if(error) throw error
+    //         callback(result)
+    //     })
+    // }
 
     agregarTx(clienteId, transaccion, callback) {
         var objectId = mongoDriver.ObjectID(clienteId)
@@ -59,7 +59,35 @@ borrarCliente(elementId,callback) {
                 })
             }
         })
-}
+    }
+
+
+    getUnCliente(elementId, callback) {
+        var objectId = elementId
+        return this.clientes.findOne({"n_cliente" : objectId}, (error, result)=>{
+            if(error) throw error
+            callback(result)
+        })
+    }
+
+// agregarCliente(ncliente,callback) {
+//         // var objectId = mongoDriver.ObjectID(elementId);
+//         this.clientes.findOne({"n_cliente":ncliente}, (error, cliente)=>{
+//             if(error)
+//                 callback("error")
+//             else {
+//                 console.log("el cliente es" + ncliente)
+                
+//             }
+//         })
+//     }
+
+
+
+
+
+
+
 
     update(element) {
         var objectId = mongoDriver.ObjectID(element._id);

@@ -41,7 +41,8 @@ class FormularioCliente extends React.Component {
       this.editarcliente()  
     }
     else{
-      this.agregarCliente();
+     this.agregarCliente();
+    
     }
       // this.estadoInicial()
     event.preventDefault(event);
@@ -61,6 +62,7 @@ class FormularioCliente extends React.Component {
   }
 
   agregarCliente() {
+   
     fetch(`http://localhost:8888/clientes`, {
       method: "POST",
       body: JSON.stringify(this.state.cliente),
@@ -71,7 +73,7 @@ class FormularioCliente extends React.Component {
     })
       .then(this.props.listadoDeClientes)  
       .then(this.estadoInicial());
-  }
+   }
 
   editarcliente(){
       fetch("http://localhost:8888/clientes", {

@@ -41,21 +41,21 @@ function init() {
         res.end() })       
   })
 
-server.get("/clientes/:id", (req, res) => {
-  var clienteId= req.params.id
-  clienteHome.getCliente(clienteId, (allObjects)=>{
-    clienteHome.find({"_id": id.transacciones},
+server.get("/clientes/:ncliente", (req, res) => {
+  var clienteId= req.params.ncliente
+  console.log("desde server" + clienteId)
+  clienteHome.getUnCliente(clienteId, (allObjects)=>{
+    clienteHome.find({"n_cliente": clienteId},
       (allObjects) => { 
-  
-
-    res.json(allObjects) 
-    console.log(clienteId)
-    // res.json(allObjects)
-    // res.end()
-    })
-}) 
+        res.json(allObjects) 
+        console.log("a ver si llego aca" + allObjects)
+        res.end()
+      })
+  }) 
 })
-  
+
+
+
 
   server.get("/:type/:id", (req, res) => {
     home = homes[req.params.type]
@@ -64,39 +64,13 @@ server.get("/clientes/:id", (req, res) => {
       res.end() })  
   })
 
-
   server.put("/:type", (req, res) => {
     home = homes[req.params.type]
     home.update(req.body)
     res.status(204).end();  
   })
 
-  // server.put("/:cliente/:id", (req, res) => {
-  //   // home = homes[req.params.type]
-  //   var transaccion= req.body;
-  //   var r= transaccion.importeTotal
-  //   //{} destructurar
-  //   const  id  = req.params.id;
-  //   console.log("hola soy id " + transaccion  + "id "+ id )
-
-    
-  //   home.find({"_id": id},
-  //     (allObjects) => { 
-  //   // / console.log("aca eñ" + (allO))
-  //   home.update({id},{$push:{transacciones: r}} )
-
-  //   res.json(allObjects) 
-   
-  //     }) 
-  //   })   
-
-  server.post("/:type/", (req, res) => {
-    home = homes[req.params.type]
-    home.insert(req.body)
-    res.status(204).end();  
-  })
   server.put("/clientes/:id", (req, res) => {
-    // clienteHome = new ClienteHome("clientes",db)
     clienteId = req.params.id
     tx = req.body
     clienteHome.agregarTx(clienteId, tx, (result, cliente) => {
@@ -107,7 +81,14 @@ server.get("/clientes/:id", (req, res) => {
       }
     }) 
   })
- server.delete("/:clientes/:id", (req, res) => {
+
+  server.post("/:type/", (req, res) => {
+    home = homes[req.params.type]
+    home.insert(req.body)
+    res.status(204).end();  
+  })
+
+  server.delete("/:clientes/:id", (req, res) => {
     clienteId = req.params.id
     clienteHome.borrarCliente(clienteId, (result,cliente)=>{
        if (result == "error") {
@@ -116,16 +97,13 @@ server.get("/clientes/:id", (req, res) => {
         res.status(200);
       }
     })
-  
   });
  
-
-
-  server.delete("/:type/:id", (req, res) => {
-    home = homes[req.params.type]
-    home.delete(req.params.id)
-    res.status(204).end();  
-  });
+  // server.delete("/:type/:id", (req, res) => {
+  //   home = homes[req.params.type]
+  //   home.delete(req.params.id)
+  //   res.status(204).end();  
+  // });
   
   server.get("/:type", (req, res) => {
     var query = {}
@@ -135,7 +113,6 @@ server.get("/clientes/:id", (req, res) => {
         query = rsqlMongoDB (Consulta)
     } 
     home = homes[req.params.type]
-
     home.find(query,
       (allObjects) => {
         res.json(allObjects) 

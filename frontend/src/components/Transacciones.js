@@ -1,85 +1,180 @@
-import React from "react"
-import FormularioTransaccion from "./FormularioTransaccion"
+import React from "react";
 import Transaccion from "./Transaccion";
-import BusquedaCliente from "./BusquedaCliente"
-import Cliente from "./Cliente"
+import Cliente from "./Cliente";
 
-
-class Transacciones extends React.Component{
-
- constructor(props) {
+class Transacciones extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
-      cliente: this.props.cliente,
-      clienTransacciones:this.props.clienTransacciones,
-      clientes:this.props.clientes,
-      seleccionado:this.props.seleccionado
+      clienteTransacciones:[],
+      clientes: [],
+      seleccionado:[],
+      n_cliente: ""
     };
-// this.actualizarListaDeTransacciones=this.actualizarListaDeTransacciones.bind(this);
-// this.actualizarTransacciones=this.actualizarTransacciones.bind(this);
+    this.resultadoBusqueda = this.resultadoBusqueda.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.listadoBusqueda = this.listadoBusqueda.bind(this);
+    this.limpiarFormulario = this.limpiarFormulario.bind(this);
+    this.limpiezaFormListaClientes = this.limpiezaFormListaClientes.bind(this);
+    this.listadoDeClientes = this.listadoDeClientes.bind(this);
+    // this.elCliente=this.elCliente.bind(this);
+    this.clienteSeleccionado=this.clienteSeleccionado.bind(this);
+   
+   
+  }
+
+  componentWillMount() {
+    this.listadoDeClientes();
+  }
+  handleChange(e) {
+    const target = e.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({ [name]: value });
+  }
+
+  listadoBusqueda(consulta) {
+    if (consulta != null) {
+      fetch(`http://localhost:8888/clientes` + consulta)
+        .then(res => res.json())
+        .then(clts => this.setState({ clientes: clts }));
+    }
+    if (consulta == null) {
+      fetch(`http://localhost:8888/clientes`)
+        .then(res => res.json())
+        .then(clts => this.setState({ clientes: clts }));
+    }
+  }
+  handleSubmit(event) {
+    console.log("desde hundler" + event);
+    var consulta;
+    if (this.state.n_cliente == "") {
+      this.listadoBusqueda(consulta);
+    }
+    if (this.state.n_cliente != "") {
+      consulta = '?consulta=n_cliente=="'+this.state.n_cliente+'"'
+      this.listadoBusqueda(consulta);
+    }
+    event.preventDefault(event);
+  }
+
+  listadoDeClientes() {
+    fetch(`http://localhost:8888/clientes`)
+      .then(res => res.json())
+      .then(clts => this.setState({ clientes: clts , seleccionado:[] ,n_cliente:""}));
+  }
+
+  resultadoBusqueda(elCliente){
+    fetch(`http://localhost:8888/clientes/` + elCliente)
+      .then(res => res.json())
+      .then(clts => this.setState({ seleccionado: clts}))  
+     
+  }
+
+  limpiarFormulario() {
+    document.getElementById("n_cliente").value = "";
+  }
+
+  limpiezaFormListaClientes() {
+    this.setState({clienteTransacciones: [], seleccionado:[]})
+    this.limpiarFormulario();
+     this.listadoDeClientes();
+  }
+
+  render() {
+  
+    return (
+      <div className="container">
+        <div class="row">
+          <div class="col s12">
+            <div class="row">
+              <form onSubmit={this.handleSubmit}>
+                <div class="input-field col s12">
+                  <i class="material-icons prefix">textsms</i>
+                  <input
+                    type="text"
+                    id="n_cliente"
+                    name="n_cliente"
+                    onChange={this.handleChange}
+                  ></input>
+                  <label for="n_cliente">Buscar por DNI</label>
+                  <button
+                    type="button"
+                    className="btn sm #660066"
+                    style={{ margin: "2px" }}
+                    onClick={() => this.resultadoBusqueda(this.state.n_cliente)}
+                  >
+                    Consultar
+                  </button>
+                  <button
+                    type="button"
+                    className="btn #660066"
+                    style={{ margin: "1px" }}
+                    onClick={this.limpiezaFormListaClientes}
+                  >
+                    Nueva búsqueda
+                  </button>
+                </div>
+              </form>
+            </div> 
+          </div>
+        </div>
+                <div className="row"> 
+                  <legend> {this.unCliente()}</legend>  
+                 </div> 
+         <table className="left responsive-table highlight">
+          <thead className="bordered hoverable">
+            <tr className="border: green 4px solid">
+              <th>Fecha operación</th>
+              <th>Total operación </th>
+              <th>Monto entregado</th>
+            </tr>
+          </thead>
+          <tbody className="bordered hoverable">
+           {this.transaccionesRows()} 
+          </tbody>
+        </table>
+        <tr className="border: green 7px solid">
+          <th> Diferencia entre pagos y deudas</th>
+          <th></th>
+           <th>{this.montoAdeudado()}</th>
+        </tr> 
+      </div>
+    );
+  }
+  clienteSeleccionado(unCliente) {
+    console.log("seleccionado" + unCliente)
+     this.setState({clienteTransacciones : unCliente.transacciones });
+   
+  }
+
+unCliente(){
+  return this.state.seleccionado.map((unCliente)=>{
+  
+  return <Cliente cliente={unCliente}
+          clienteSeleccionado={this.clienteSeleccionado}
+          seleccionado={this.state.seleccionado}>
+  </Cliente>
+ })
  }
 
- componentWillReceiveProps(props) {
-    this.setState({cliente: props.cliente })
-    this.setState({clienTransacciones: props.clienTransacciones})
-    this.setState({clientes:props.clientes})
-    
-  }
-   componentWillMount() {
-      this.listadoDeTodosLosClientes(); 
-    
-  }
-  listadoDeTodosLosClientes(){
-    // this.props.listadoDeTodosLosClientes()
-  }
-
-  transaccionesChange(unCliente){
-    console.log("a ver q llego a transacciones chang" + unCliente)
-    this.setState({cliente:unCliente})
-    this.setState({clienTransacciones:unCliente.clienTransacciones})
-  }
-
-render(){
-  return(
- <div className="container">
-          <table className="left responsive-table highlight">
-            <thead className="bordered hoverable">
-              <legend>Estado de cuenta</legend>
-              <tr className="border: green 7px solid">
-                <th>Fecha operación</th>
-                <th>Total operación </th>
-                <th>Monto entregado</th>
-              </tr>
-            </thead>
-            <tbody className="bordered hoverable">
-              {/* {this.transaccionRows()} */}
-            </tbody>
-          </table>
-          <tr className="border: green 7px solid">
-            <th> Diferencia entre pagos y deudas</th>
-            <th></th>
-            {/* <th>{this.montoAdeudado()}</th> */}
-          </tr>
-        </div>
-);
+ transaccionesRows() {
+  return this.state.clienteTransacciones.map((unaTransaccion) => {  
+      return (
+         <Transaccion transaccion={unaTransaccion}/>
+  );
+});
 }
-  transaccionRows() {
-  console.log("dede transacciones" + this.state.clienTransacciones)
-    return this.state.clienTransacciones.map((unaTransaccion) => {
-      return <Transaccion transaccion={unaTransaccion}
-        actualizarTransacciones={this.actualizarTransacciones}
-        ></Transaccion>;
-    });
-  }
   montoAdeudado() {
     var totalT = 0;
     var mCobrado = 0;
     var totalDeuda = 0;
-    this.state.clienTransacciones.forEach(g => {
-      totalT += parseFloat(g.importeTotal);
+    this.state.clienteTransacciones.forEach(transaccion => {
+      totalT += parseFloat(transaccion.importeTotal);
     });
-    this.state.clienTransacciones.forEach(g => {
-      mCobrado += parseFloat(g.montoCobrado);
+    this.state.clienteTransacciones.forEach(transaccion => {
+      mCobrado += parseFloat(transaccion.montoCobrado);
       totalDeuda = totalT - mCobrado;
     });
     return totalDeuda;

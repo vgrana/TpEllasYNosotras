@@ -67,7 +67,7 @@ class FormularioTransaccion extends React.Component {
         "Content-Type": "application/json"
       }
     })
-    .then(this.props.transaccionesChange(this.state.cliente))
+    
     .then(this.estadoInicial())
   }
  
