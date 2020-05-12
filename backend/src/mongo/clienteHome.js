@@ -13,13 +13,6 @@ class ClienteHome {
             console.log(`Resultado de insertar el elemento: ${JSON.stringify(result)}`)
         })
     }
-    // getCliente(elementId, callback) {
-    //     var objectId = mongoDriver.ObjectID(elementId);
-    //     return this.clientes.findOne({"_id" : objectId}, (error, result)=>{
-    //         if(error) throw error
-    //         callback(result)
-    //     })
-    // }
 
     agregarTx(clienteId, transaccion, callback) {
         var objectId = mongoDriver.ObjectID(clienteId)
@@ -41,53 +34,52 @@ class ClienteHome {
         })
     }
 
-borrarCliente(elementId,callback) {
-        var objectId = mongoDriver.ObjectID(elementId);
-        this.clientes.findOne({"_id":objectId}, (error, cliente)=>{
-            if(error)
-                callback("error")
-            else {
-                console.log("el cliente es" + objectId)
-                
-                this.clientes.deleteOne({"_id":objectId}, cliente, (error, result)=>{
-                    if(error)
-                        callback("error")
-                    else {
-                        console.log(`Resultado de borrar: ${JSON.stringify(result)}`)
-                        callback("ok", cliente)
-                    }
-                })
+    borrarCliente(elementId,callback) {
+            var objectId = mongoDriver.ObjectID(elementId);
+            this.clientes.findOne({"_id":objectId}, (error, cliente)=>{
+                if(error)
+                    callback("error")
+                else {
+                    console.log("el cliente es" + objectId)
+                    
+                    this.clientes.deleteOne({"_id":objectId}, cliente, (error, result)=>{
+                        if(error)
+                            callback("error")
+                        else {
+                            console.log(`Resultado de borrar: ${JSON.stringify(result)}`)
+                            callback("ok", cliente)
+                        }
+                    })
+                }
+            })
+        }
+
+    agregarCliente(n_cliente, cliente, callback) {      
+            this.clientes.findOne({"n_cliente":n_cliente}, (error,clien)=>{
+                if(error){
+                    callback("el cliente no existe")
+                this.clientes.insertOne( cliente, (error, result)=>{
+                        if(error) 
+                            callback("error")
+                            else{
+                            console.log(`Resultado de insertar: ${JSON.stringify(cliente)}`)
+                            callback("ok", cliente)
+                            }
+                            })
+                }
+            })
+                    
             }
-        })
-    }
+    
 
 
     getUnCliente(elementId, callback) {
-        var objectId = elementId
-        return this.clientes.findOne({"n_cliente" : objectId}, (error, result)=>{
-            if(error) throw error
-            callback(result)
-        })
-    }
-
-// agregarCliente(ncliente,callback) {
-//         // var objectId = mongoDriver.ObjectID(elementId);
-//         this.clientes.findOne({"n_cliente":ncliente}, (error, cliente)=>{
-//             if(error)
-//                 callback("error")
-//             else {
-//                 console.log("el cliente es" + ncliente)
-                
-//             }
-//         })
-//     }
-
-
-
-
-
-
-
+            var objectId = elementId
+            return this.clientes.findOne({"n_cliente" : objectId}, (error, result)=>{
+                if(error) throw error
+                callback(result)
+            })
+        }
 
     update(element) {
         var objectId = mongoDriver.ObjectID(element._id);

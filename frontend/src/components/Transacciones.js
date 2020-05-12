@@ -20,12 +20,14 @@ class Transacciones extends React.Component {
     this.listadoDeClientes = this.listadoDeClientes.bind(this);
     // this.elCliente=this.elCliente.bind(this);
     this.clienteSeleccionado=this.clienteSeleccionado.bind(this);
+    this.eliminarCliente=this.eliminarCliente.bind(this);
+    this.editarCliente=this.editarCliente.bind(this);
    
    
   }
 
   componentWillMount() {
-    this.listadoDeClientes();
+    // this.listadoDeClientes();
   }
   handleChange(e) {
     const target = e.target;
@@ -49,7 +51,8 @@ class Transacciones extends React.Component {
   handleSubmit(event) {
     console.log("desde hundler" + event);
     var consulta;
-    if (this.state.n_cliente == "") {
+    if (this.state.n_cliente == " ") {
+      
       this.listadoBusqueda(consulta);
     }
     if (this.state.n_cliente != "") {
@@ -66,10 +69,16 @@ class Transacciones extends React.Component {
   }
 
   resultadoBusqueda(elCliente){
+    if(elCliente == ""){
+      // console.log("jksjdks")
+      alert('debe ingresar un N° de cliente')
+    }
+    else{
+
     fetch(`http://localhost:8888/clientes/` + elCliente)
       .then(res => res.json())
       .then(clts => this.setState({ seleccionado: clts}))  
-     
+    }
   }
 
   limpiarFormulario() {
@@ -83,27 +92,39 @@ class Transacciones extends React.Component {
   }
 
   render() {
-  
+  var listaDniCliente = this.state.clientes.map((cliente) => {
+    return(    
+       <div><option value={cliente.n_cliente} /></div>
+      );});
     return (
       <div className="container">
         <div class="row">
           <div class="col s12">
             <div class="row">
               <form onSubmit={this.handleSubmit}>
-                <div class="input-field col s12">
-                  <i class="material-icons prefix">textsms</i>
+                <div class="input-field col s5">
+                  <i class="material-icons prefix">search</i>
                   <input
-                    type="text"
+                    type="number"
                     id="n_cliente"
                     name="n_cliente"
+                    max="99999999"
+                    required
                     onChange={this.handleChange}
-                  ></input>
+                    list="clientes" autoComplete="off">
+                    </input>
                   <label for="n_cliente">Buscar por DNI</label>
+                   <datalist id="clientes">
+                      {listaDniCliente}
+                  </datalist>  
+                  <div className="row">
+                    <div class="input-field col s6">
                   <button
                     type="button"
                     className="btn sm #660066"
                     style={{ margin: "2px" }}
                     onClick={() => this.resultadoBusqueda(this.state.n_cliente)}
+                    
                   >
                     Consultar
                   </button>
@@ -115,6 +136,8 @@ class Transacciones extends React.Component {
                   >
                     Nueva búsqueda
                   </button>
+                  </div>
+                  </div>
                 </div>
               </form>
             </div> 
@@ -148,13 +171,22 @@ class Transacciones extends React.Component {
      this.setState({clienteTransacciones : unCliente.transacciones });
    
   }
+  editarCliente(unCliente){
+  alert('para editar un cliente ir a cliente/agregarCliente')
+  }
+
+  eliminarCliente(unCliente) {
+    alert('ir a clientes/transacciones') 
+  }
 
 unCliente(){
   return this.state.seleccionado.map((unCliente)=>{
   
   return <Cliente cliente={unCliente}
           clienteSeleccionado={this.clienteSeleccionado}
-          seleccionado={this.state.seleccionado}>
+          seleccionado={this.state.seleccionado}
+          editarCliente={this.editarCliente}
+          eliminarCliente={this.eliminarCliente}>
   </Cliente>
  })
  }

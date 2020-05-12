@@ -53,6 +53,10 @@ class FormularioTransaccion extends React.Component {
         fechaTransaccion: " ",
         importeTotal: " ",
         montoCobrado: " "
+      },
+      cliente:{
+        nombre: " ",
+        apellido: " "
       }
     });
   }
@@ -80,9 +84,9 @@ class FormularioTransaccion extends React.Component {
               <div className="row ">
                 <div className="card-panel #ffebee red lighten-4">
                   <div className="row">
-                    <legend> Agregar movimiento a la cuenta de :
-                     <a>{this.state.cliente.nombre} </a>
-                     <a>{this.state.cliente.apellido}</a>
+                    <legend> Agregar movimiento a la cuenta de : <a></a>
+                     <a>{this.state.cliente.apellido} </a>
+                     <a>{this.state.cliente.nombre}</a>
                      </legend>
                   </div>
                 </div>

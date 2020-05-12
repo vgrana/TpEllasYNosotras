@@ -54,9 +54,6 @@ server.get("/clientes/:ncliente", (req, res) => {
   }) 
 })
 
-
-
-
   server.get("/:type/:id", (req, res) => {
     home = homes[req.params.type]
     home.get(req.params.id, (myObject) => { 
@@ -82,11 +79,11 @@ server.get("/clientes/:ncliente", (req, res) => {
     }) 
   })
 
-  server.post("/:type/", (req, res) => {
+server.post("/:type/", (req, res) => {
     home = homes[req.params.type]
     home.insert(req.body)
     res.status(204).end();  
-  })
+  })  
 
   server.delete("/:clientes/:id", (req, res) => {
     clienteId = req.params.id

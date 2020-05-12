@@ -14,7 +14,8 @@ class Clientes extends React.Component{
                         
                       }
         this.listadoDeClientes=this.listadoDeClientes.bind(this);  
-        // this.clienteSeleccionado=this.clienteSeleccionado.bind(this);  
+        this.listadoClientes=this.listadoClientes.bind(this);
+        this.clienteSeleccionado=this.clienteSeleccionado.bind(this);  
         this.eliminarCliente=this.eliminarCliente.bind(this); 
         this.eliminandoCliente=this.eliminandoCliente.bind(this);
         this.actualizacionDeClientes=this.actualizacionDeClientes.bind(this);
@@ -50,7 +51,7 @@ editarCliente(unCliente){
 eliminarCliente(unCliente){
     this.setState({eliminarCliente:unCliente});
     if( (unCliente.transacciones.length) == 0){
-      this.eliminandoCliente(unCliente._id)
+      this.eliminandoCliente(unCliente._id, unCliente)
       this.actualizacionDeClientes(unCliente)
       
     }
@@ -59,7 +60,9 @@ eliminarCliente(unCliente){
     }
  }
 
-  eliminandoCliente(_id){
+  eliminandoCliente(_id, unCliente){
+    alert("esta a punto de eliminar el cliente: "
+      + unCliente.apellido + " " +  unCliente.nombre  )
        fetch('http://localhost:8888/clientes/' + _id, {
           method: 'delete',
           headers: {
@@ -94,7 +97,7 @@ eliminarCliente(unCliente){
               eliminarCliente={this.state.eliminarCliente}
               cliente={this.state.cliente}
                 clientTransacciones={this.state.clientTransacciones}
-                  // actualizacionDeClientes={this.actualizacionDeClientes}
+                  actualizacionDeClientes={this.actualizacionDeClientes}
                   listadoDeClientes={this.listadoDeClientes}
                   clientes={this.state.clientes}>
                 

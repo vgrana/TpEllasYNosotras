@@ -6,12 +6,13 @@ class FormularioCliente extends React.Component {
     super(props);
     this.state = { cliente:this.props.cliente,
                   clientTransacciones:props.clientTransacciones,
-                  clientes:props.clientes,              
-                    }
+                  clientes: this.props.clientes, 
+                  elCliente: []      
+                  }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.estadoInicial=this.estadoInicial.bind(this);
-    this.listado=this.listado.bind(this);
+    this.buscarElCliente=this.buscarElCliente.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -22,18 +23,15 @@ class FormularioCliente extends React.Component {
   }
 
   componentWillMount() {
-     this.listado()  
-  }
-
-  listado(){
-    this.props.listadoDeClientes();  
+     this.props.listadoDeClientes()
   }
 
   handleChange(event) {
     console.log("entre al handle..." + event);
     var newCliente = Object.assign({}, this.state.cliente);
     newCliente[event.target.name] = event.target.value;
-    this.setState({ cliente: newCliente });
+    this.setState({ cliente: newCliente });   
+    
   }
 
   handleSubmit(event) {  
@@ -41,10 +39,8 @@ class FormularioCliente extends React.Component {
       this.editarcliente()  
     }
     else{
-     this.agregarCliente();
-    
+      this.buscarElCliente(this.state.cliente.n_cliente)
     }
-      // this.estadoInicial()
     event.preventDefault(event);
   }
 
@@ -60,20 +56,31 @@ class FormularioCliente extends React.Component {
       }
     });
   }
-
-  agregarCliente() {
-   
-    fetch(`http://localhost:8888/clientes`, {
-      method: "POST",
-      body: JSON.stringify(this.state.cliente),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
+  
+  buscarElCliente(elCliente){
+    fetch(`http://localhost:8888/clientes/` + elCliente)
+      .then(res => res.json())
+      .then(clts => this.setState({ elCliente: clts}, this.agregarCliente(clts)))
+  }   
+       
+  agregarCliente(clientes) {
+    if(clientes.length == 0){
+      console.log("hollaaa " + clientes.length)
+      fetch(`http://localhost:8888/clientes` , {
+        method: "POST",
+        body: JSON.stringify(this.state.cliente),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      }).then(this.props.listadoDeClientes)  
+        .then(this.estadoInicial())  
       }
-    })
-      .then(this.props.listadoDeClientes)  
-      .then(this.estadoInicial());
-   }
+    else{
+      alert('el cliente ya tiene cuenta')
+      this.estadoInicial()
+    }
+  }
 
   editarcliente(){
       fetch("http://localhost:8888/clientes", {
@@ -83,11 +90,9 @@ class FormularioCliente extends React.Component {
           Accept: "application/json",
           "Content-Type": "application/json"
         }
-      })
-        .then(this.props.listadoDeClientes)  
+      }).then(this.props.listadoDeClientes)  
         .then(this.estadoInicial());
-    }
- 
+  }
  
   render() { 
       return (
@@ -98,12 +103,11 @@ class FormularioCliente extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className="input-field col s3">
                         <input className="validate" type="number"  
-                        required name="n_cliente" id="dni" onChange={this.handleChange} 
+                        required name="n_cliente" id="dni" max="99999999" onChange={this.handleChange} 
                         value={this.state.cliente.n_cliente}
                         />
                         <label for="dni">DNI</label>
                     </div>
-                    {/* <div className="row"> */}
                     <div className="input-field col s3">
                         <input className="validate  " id="apellido" type="text" required name="apellido"
                          onChange={this.handleChange} 
@@ -111,7 +115,6 @@ class FormularioCliente extends React.Component {
                         />
                         <label for="apellido">Apellido</label>
                     </div>
-                    
                     <div className="input-field col s3">
                      <input className="validate" id="nombre" type="text" required name="nombre"
                          onChange={this.handleChange} 
