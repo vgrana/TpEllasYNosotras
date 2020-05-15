@@ -11,35 +11,31 @@ class FormularioTransaccion extends React.Component {
       clientes: this.props.clientes,
       cliente: this.props.cliente,
       transaccion: {},
-      clienTransacciones:props.clienTransacciones,
-      
+      clienTransacciones: props.clienTransacciones
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.estadoInicial = this.estadoInicial.bind(this);
     this.agregarTransaccion = this.agregarTransaccion.bind(this);
+    // this.listadoDeTodosLosClientes=this.listadoDeTodosLosClientes.bind(this);
   }
 
   componentWillReceiveProps(props) {
-  
-    this.setState({cliente: props.cliente });
-    // console.log("desde formulario transaccion props"  + props.cliente.nombre)
-    this.setState({clienTransacciones:props.clienTransacciones})
-    this.setState({clientes:props.clientes})
-  
+    this.setState({ cliente: props.cliente });
+    this.setState({ clienTransacciones: props.clienTransacciones });
+    this.setState({ clientes: props.clientes });
   }
- 
+
   handleChange(event) {
-    
     if (this.state.cliente.nombre == " ") {
-       alert("debe seleccionar un cliente");
-       this.estadoInicial();
-     } else {
+      alert("debe seleccionar un cliente");
+      this.estadoInicial();
+    } else {
       var newTransaccion = Object.assign({}, this.state.transaccion);
       newTransaccion[event.target.name] = event.target.value;
       newTransaccion["clienteId"] = this.state.cliente._id;
-      this.setState({transaccion: newTransaccion });
-     }
+      this.setState({ transaccion: newTransaccion });
+    }
   }
 
   handleSubmit(event) {
@@ -49,16 +45,21 @@ class FormularioTransaccion extends React.Component {
 
   estadoInicial() {
     this.setState({
+      cliente: {
+        nombre: " ",
+        apellido: " "
+      },
       transaccion: {
         fechaTransaccion: " ",
         importeTotal: " ",
         montoCobrado: " "
-      },
-      cliente:{
-        nombre: " ",
-        apellido: " "
       }
     });
+  }
+  listadoDeTodosLosClientes() {
+    fetch(`http://localhost:8888/clientes`)
+      .then(res => res.json())
+      .then(clts => this.setState({ clientes: clts }));
   }
 
   agregarTransaccion(event) {
@@ -71,11 +72,11 @@ class FormularioTransaccion extends React.Component {
         "Content-Type": "application/json"
       }
     })
-    
-    .then(this.estadoInicial())
+      .then(this.estadoInicial())
+      .then(this.props.listado());
   }
- 
-  render() {   
+
+  render() {
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} input-field s12 id="formulario">
@@ -84,10 +85,12 @@ class FormularioTransaccion extends React.Component {
               <div className="row ">
                 <div className="card-panel #ffebee red lighten-4">
                   <div className="row">
-                    <legend> Agregar movimiento a la cuenta de : <a></a>
-                     <a>{this.state.cliente.apellido} </a>
-                     <a>{this.state.cliente.nombre}</a>
-                     </legend>
+                    <legend>
+                      {" "}
+                      Agregar movimiento a la cuenta de : <a></a>
+                      <a>{this.state.cliente.apellido} </a>
+                      <a>{this.state.cliente.nombre}</a>
+                    </legend>
                   </div>
                 </div>
                 <div className="input-field col s4">
@@ -118,7 +121,6 @@ class FormularioTransaccion extends React.Component {
                     onChange={this.handleChange}
                     value={this.state.transaccion.importeTotal}
                   />
-                  {/* <label>Total transacción</label> */}
                   <a>Importe transacción</a>
                 </div>
                 <div className="input-field col s2">

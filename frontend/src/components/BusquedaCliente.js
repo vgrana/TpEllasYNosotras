@@ -1,10 +1,8 @@
 import React from "react";
 
 import Cliente from "./Cliente";
-import Clientes from "./Clientes";
 import FormularioTransaccion from "./FormularioTransaccion";
-import Transaccion from "./Transaccion";
-import Transacciones from "./Transacciones"
+
 
 class BusquedaCliente extends React.Component {
   constructor(props) {
@@ -13,13 +11,8 @@ class BusquedaCliente extends React.Component {
       clientes: [],
       seleccionado: {},
       cliente: {},
-      //    n_cliente: '',
       apellido: "",
-    
       clienTransacciones: []
-     
-     
-
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -27,21 +20,18 @@ class BusquedaCliente extends React.Component {
     this.limpiezaFormListaClientes = this.limpiezaFormListaClientes.bind(this);
     this.clienteSeleccionado = this.clienteSeleccionado.bind(this);
     this.editarCliente = this.editarCliente.bind(this);
-    // this.actualizarListaDeTransacciones=this.actualizarListaDeTransacciones.bind(this);
-    // this.actualizarEstadoSeleccionado = this.actualizarEstadoSeleccionado.bind(this  );
-    // this.transaccionesChange=this.transaccionesChange.bind(this);
-    this.eliminarCliente=this.eliminarCliente.bind(this);   
+    this.listado = this.listado.bind(this);
+    this.eliminarCliente = this.eliminarCliente.bind(this);
   }
 
   handleChange(e) {
-
     const target = e.target;
     const value = target.value;
     const name = target.name;
     this.setState({ [name]: value });
   }
   componentWillMount() {
-    this.listadoDeTodosLosClientes();
+    this.listado();
   }
 
   listadoBusqueda(consulta) {
@@ -59,10 +49,18 @@ class BusquedaCliente extends React.Component {
   listadoDeTodosLosClientes() {
     fetch(`http://localhost:8888/clientes`)
       .then(res => res.json())
-      .then(clts => this.setState({ clientes: clts }));
+      .then(clts =>
+        this.setState({
+          clientes: clts,
+          clienTransacciones: clts.transacciones,
+          cliente: {}
+        })
+      );
   }
 
-
+  listado() {
+    this.listadoDeTodosLosClientes();
+  }
 
   limpiarFormulario() {
     document.getElementById("apellido").value = "";
@@ -95,60 +93,50 @@ class BusquedaCliente extends React.Component {
     );
     this.setState({ clientes: elCliente });
     console.log(elCliente);
-  }  
-// transaccionesChange(unCliente){
-//   unCliente.preventDefault(unCliente)
-//   this.setState({cliente:unCliente})
-//   this.setState({clienTransacciones:unCliente.clienTransacciones})
-// }
+  }
 
-editarCliente(unCliente){
-  alert('para cambiar las opciones del cliente ir a cliente')
-}
+  editarCliente(unCliente) {}
 
-eliminarCliente(unCliente){
-    alert('para eliminar un cliente ir a cliente')
-    }
- 
+  eliminarCliente(unCliente) {}
+
   render() {
     return (
       <div className="container">
-      <div className="row input-field col s6"
-         >
-        <form
-          onSubmit={this.handleSubmit}
-          id="formulario"
-          className="input-field col s10 responsive-form"
-        >
-          <div className="row">
-            <div className="input-field col s4">
-              <div>
-                <input
-                  name="apellido"
-                  id="apellido"
-                  onChange={this.handleChange}
-                />
-                <label for="apelllido">Apellido del cliente</label>
+        <div className="row input-field col s6">
+          <form
+            onSubmit={this.handleSubmit}
+            id="formulario"
+            className="input-field col s10 responsive-form"
+          >
+            <div className="row">
+              <div className="input-field col s4">
+                <div>
+                  <input
+                    name="apellido"
+                    id="apellido"
+                    onChange={this.handleChange}
+                  />
+                  <label for="apelllido">Apellido del cliente</label>
+                </div>
               </div>
+              <button
+                type="button"
+                className="btn sm #660066"
+                style={{ margin: "2px" }}
+                onClick={() => this.resultadoBusqueda(this.state.apellido)}
+              >
+                Consultar
+              </button>
+              <button
+                type="button"
+                className="btn #660066"
+                style={{ margin: "1px" }}
+                onClick={this.limpiezaFormListaClientes}
+              >
+                Nueva búsqueda
+              </button>
             </div>
-            <button
-              type="button"
-              className="btn sm #660066"
-              style={{ margin: "2px" }}
-              onClick={() => this.resultadoBusqueda(this.state.apellido)}
-            >
-              Consultar
-            </button>
-            <button
-              type="button"
-              className="btn #660066"
-              style={{ margin: "1px" }}
-              onClick={this.limpiezaFormListaClientes}
-            >
-              Nueva búsqueda
-            </button>
-          </div>
-        </form>
+          </form>
         </div>
         <div className="input-field col s6 responsive-table">
           <table className="responsive-table">
@@ -164,37 +152,16 @@ eliminarCliente(unCliente){
             </thead>
             <tbody>{this.renderRows()}</tbody>
           </table>
-          </div>
-          <div className="input-field col s7">
-            <FormularioTransaccion
-              cliente={this.state.cliente}             
-              clienTransacciones={this.state.clienTransacciones}
-              listadoDeTodosLosClientes={this.listadoDeTodosLosClientes}
-              // transaccionesChange={this.transaccionesChange}
-            >
-            </FormularioTransaccion>
-          </div>
-        {/* </div> */}
-
- {/* <Transacciones
-  // cliente={this.state.cliente}
-  clienTransacciones={this.state.clienTransacciones}
-  listadoDeTodosLosClientes={this.listadoDeTodosLosClientes}
-  clientes={this.state.clientes}
-  cliente={this.state.cliente}
-  // clienTransacciones={this.state.clienTransacciones}
-  transaccionesChange={this.transaccionesChange}
-></Transacciones>  */}
-
-        
+        </div>
+        <div className="input-field col s7">
+          <FormularioTransaccion
+            cliente={this.state.cliente}
+            clienTransacciones={this.state.clienTransacciones}
+            listado={this.listado}
+          ></FormularioTransaccion>
+        </div>
       </div>
     );
-  }
-
-  editarCliente(unCliente) {
-    alert("no se puede editar...estamos trabajando en en ello");
-    // var newCliente = this.state.clientes.map((item) => (unCliente._id != item._id) ? item : unCliente)
-    // this.setState({ clientes: newCliente, selecccionado: {} })
   }
 
   renderRows() {
@@ -202,20 +169,15 @@ eliminarCliente(unCliente){
       return (
         <Cliente
           cliente={unCliente}
-          ////revisarlos me parece q no van todos!!
-          
           clienteSeleccionado={this.clienteSeleccionado}
-          //  clienteTransacciones={this.clienteTransacciones}
           seleccionado={this.state.seleccionado}
-          editarCliente= {this.editarCliente}
+          editarCliente={this.editarCliente}
           eliminarCliente={this.eliminarCliente}
-         
+          estaActivado={true}
         ></Cliente>
       );
     });
   }
-
-  
 }
 
 export default BusquedaCliente;
