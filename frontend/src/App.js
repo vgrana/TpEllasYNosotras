@@ -6,6 +6,8 @@ import FormularioCliente from "./components/FormularioCliente"
 import BusquedaCliente from "./components/BusquedaCliente"
 import FormularioTransaccion from "./components/FormularioTransaccion"
 
+
+
 import "./App.css"; 
 
 
@@ -23,6 +25,7 @@ function App() {
                         <li><Link to="/agregarCliente">Agregar cliente</Link></li>
                         <li><Link to="/agregarTransaccion">Agregar transacción a cliente</Link></li>
                           <li><Link to="/listadoTransacciones">Listado de Transacciones</Link></li>
+                         
                         {/* <li><Link to="/clientes/listado">Listado de clientes</Link></li> */} */}
                         <li className="divider"></li>
                         <li><Link to="/"></Link></li>
@@ -38,6 +41,7 @@ function App() {
                     </ul>
                 </div>
             </nav>
+          
         </header>
         <main>
             <Switch>
@@ -45,6 +49,8 @@ function App() {
                 <Route path="/agregarTransaccion" component={BusquedaCliente} />
                 <Route path="/clientes/listado" component={Clientes}/>
                 <Route path="/listadoTransacciones" component={Transacciones}/>
+          
+                
                
             </Switch>
         </main>

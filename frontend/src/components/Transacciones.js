@@ -164,6 +164,24 @@ class Transacciones extends React.Component {
           <th></th>
           <th>{this.montoAdeudado()}</th>
         </tr>
+        <div className="row"  class="input-field col s5">
+        
+          <form action= "/procesar-pago" method="POST">
+            <script
+            src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+          
+            data-preference-id="$$id$$">
+            
+            </script>
+          </form>
+          {/* <div>
+          <button mp-mode="dftl" href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=569345333-41444c74-db08-4416-a98e-599212549766" 
+          name="MP-payButton" class='orange-ar-l-sq-aron'>Pagar</button>
+          </div> */}
+       
+
+          
+        </div>
       </div>
     );
   }
@@ -171,13 +189,9 @@ class Transacciones extends React.Component {
     console.log("seleccionado" + unCliente);
     this.setState({ clienteTransacciones: unCliente.transacciones });
   }
-  editarCliente(unCliente) {
-  
-  }
+  editarCliente(unCliente) {}
 
-  eliminarCliente(unCliente) {
-  
-  }
+  eliminarCliente(unCliente) {}
 
   unCliente() {
     return this.state.seleccionado.map(unCliente => {
