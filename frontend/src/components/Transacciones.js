@@ -163,17 +163,26 @@ class Transacciones extends React.Component {
           <th> Diferencia entre pagos y deudas</th>
           <th></th>
           <th>{this.montoAdeudado()}</th>
-        </tr>
-        <div className="row"  class="input-field col s5">
-        
-          <form action= "/procesar-pago" method="POST">
-            <script
-            src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
           
-            data-preference-id="$$id$$">
-            
-            </script>
-          </form>
+          <th> 
+           {/* <form action="/procesar-pago" method="POST"
+         src= "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+          
+   data-preference-id="$$id$$">   
+            </form> */}
+            <a href="  https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=568743931-f0b582b3-e250-4f77-96d0-8e7f5bdd4174
+            " target="_blank">Pagar</a> 
+            </th>
+          
+          
+        </tr>
+       
+        
+          
+          
+         
+          
+         
           {/* <div>
           <button mp-mode="dftl" href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=569345333-41444c74-db08-4416-a98e-599212549766" 
           name="MP-payButton" class='orange-ar-l-sq-aron'>Pagar</button>
@@ -181,7 +190,7 @@ class Transacciones extends React.Component {
        
 
           
-        </div>
+       
       </div>
     );
   }

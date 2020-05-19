@@ -27,7 +27,7 @@ function init() {
 
 //agrega credenciales
 mercadopago.configure({
-   sandbox: true,
+  // sandbox: true,
   //  client_id: config.client_id,
   // client_secret: config.client_secret
   // access_token: 'PROD_ACCESS_TOKEN'
@@ -38,25 +38,34 @@ access_token:"TEST-7375329851247178-051517-fab641f5f8e37a1ee85557c7cba72ff9-5687
 //crea un objeto con preferencias
 let preference ={
   items :[{
-    id:'49056665',
+    id:'1500',
     title:'pago de cuenta corriente ',
         quantity: 1,
         currency_id: 'ARS',
-        unit_price: 1250 
-  }]
-};
+        unit_price: 12
+  }],
+  "payer":{
+    // "email":"test_user_88440868@testuser.com"
+  },
+  // init_point: "http://localhost:3000/listaTransacciones"
+//   ///si el pago se aprobo me redirige a home
+//   auto_return: {
+//         success: "http://localhost:3000/home"
+// }
+}
+
 
   mercadopago.preferences.create(preference)
   .then(function(response){
   console.log("la preferencia " + preference.items)
   // Este valor reemplazará el string "$$init_point$$" en tu HTML
     global.init_point = response.body.init_point;
-    console.log("response del body " + response.body.init_point)
+    console.log("response del body " + global.init_point)
+    console.log(preference.payer)
   }).catch(function(error){
     console.log(error);
   });
-
-
+ 
 
 
 
