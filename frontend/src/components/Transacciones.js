@@ -97,6 +97,8 @@ class Transacciones extends React.Component {
         </div>
       );
     });
+    var el ="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=568743931-7fb70d60-680a-4eda-98e4-5698c7c253f0"
+    var ur = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
     return (
       <div className="container">
         <div class="row">
@@ -165,13 +167,15 @@ class Transacciones extends React.Component {
           <th>{this.montoAdeudado()}</th>
           
           <th> 
-           {/* <form action="/procesar-pago" method="POST"
-         src= "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
-          
-   data-preference-id="$$id$$">   
-            </form> */}
-            <a href="  https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=568743931-f0b582b3-e250-4f77-96d0-8e7f5bdd4174
+          {/* <form action="/procesar-pago" method="POST" > */}
+         {/* src= "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js" */}
+         <a src = {ur}
+   data-preference-id="$$$$">klklkl   
+   </a>
+            {/* </form>  */}
+            {/* <a href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=568743931-7fb70d60-680a-4eda-98e4-5698c7c253f0
             " target="_blank">Pagar</a> 
+             */}
             </th>
           
           
@@ -237,5 +241,9 @@ class Transacciones extends React.Component {
     });
     return totalDeuda;
   }
+
+
+
+ 
 }
 export default Transacciones;

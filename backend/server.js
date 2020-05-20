@@ -42,16 +42,22 @@ let preference ={
     title:'pago de cuenta corriente ',
         quantity: 1,
         currency_id: 'ARS',
-        unit_price: 12
-  }],
-  "payer":{
-    // "email":"test_user_88440868@testuser.com"
+        unit_price: 120
   },
-  // init_point: "http://localhost:3000/listaTransacciones"
+  {
+      id:'15',
+    title:'pago de cuenta corriente ',
+        quantity: 1,
+        currency_id: 'ARS',
+        unit_price: 112
+
+  }
+  ],
+  "payer":{
+    "email":"test_user_88440868@testuser.com"
+  },
+ 
 //   ///si el pago se aprobo me redirige a home
-//   auto_return: {
-//         success: "http://localhost:3000/home"
-// }
 }
 
 
@@ -61,7 +67,7 @@ let preference ={
   // Este valor reemplazará el string "$$init_point$$" en tu HTML
     global.init_point = response.body.init_point;
     console.log("response del body " + global.init_point)
-    console.log(preference.payer)
+    console.log("preferences payer" + preference.payer.email)
   }).catch(function(error){
     console.log(error);
   });
