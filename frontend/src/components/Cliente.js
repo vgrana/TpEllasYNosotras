@@ -51,12 +51,13 @@ class Cliente extends React.Component {
     let buttonBorrar;
     if (borrarActivado) {
       buttonBorrar = (
-        <button
-          className="btn #283593 indigo darken-3 "
+        <button 
+          className="btn #283593 indigo darken-3 " style={{margin:"4px"}}
           onClick={this.borrarCliente}
         >
           <i className="material-icons">delete</i>
         </button>
+       
       );
     }
 
@@ -65,11 +66,13 @@ class Cliente extends React.Component {
     if (editarActivado) {
       buttonEditar = (
         <button
+        
           className="btn #283593 indigo darken-3"
           onClick={this.editCliente}
         >
           <i className="material-icons">edit</i>
         </button>
+       
       );
     }
 
@@ -93,3 +96,6 @@ class Cliente extends React.Component {
   }
 }
 export default Cliente;
+
+ 
+ 

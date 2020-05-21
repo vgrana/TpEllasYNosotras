@@ -1,6 +1,8 @@
 import React from "react";
 import Transaccion from "./Transaccion";
 import Cliente from "./Cliente";
+import Modal from "./Modal";
+
 
 class Transacciones extends React.Component {
   constructor(props) {
@@ -69,9 +71,11 @@ class Transacciones extends React.Component {
   }
 
   resultadoBusqueda(elCliente) {
+    
     if (elCliente == "") {
       // console.log("jksjdks")
       alert("debe ingresar un N° de cliente");
+     
     } else {
       fetch(`http://localhost:8888/clientes/` + elCliente)
         .then(res => res.json())
@@ -97,12 +101,13 @@ class Transacciones extends React.Component {
         </div>
       );
     });
-    var el ="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=568743931-7fb70d60-680a-4eda-98e4-5698c7c253f0"
-    var ur = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+   
     return (
+    
       <div className="container">
         <div class="row">
           <div class="col s12">
+        
             <div class="row">
               <form onSubmit={this.handleSubmit}>
                 <div class="input-field col s5">
@@ -167,15 +172,18 @@ class Transacciones extends React.Component {
           <th>{this.montoAdeudado()}</th>
           
           <th> 
-          {/* <form action="/procesar-pago" method="POST" > */}
-         {/* src= "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js" */}
-         <a src = {ur}
-   data-preference-id="$$$$">klklkl   
-   </a>
-            {/* </form>  */}
-            {/* <a href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=568743931-7fb70d60-680a-4eda-98e4-5698c7c253f0
+          {/* <form action="/crearPago" method="POST">
+            <script
+            src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+            data-preference-id="$$id$$">
+            </script>
+          </form> */}
+          
+            <a href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=568743931-7fb70d60-680a-4eda-98e4-5698c7c253f0
             " target="_blank">Pagar</a> 
-             */}
+            
+            
+             
             </th>
           
           

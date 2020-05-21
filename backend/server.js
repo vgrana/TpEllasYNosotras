@@ -10,6 +10,7 @@ morgan = require("morgan");
 const mercadopago = require ('mercadopago');
 console.log(mercadopago.preferences)
 
+
 ClienteHome = require("./src/mongo/clienteHome");
 var homes = {};
 
@@ -56,23 +57,32 @@ let preference ={
   "payer":{
     "email":"test_user_88440868@testuser.com"
   },
+  // "external_reference":{ n_cliente
+
+  // }
+  // "back_urls": {
+  //       "success": "https://www.tu-sitio/success", redirigir para poner una respuestas cuando el pago sucede,falla o queda pendiente
+  //       "failure": "http://www.tu-sitio/failure",
+  //       "pending": "http://www.tu-sitio/pending"
+  //   },
+    // "auto_return": "approved"
  
-//   ///si el pago se aprobo me redirige a home
+ 
+// //   ///si el pago se aprobo me redirige a home
 }
 
 
   mercadopago.preferences.create(preference)
   .then(function(response){
-  console.log("la preferencia " + preference.items)
+  console.log("la preferencia " + preference.items.id)
   // Este valor reemplazará el string "$$init_point$$" en tu HTML
     global.init_point = response.body.init_point;
-    console.log("response del body " + global.init_point)
+    console.log("response del body " + global.init_point )
     console.log("preferences payer" + preference.payer.email)
   }).catch(function(error){
     console.log(error);
   });
  
-
 
 
 
