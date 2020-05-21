@@ -7,7 +7,7 @@ var server = express();
 morgan = require("morgan");
 
 //- const {mercadopago}=require('./MercadoPago')
-const mercadopago = require ('mercadopago');
+const mercadopago = require('mercadopago');
 console.log(mercadopago.preferences)
 
 
@@ -26,65 +26,44 @@ function init() {
   // var server = express();
   server.use(express.json());
 
-//agrega credenciales
-mercadopago.configure({
-  // sandbox: true,
-  //  client_id: config.client_id,
-  // client_secret: config.client_secret
-  // access_token: 'PROD_ACCESS_TOKEN'
-access_token:"TEST-7375329851247178-051517-fab641f5f8e37a1ee85557c7cba72ff9-568743931"
+  //agrega credenciales
+  mercadopago.configure({
+    // sandbox: true,
+    //  client_id: config.client_id,
+    // client_secret: config.client_secret
+    // access_token: 'PROD_ACCESS_TOKEN'
+    access_token: "TEST-7375329851247178-051517-fab641f5f8e37a1ee85557c7cba72ff9-568743931"
 
-});
+  });
 
-//crea un objeto con preferencias
-let preference ={
-  items :[{
-    id:'1500',
-    title:'pago de cuenta corriente ',
+  async function get_boton_pago(cliente) {
+    let preference = {
+      items: [{
+        id: '1500',
+        title: cliente.nombre,
         quantity: 1,
         currency_id: 'ARS',
         unit_price: 120
-  },
-  {
-      id:'15',
-    title:'pago de cuenta corriente ',
-        quantity: 1,
-        currency_id: 'ARS',
-        unit_price: 112
+      }
+      ],
+      "payer": {
+        "email": "test_user_88440868@testuser.com"
+      }
+    }
 
+    await mercadopago.preferences.create(preference)
+      .then(function (response) {
+        console.log("la preferencia " + preference.items.id)
+        // Este valor reemplazará el string "$$init_point$$" en tu HTML
+        global.init_point = response.body.init_point;
+        console.log("response del body " + global.init_point)
+        console.log("preferences payer" + preference.payer.email)
+      }).catch(function (error) {
+        console.log(error);
+      });
+
+    return global.init_point;
   }
-  ],
-  "payer":{
-    "email":"test_user_88440868@testuser.com"
-  },
-  // "external_reference":{ n_cliente
-
-  // }
-  // "back_urls": {
-  //       "success": "https://www.tu-sitio/success", redirigir para poner una respuestas cuando el pago sucede,falla o queda pendiente
-  //       "failure": "http://www.tu-sitio/failure",
-  //       "pending": "http://www.tu-sitio/pending"
-  //   },
-    // "auto_return": "approved"
- 
- 
-// //   ///si el pago se aprobo me redirige a home
-}
-
-
-  mercadopago.preferences.create(preference)
-  .then(function(response){
-  console.log("la preferencia " + preference.items.id)
-  // Este valor reemplazará el string "$$init_point$$" en tu HTML
-    global.init_point = response.body.init_point;
-    console.log("response del body " + global.init_point )
-    console.log("preferences payer" + preference.payer.email)
-  }).catch(function(error){
-    console.log(error);
-  });
- 
-
-
 
   server.use("(/:type/*)|(/:type)", (req, res, next) => {
     if (!homes[req.params.type]) {
@@ -111,8 +90,15 @@ let preference ={
     console.log("desde server" + clienteId);
     clienteHome.getUnCliente(clienteId, allObjects => {
       clienteHome.find({ n_cliente: clienteId }, allObjects => {
-        res.json(allObjects);
         console.log("a ver si llego aca" + allObjects);
+        if (allObjects[0]) {
+          var cliente = allObjects[0];
+          var url = get_boton_pago(cliente);
+          cliente.boton_de_pago = url;
+          console.log(JSON.stringify(cliente));
+          console.log(JSON.stringify(allObjects));
+        }
+        res.json(allObjects);
         res.end();
       });
     });
