@@ -85,23 +85,18 @@ function init() {
     });
   });
 
-  server.get("/clientes/:ncliente", (req, res) => {
+  server.get("/clientes/:ncliente", async (req, res) => {
     var clienteId = req.params.ncliente;
     console.log("desde server" + clienteId);
-    clienteHome.getUnCliente(clienteId, allObjects => {
-      clienteHome.find({ n_cliente: clienteId }, allObjects => {
-        console.log("a ver si llego aca" + allObjects);
-        if (allObjects[0]) {
-          var cliente = allObjects[0];
-          var url = get_boton_pago(cliente);
-          cliente.boton_de_pago = url;
-          console.log(JSON.stringify(cliente));
-          console.log(JSON.stringify(allObjects));
-        }
-        res.json(allObjects);
-        res.end();
-      });
-    });
+    var cliente = await clienteHome.getUnCliente(clienteId)
+    console.log("a ver si llego aca" + JSON.stringify(cliente));
+    if (cliente) {
+      var url = await get_boton_pago(cliente);
+      cliente["boton_de_pago"] = url;
+      console.log(JSON.stringify(cliente));
+    }
+    res.json([cliente]);
+    res.end();
   });
 
   server.get("/:type/:id", (req, res) => {

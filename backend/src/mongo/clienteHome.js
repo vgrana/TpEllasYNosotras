@@ -73,11 +73,11 @@ class ClienteHome {
     
 
 
-    getUnCliente(elementId, callback) {
+    getUnCliente(elementId) {
             var objectId = elementId
-            return this.clientes.findOne({"n_cliente" : objectId}, (error, result)=>{
+            return this.clientes.findOne({"n_cliente" : objectId}, (error, result) => {
                 if(error) throw error
-                callback(result)
+                return result
             })
         }
 
