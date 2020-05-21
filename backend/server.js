@@ -36,7 +36,7 @@ function init() {
 
   });
 
-  async function get_boton_pago(cliente) {
+  function get_boton_pago(cliente, callback) {
     let preference = {
       items: [{
         id: '1500',
@@ -51,18 +51,7 @@ function init() {
       }
     }
 
-    await mercadopago.preferences.create(preference)
-      .then(function (response) {
-        console.log("la preferencia " + preference.items.id)
-        // Este valor reemplazará el string "$$init_point$$" en tu HTML
-        global.init_point = response.body.init_point;
-        console.log("response del body " + global.init_point)
-        console.log("preferences payer" + preference.payer.email)
-      }).catch(function (error) {
-        console.log(error);
-      });
-
-    return global.init_point;
+    mercadopago.preferences.create(preference).then(callback);
   }
 
   server.use("(/:type/*)|(/:type)", (req, res, next) => {
@@ -85,18 +74,26 @@ function init() {
     });
   });
 
-  server.get("/clientes/:ncliente", async (req, res) => {
+  server.get("/clientes/:ncliente", (req, res) => {
     var clienteId = req.params.ncliente;
     console.log("desde server" + clienteId);
-    var cliente = await clienteHome.getUnCliente(clienteId)
-    console.log("a ver si llego aca" + JSON.stringify(cliente));
-    if (cliente) {
-      var url = await get_boton_pago(cliente);
-      cliente["boton_de_pago"] = url;
-      console.log(JSON.stringify(cliente));
-    }
-    res.json([cliente]);
-    res.end();
+    //var cliente = await 
+    
+    clienteHome.getUnCliente(clienteId, (cliente) => {
+      console.log("a ver si llego aca" + JSON.stringify(cliente));
+      if (cliente) {
+        get_boton_pago(cliente, (response) => {
+          // Este valor reemplazará el string "$$init_point$$" en tu HTML
+          console.log("response del body " + response.body.init_point)
+
+          cliente["boton_de_pago"] = response.body.init_point;
+          console.log(JSON.stringify(cliente));
+
+          res.json([cliente]);
+          res.end();
+        });
+      }
+    });
   });
 
   server.get("/:type/:id", (req, res) => {
