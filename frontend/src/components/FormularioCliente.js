@@ -57,7 +57,7 @@ class FormularioCliente extends React.Component {
   }
 
   buscarElCliente(elCliente) {
-    fetch(`http://localhost:8888/clientes/` + elCliente)
+    fetch(`http://localhost:8888/clientes/buscar/` + elCliente)
       .then(res => res.json())
       .then(clts =>
         this.setState({ elCliente: clts }, this.agregarCliente(clts))

@@ -6,10 +6,8 @@ swaggerUi = require("swagger-ui-express");
 var server = express();
 morgan = require("morgan");
 
-//- const {mercadopago}=require('./MercadoPago')
-const mercadopago = require('mercadopago');
-console.log(mercadopago.preferences)
-
+const mercadopago = require("mercadopago");
+console.log(mercadopago.preferences);
 
 ClienteHome = require("./src/mongo/clienteHome");
 var homes = {};
@@ -28,29 +26,30 @@ function init() {
 
   //agrega credenciales
   mercadopago.configure({
-    // sandbox: true,
+    sandbox: true,
     //  client_id: config.client_id,
     // client_secret: config.client_secret
     // access_token: 'PROD_ACCESS_TOKEN'
-    access_token: "TEST-7375329851247178-051517-fab641f5f8e37a1ee85557c7cba72ff9-568743931"
-
+    access_token:
+      "TEST-8310985270543526-051822-d1831b295f338486e98b554e2e44ee8a-569345333"
   });
 
   function get_boton_pago(cliente, callback) {
     let preference = {
-      items: [{
-        id: '1500',
-        title: cliente.nombre,
-        quantity: 1,
-        currency_id: 'ARS',
-        unit_price: 120
-      }
+      items: [
+        {
+          id: "1500",
+          title: cliente.nombre,
+          quantity: 1,
+          currency_id: "ARS",
+          unit_price: 12
+        }
       ],
-      "payer": {
-        "email": "test_user_88440868@testuser.com"
+      payer: {
+        email: "test_user_38986855@testuser.com"
       }
-    }
-
+    };
+  
     mercadopago.preferences.create(preference).then(callback);
   }
 
@@ -74,21 +73,64 @@ function init() {
     });
   });
 
+  server.get("/clientes/buscar/:ncliente", (req, res) => {
+    var clienteId = req.params.ncliente;
+    console.log("desde server" + clienteId);
+    clienteHome.getUnCliente(clienteId, allObjects => {
+      clienteHome.find({ n_cliente: clienteId }, allObjects => {
+        res.json(allObjects);
+        console.log("a ver si llego aca" + allObjects);
+        res.end();
+      });
+    });
+  });
+
+  // server.get("/clientes/:ncliente", (req, res) => {
+  //   var clienteId = req.params.ncliente;
+  //   console.log("desde server" + clienteId);
+  //   console.log("el respon" + res)
+  //var cliente = await
+
+  // clienteHome.getUnCliente(clienteId, cliente => {
+  //   console.log("cliente encontrado " + JSON.stringify(cliente));
+  //       clienteHome.find({ n_cliente: clienteId }, cliente => {
+  //         res.json(cliente);
+  //         // console.log("a ver si llego aca" + allObjects);
+
+  //         if (cliente) {
+  //           console.log("estoy en el if con el encontrado" + cliente)
+  //     get_boton_pago(cliente, (response) => {
+  //     //   // Este valor reemplazará el string "$$init_point$$" en tu HTML
+  //       console.log("response del body " + response.body.init_point + "el encontrado " + cliente)
+
+  //       cliente["boton_de_pago"] = response.body.init_point;
+  //       console.log( "los datos al q le agregre el boton" + JSON.stringify(cliente));
+
+  //       // res.json([cliente]);
+  //       res.end();
+
+  //     //     // res.end();
+  //       })
+  //     }
+
+  //       })
+  //     })
+  //   })
+
+  //////////da pablo/////////////////
+
   server.get("/clientes/:ncliente", (req, res) => {
     var clienteId = req.params.ncliente;
     console.log("desde server" + clienteId);
-    //var cliente = await 
-    
-    clienteHome.getUnCliente(clienteId, (cliente) => {
+    //var cliente = await
+
+    clienteHome.getUnCliente(clienteId, cliente => {
       console.log("a ver si llego aca" + JSON.stringify(cliente));
       if (cliente) {
-        get_boton_pago(cliente, (response) => {
-          // Este valor reemplazará el string "$$init_point$$" en tu HTML
-          console.log("response del body " + response.body.init_point)
-
+        get_boton_pago(cliente, response => {
+          console.log("response del body " + response.body.init_point);
           cliente["boton_de_pago"] = response.body.init_point;
           console.log(JSON.stringify(cliente));
-
           res.json([cliente]);
           res.end();
         });
