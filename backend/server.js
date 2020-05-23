@@ -92,6 +92,9 @@ function init() {
           res.json([cliente]);
           res.end();
         });
+      } else {
+        res.json([]);
+        res.end();
       }
     });
   });

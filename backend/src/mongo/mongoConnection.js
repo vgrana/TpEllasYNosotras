@@ -1,7 +1,7 @@
 var MongoClient= require('mongodb').MongoClient;
 
 var url= 'mongodb://localhost:27017'
-var dbname= 'tiendaEllasYNosotras'
+var dbname= 'tienda'
 var db
 
 function connect(callback){

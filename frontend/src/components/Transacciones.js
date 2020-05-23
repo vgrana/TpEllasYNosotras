@@ -179,8 +179,7 @@ class Transacciones extends React.Component {
             </script>
           </form> */}
           
-            <a href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=568743931-7fb70d60-680a-4eda-98e4-5698c7c253f0
-            " target="_blank">Pagar</a> 
+            <a href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=568743931-7fb70d60-680a-4eda-98e4-5698c7c253f0" target="_blank">Pagar</a> 
             
             
              
