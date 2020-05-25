@@ -14,27 +14,27 @@ class BusquedaCliente extends React.Component {
       apellido: "",
       clienTransacciones: []
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.listadoDeTodosLosClientes = this.listadoDeTodosLosClientes.bind(this);
-    this.limpiezaFormListaClientes = this.limpiezaFormListaClientes.bind(this);
-    this.clienteSeleccionado = this.clienteSeleccionado.bind(this);
-    this.editarCliente = this.editarCliente.bind(this);
-    this.listado = this.listado.bind(this);
-    this.eliminarCliente = this.eliminarCliente.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    // this.listadoDeTodosLosClientes = this.listadoDeTodosLosClientes.bind(this);
+    // this.limpiezaFormListaClientes = this.limpiezaFormListaClientes.bind(this);
+    // this.clienteSeleccionado = this.clienteSeleccionado.bind(this);
+    // this.editarCliente = this.editarCliente.bind(this);
+    // this.listado = this.listado.bind(this);
+    // this.eliminarCliente = this.eliminarCliente.bind(this);
   }
 
-  handleChange(e) {
+  handleChange = e => {
     const target = e.target;
     const value = target.value;
     const name = target.name;
     this.setState({ [name]: value });
   }
-  componentWillMount() {
+  componentWillMount =() => {
     this.listado();
   }
 
-  listadoBusqueda(consulta) {
+  listadoBusqueda = consulta => {
     if (consulta != null) {
       fetch(`http://localhost:8888/clientes` + consulta)
         .then(res => res.json())
@@ -46,7 +46,7 @@ class BusquedaCliente extends React.Component {
         .then(clts => this.setState({ clientes: clts }));
     }
   }
-  listadoDeTodosLosClientes() {
+  listadoDeTodosLosClientes = () => {
     fetch(`http://localhost:8888/clientes`)
       .then(res => res.json())
       .then(clts =>
@@ -58,24 +58,24 @@ class BusquedaCliente extends React.Component {
       );
   }
 
-  listado() {
+  listado = () => {
     this.listadoDeTodosLosClientes();
   }
 
-  limpiarFormulario() {
+  limpiarFormulario = () => {
     document.getElementById("apellido").value = "";
   }
 
-  limpiezaFormListaClientes() {
-    this.limpiarFormulario();
+  limpiezaFormListaClientes = () => {
+    this.limpiarFormulario ();
     this.listadoDeTodosLosClientes();
   }
-  clienteSeleccionado(unCliente) {
+  clienteSeleccionado = unCliente => {
     this.setState({ cliente: unCliente });
     this.setState({ clienTransacciones: unCliente.transacciones });
   }
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     var consulta;
     if (this.state.apellido == "") {
       this.listadoBusqueda(consulta);
@@ -87,7 +87,7 @@ class BusquedaCliente extends React.Component {
     event.preventDefault(event);
   }
 
-  resultadoBusqueda(apellido) {
+  resultadoBusqueda = apellido => {
     var elCliente = this.state.clientes.filter(
       item => apellido === item.apellido
     );
@@ -95,9 +95,9 @@ class BusquedaCliente extends React.Component {
     console.log(elCliente);
   }
 
-  editarCliente(unCliente) {}
+  editarCliente = unCliente => {}
 
-  eliminarCliente(unCliente) {}
+  eliminarCliente = unCliente => {}
 
   render() {
     return (
@@ -164,7 +164,7 @@ class BusquedaCliente extends React.Component {
     );
   }
 
-  renderRows() {
+  renderRows = () => {
     return this.state.clientes.map(unCliente => {
       return (
         <Cliente

@@ -10,21 +10,21 @@ class Clientes extends React.Component {
       clientTransacciones: props.clientTransacciones,
       cliente: {}
     };
-    this.listadoDeClientes = this.listadoDeClientes.bind(this);
-    this.listadoClientes = this.listadoClientes.bind(this);
-    this.clienteSeleccionado = this.clienteSeleccionado.bind(this);
-    this.eliminarCliente = this.eliminarCliente.bind(this);
-    this.eliminandoCliente = this.eliminandoCliente.bind(this);
-    this.actualizacionDeClientes = this.actualizacionDeClientes.bind(this);
-    this.editarCliente = this.editarCliente.bind(this);
-    this.estadoInicial = this.estadoInicial.bind(this);
+    // this.listadoDeClientes = this.listadoDeClientes.bind(this);
+    // this.listadoClientes = this.listadoClientes.bind(this);
+    // this.clienteSeleccionado = this.clienteSeleccionado.bind(this);
+    // this.eliminarCliente = this.eliminarCliente.bind(this);
+    // this.eliminandoCliente = this.eliminandoCliente.bind(this);
+    // this.actualizacionDeClientes = this.actualizacionDeClientes.bind(this);
+    // this.editarCliente = this.editarCliente.bind(this);
+    // this.estadoInicial = this.estadoInicial.bind(this);
   }
 
-  componentWillMount() {
+  componentWillMount = () => {
     this.listadoDeClientes();
   }
 
-  estadoInicial() {
+  estadoInicial = () => {
     this.setState({
       cliente: {
         n_cliente: " ",
@@ -37,14 +37,14 @@ class Clientes extends React.Component {
     });
   }
 
-  editarCliente(unCliente) {
+  editarCliente = unCliente => {
     console.log("en editar " + unCliente);
     this.setState({ cliente: unCliente });
   }
 
-  clienteSeleccionado(unCliente) {}
+  clienteSeleccionado = unCliente => {}
 
-  eliminarCliente(unCliente) {
+  eliminarCliente = unCliente => {
     this.setState({ eliminarCliente: unCliente });
     if (unCliente.transacciones.length == 0) {
       this.eliminandoCliente(unCliente._id, unCliente);
@@ -56,7 +56,7 @@ class Clientes extends React.Component {
     }
   }
 
-  eliminandoCliente(_id, unCliente) {
+  eliminandoCliente = (_id, unCliente) => {
     alert(
       "esta a punto de eliminar el cliente: " +
         unCliente.apellido +
@@ -72,15 +72,15 @@ class Clientes extends React.Component {
     }).then(this.actualizacionDeClientes());
   }
 
-  listadoClientes() {
+  listadoClientes = () => {
     fetch(`http://localhost:8888/clientes`)
       .then(res => res.json())
       .then(ctes => this.setState({ clientes: ctes, cliente: {} }));
   }
-  listadoDeClientes() {
+  listadoDeClientes = () => {
     this.listadoClientes();
   }
-  actualizacionDeClientes(unCliente) {
+  actualizacionDeClientes = unCliente => {
     var clienteActualizado = this.state.clientes.filter(
       item => unCliente !== item
     );
@@ -119,7 +119,7 @@ class Clientes extends React.Component {
     );
   }
 
-  clienteRows() {
+  clienteRows = () => {
     return this.state.clientes.map(unCliente => {
       return (
         <Cliente

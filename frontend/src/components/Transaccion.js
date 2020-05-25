@@ -3,15 +3,15 @@ import React from "react";
 class Transaccion extends React.Component {
   constructor(props) {
     super(props);
-    this.actualizar = this.actualizar.bind(this);
-    this.selectTransaccion = this.selectTransaccion.bind(this);
+    // this.actualizar = this.actualizar.bind(this);
+    // this.selectTransaccion = this.selectTransaccion.bind(this);
   }
 
-  selectTransaccion() {
+  selectTransaccion = () => {
     this.props.selectorT(this.props.transaccion);
   }
 
-  actualizar() {
+  actualizar = () => {
     this.props.actualizarTransacciones(this.props.transaccion);
   }
 

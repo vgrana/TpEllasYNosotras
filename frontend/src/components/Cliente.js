@@ -10,25 +10,25 @@ class Cliente extends React.Component {
       borrarActivado: this.props.borrarActivado
     };
 
-    this.selectCliente = this.selectCliente.bind(this);
-    this.borrarCliente = this.borrarCliente.bind(this);
-    this.actualizar = this.actualizar.bind(this);
-    this.editCliente = this.editCliente.bind(this);
+    // this.selectCliente = this.selectCliente.bind(this);
+    // this.borrarCliente = this.borrarCliente.bind(this);
+    // this.actualizar = this.actualizar.bind(this);
+    // this.editCliente = this.editCliente.bind(this);
   }
 
-  selectCliente() {
+  selectCliente = () => {
     this.props.clienteSeleccionado(this.props.cliente);
   }
 
-  borrarCliente() {
+  borrarCliente = () => {
     this.props.eliminarCliente(this.props.cliente);
   }
 
-  editCliente() {
+  editCliente = () => {
     this.props.editarCliente(this.props.cliente);
   }
 
-  actualizar() {
+  actualizar = () => {
     this.props.actualizacionDeClientes(this.props.cliente);
   }
 

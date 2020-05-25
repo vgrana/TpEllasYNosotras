@@ -1,7 +1,6 @@
 import React from "react";
 import Transaccion from "./Transaccion";
 import Cliente from "./Cliente";
-import Modal from "./Modal";
 
 
 class Transacciones extends React.Component {
@@ -11,32 +10,23 @@ class Transacciones extends React.Component {
       clienteTransacciones: [],
       clientes: [],
       seleccionado: [],
-      n_cliente: ""
+      n_cliente: "",
+      elCliente: {}
     };
-    this.resultadoBusqueda = this.resultadoBusqueda.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.listadoBusqueda = this.listadoBusqueda.bind(this);
-    this.limpiarFormulario = this.limpiarFormulario.bind(this);
-    this.limpiezaFormListaClientes = this.limpiezaFormListaClientes.bind(this);
-    this.listadoDeClientes = this.listadoDeClientes.bind(this);
-    this.clienteSeleccionado = this.clienteSeleccionado.bind(this);
-    this.eliminarCliente = this.eliminarCliente.bind(this);
-    this.editarCliente = this.editarCliente.bind(this);
   }
 
   componentWillMount() {
     // this.listadoDeClientes();
   }
 
-  handleChange(e) {
+  handleChange = e => {
     const target = e.target;
     const value = target.value;
     const name = target.name;
     this.setState({ [name]: value });
   }
 
-  listadoBusqueda(consulta) {
+  listadoBusqueda = consulta => {
     if (consulta != null) {
       fetch(`http://localhost:8888/clientes` + consulta)
         .then(res => res.json())
@@ -48,8 +38,8 @@ class Transacciones extends React.Component {
         .then(clts => this.setState({ clientes: clts }));
     }
   }
-
-  handleSubmit(event) {
+  //para no bindear
+  handleSubmit = event => {
     console.log("desde hundler" + event);
     var consulta;
     if (this.state.n_cliente == " ") {
@@ -60,22 +50,20 @@ class Transacciones extends React.Component {
       this.listadoBusqueda(consulta);
     }
     event.preventDefault(event);
-  }
+  };
 
-  listadoDeClientes() {
+  listadoDeClientes = () => {
     fetch(`http://localhost:8888/clientes`)
       .then(res => res.json())
       .then(clts =>
         this.setState({ clientes: clts, seleccionado: [], n_cliente: "" })
       );
-  }
+  };
 
-  resultadoBusqueda(elCliente) {
-    
+  resultadoBusqueda = elCliente => {
     if (elCliente == "") {
       // console.log("jksjdks")
       alert("debe ingresar un N° de cliente");
-     
     } else {
       fetch(`http://localhost:8888/clientes/` + elCliente)
         .then(res => res.json())
@@ -83,11 +71,11 @@ class Transacciones extends React.Component {
     }
   }
 
-  limpiarFormulario() {
+  limpiarFormulario = () => {
     document.getElementById("n_cliente").value = "";
   }
 
-  limpiezaFormListaClientes() {
+  limpiezaFormListaClientes =() => {
     this.setState({ clienteTransacciones: [], seleccionado: [] });
     this.limpiarFormulario();
     this.listadoDeClientes();
@@ -101,13 +89,12 @@ class Transacciones extends React.Component {
         </div>
       );
     });
-   
+    var pago = this.state.seleccionado.boton_de_pago;
+
     return (
-    
       <div className="container">
         <div class="row">
           <div class="col s12">
-        
             <div class="row">
               <form onSubmit={this.handleSubmit}>
                 <div class="input-field col s5">
@@ -170,88 +157,61 @@ class Transacciones extends React.Component {
           <th> Diferencia entre pagos y deudas</th>
           <th></th>
           <th>{this.montoAdeudado()}</th>
-          
-          <th> 
-          {/* <form action="/crearPago" method="POST">
-            <script
-            src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
-            data-preference-id="$$id$$">
-            </script>
-          </form> */}
-          
-            <a href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=568743931-7fb70d60-680a-4eda-98e4-5698c7c253f0
-            " target="_blank">Pagar</a> 
-            
-            
-             
-            </th>
-          
-          
+          <th></th>
+         
         </tr>
-       
-        
-          
-          
-         
-          
-         
-          {/* <div>
-          <button mp-mode="dftl" href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=569345333-41444c74-db08-4416-a98e-599212549766" 
-          name="MP-payButton" class='orange-ar-l-sq-aron'>Pagar</button>
-          </div> */}
-       
-
-          
-       
+      <div >
+      <a href={pago} target="_blank">
+            Realizar el pago
+          </a>
       </div>
+      </div>
+     
     );
   }
-  clienteSeleccionado(unCliente) {
-    console.log("seleccionado" + unCliente);
+  clienteSeleccionado = unCliente =>{
     this.setState({ clienteTransacciones: unCliente.transacciones });
   }
-  editarCliente(unCliente) {}
+  editarCliente = unCliente => {}
 
-  eliminarCliente(unCliente) {}
+  eliminarCliente = unCliente => {}
 
-  unCliente() {
-    return this.state.seleccionado.map(unCliente => {
-      return (
-        <Cliente
-          cliente={unCliente}
-          clienteSeleccionado={this.clienteSeleccionado}
-          seleccionado={this.state.seleccionado}
-          editarCliente={this.editarCliente}
-          eliminarCliente={this.eliminarCliente}
-          estaActivado={true}
-          editarActivado={false}
-          borrarActivado={false}
-        />
-      );
-    });
+  unCliente = () => {
+  
+    var unCliente = this.state.seleccionado;
+    return (
+      <Cliente
+        cliente={unCliente}
+        clienteSeleccionado={this.clienteSeleccionado}
+        seleccionado={this.state.seleccionado}
+        editarCliente={this.editarCliente}
+        eliminarCliente={this.eliminarCliente}
+        estaActivado={true}
+        editarActivado={false}
+        borrarActivado={false}
+      />
+    );
+
   }
 
-  transaccionesRows() {
+  transaccionesRows = () => {
+   
     return this.state.clienteTransacciones.map(unaTransaccion => {
-      return <Transaccion transaccion={unaTransaccion} />;
+          return <Transaccion transaccion={unaTransaccion} />;
+    
     });
+  
   }
-  montoAdeudado() {
+  montoAdeudado = () => {
     var totalT = 0;
     var mCobrado = 0;
     var totalDeuda = 0;
     this.state.clienteTransacciones.forEach(transaccion => {
       totalT += parseFloat(transaccion.importeTotal);
-    });
-    this.state.clienteTransacciones.forEach(transaccion => {
       mCobrado += parseFloat(transaccion.montoCobrado);
-      totalDeuda = totalT - mCobrado;
     });
-    return totalDeuda;
+
+    return totalT - mCobrado;
   }
-
-
-
- 
 }
 export default Transacciones;

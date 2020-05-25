@@ -10,10 +10,10 @@ class FormularioCliente extends React.Component {
       clientes: this.props.clientes,
       elCliente: []
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.estadoInicial = this.estadoInicial.bind(this);
-    this.buscarElCliente = this.buscarElCliente.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    // this.estadoInicial = this.estadoInicial.bind(this);
+    // this.buscarElCliente = this.buscarElCliente.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -23,18 +23,18 @@ class FormularioCliente extends React.Component {
     this.setState({ eliminarCliente: props.eliminarCliente });
   }
 
-  componentWillMount() {
+  componentWillMount = () => {
     this.props.listadoDeClientes();
   }
 
-  handleChange(event) {
+  handleChange = event => {
     console.log("entre al handle..." + event);
     var newCliente = Object.assign({}, this.state.cliente);
     newCliente[event.target.name] = event.target.value;
     this.setState({ cliente: newCliente });
   }
 
-  handleSubmit(event) {
+  handleSubmit = event =>{
     if (this.state.cliente._id) {
       this.editarcliente();
     } else {
@@ -43,7 +43,7 @@ class FormularioCliente extends React.Component {
     event.preventDefault(event);
   }
 
-  estadoInicial() {
+  estadoInicial = () => {
     this.setState({
       cliente: {
         n_cliente: " ",
@@ -56,7 +56,7 @@ class FormularioCliente extends React.Component {
     });
   }
 
-  buscarElCliente(elCliente) {
+  buscarElCliente = elCliente => {
     fetch(`http://localhost:8888/clientes/buscar/` + elCliente)
       .then(res => res.json())
       .then(clts =>
@@ -64,7 +64,7 @@ class FormularioCliente extends React.Component {
       );
   }
 
-  agregarCliente(clientes) {
+  agregarCliente = clientes => {
     if (clientes.length == 0) {
       console.log("hollaaa " + clientes.length);
       fetch(`http://localhost:8888/clientes`, {
@@ -83,7 +83,7 @@ class FormularioCliente extends React.Component {
     }
   }
 
-  editarcliente() {
+  editarcliente = () => {
     fetch("http://localhost:8888/clientes", {
       method: "PUT",
       body: JSON.stringify(this.state.cliente),

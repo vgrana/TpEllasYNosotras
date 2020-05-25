@@ -13,20 +13,19 @@ class FormularioTransaccion extends React.Component {
       transaccion: {},
       clienTransacciones: props.clienTransacciones
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.estadoInicial = this.estadoInicial.bind(this);
-    this.agregarTransaccion = this.agregarTransaccion.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    // this.estadoInicial = this.estadoInicial.bind(this);
+    // this.agregarTransaccion = this.agregarTransaccion.bind(this);
     // this.listadoDeTodosLosClientes=this.listadoDeTodosLosClientes.bind(this);
   }
-
-  componentWillReceiveProps(props) {
+   componentWillReceiveProps(props) {
     this.setState({ cliente: props.cliente });
     this.setState({ clienTransacciones: props.clienTransacciones });
     this.setState({ clientes: props.clientes });
   }
 
-  handleChange(event) {
+  handleChange = event => {
     if (this.state.cliente.nombre == " ") {
       alert("debe seleccionar un cliente");
       this.estadoInicial();
@@ -38,12 +37,12 @@ class FormularioTransaccion extends React.Component {
     }
   }
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     this.agregarTransaccion(event);
     event.preventDefault(event);
   }
 
-  estadoInicial() {
+  estadoInicial =() => {
     this.setState({
       cliente: {
         nombre: " ",
@@ -56,13 +55,13 @@ class FormularioTransaccion extends React.Component {
       }
     });
   }
-  listadoDeTodosLosClientes() {
+  listadoDeTodosLosClientes = () => {
     fetch(`http://localhost:8888/clientes`)
       .then(res => res.json())
       .then(clts => this.setState({ clientes: clts }));
   }
 
-  agregarTransaccion(event) {
+  agregarTransaccion = event => {
     console.log("acaaaaa" + event);
     fetch(`http://localhost:8888/clientes/` + this.state.cliente._id, {
       method: "PUT",
