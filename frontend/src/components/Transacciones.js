@@ -2,21 +2,21 @@ import React from "react";
 import Transaccion from "./Transaccion";
 import Cliente from "./Cliente";
 
-
 class Transacciones extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       clienteTransacciones: [],
       clientes: [],
-      seleccionado: [],
+      seleccionado: {},
       n_cliente: "",
-      elCliente: {}
+      elCliente: {},
+      mostrarLista: false
     };
   }
 
   componentWillMount() {
-    // this.listadoDeClientes();
+    this.listadoDeClientes();
   }
 
   handleChange = e => {
@@ -24,7 +24,7 @@ class Transacciones extends React.Component {
     const value = target.value;
     const name = target.name;
     this.setState({ [name]: value });
-  }
+  };
 
   listadoBusqueda = consulta => {
     if (consulta != null) {
@@ -32,12 +32,13 @@ class Transacciones extends React.Component {
         .then(res => res.json())
         .then(clts => this.setState({ clientes: clts }));
     }
+
     if (consulta == null) {
       fetch(`http://localhost:8888/clientes`)
         .then(res => res.json())
         .then(clts => this.setState({ clientes: clts }));
     }
-  }
+  };
   //para no bindear
   handleSubmit = event => {
     console.log("desde hundler" + event);
@@ -56,40 +57,81 @@ class Transacciones extends React.Component {
     fetch(`http://localhost:8888/clientes`)
       .then(res => res.json())
       .then(clts =>
-        this.setState({ clientes: clts, seleccionado: [], n_cliente: "" })
+        this.setState({ clientes: clts, seleccionado: {}, n_cliente: "" })
       );
   };
 
   resultadoBusqueda = elCliente => {
     if (elCliente == "") {
-      // console.log("jksjdks")
       alert("debe ingresar un N° de cliente");
     } else {
       fetch(`http://localhost:8888/clientes/` + elCliente)
         .then(res => res.json())
-        .then(clts => this.setState({ seleccionado: clts }));
+        .then(clts =>
+          this.setState({
+            seleccionado: clts,
+            mostrarLista: true,
+            clienteTransacciones: clts.transacciones
+          })
+        );
     }
-  }
+  };
 
   limpiarFormulario = () => {
     document.getElementById("n_cliente").value = "";
-  }
+  };
 
-  limpiezaFormListaClientes =() => {
-    this.setState({ clienteTransacciones: [], seleccionado: [] });
+  limpiezaFormListaClientes = () => {
+    this.setState({
+      clienteTransacciones: [],
+      seleccionado: [],
+      mostrarLista: false
+    });
     this.limpiarFormulario();
     this.listadoDeClientes();
-  }
+  };
 
   render() {
     var listaDniCliente = this.state.clientes.map(cliente => {
+      
       return (
         <div>
           <option value={cliente.n_cliente} />
         </div>
       );
     });
+
     var pago = this.state.seleccionado.boton_de_pago;
+
+    const mostrarLista = this.state.mostrarLista;
+    let lista;
+    if (mostrarLista) {
+      lista = (
+        <table className="left responsive-table highlight">
+          <thead className="bordered hoverable">
+            <tr className="border: green 4px solid">
+              <th>Fecha operación</th>
+              <th>Total operación </th>
+              <th>Monto entregado</th>
+            </tr>
+          </thead>
+          <tbody className="bordered hoverable">
+            {this.transaccionesRows()}
+          </tbody>
+          <tr className="border: white 4px solid">
+            <th> Diferencia entre pagos y deudas</th>
+            <th></th>
+            <th>{this.montoAdeudado()}</th>
+            <th></th>
+            <th>
+              <a href={pago} target="_blank">
+                Realizar pago
+              </a>
+            </th>
+          </tr>
+        </table>
+      );
+    }
 
     return (
       <div className="container">
@@ -139,45 +181,20 @@ class Transacciones extends React.Component {
           </div>
         </div>
         <div className="row">
-          <legend> {this.unCliente()}</legend>
+          <legend>{this.unCliente()}</legend>
         </div>
-        <table className="left responsive-table highlight">
-          <thead className="bordered hoverable">
-            <tr className="border: green 4px solid">
-              <th>Fecha operación</th>
-              <th>Total operación </th>
-              <th>Monto entregado</th>
-            </tr>
-          </thead>
-          <tbody className="bordered hoverable">
-            {this.transaccionesRows()}
-          </tbody>
-        </table>
-        <tr className="border: green 7px solid">
-          <th> Diferencia entre pagos y deudas</th>
-          <th></th>
-          <th>{this.montoAdeudado()}</th>
-          <th></th>
-         
-        </tr>
-      <div >
-      <a href={pago} target="_blank">
-            Realizar el pago
-          </a>
+        <div className="row">{lista}</div>
       </div>
-      </div>
-     
     );
   }
-  clienteSeleccionado = unCliente =>{
-    this.setState({ clienteTransacciones: unCliente.transacciones });
-  }
-  editarCliente = unCliente => {}
 
-  eliminarCliente = unCliente => {}
+  clienteSeleccionado = unCliente => {};
+
+  editarCliente = unCliente => {};
+
+  eliminarCliente = unCliente => {};
 
   unCliente = () => {
-  
     var unCliente = this.state.seleccionado;
     return (
       <Cliente
@@ -186,32 +203,29 @@ class Transacciones extends React.Component {
         seleccionado={this.state.seleccionado}
         editarCliente={this.editarCliente}
         eliminarCliente={this.eliminarCliente}
-        estaActivado={true}
+        estaActivado={false}
         editarActivado={false}
         borrarActivado={false}
       />
     );
-
-  }
+  };
 
   transaccionesRows = () => {
-   
-    return this.state.clienteTransacciones.map(unaTransaccion => {
-          return <Transaccion transaccion={unaTransaccion} />;
-    
-    });
+      return this.state.clienteTransacciones.map(unaTransaccion => {
+        return <Transaccion transaccion={unaTransaccion} />;
+      });
+    }
   
-  }
+
   montoAdeudado = () => {
     var totalT = 0;
     var mCobrado = 0;
-    var totalDeuda = 0;
     this.state.clienteTransacciones.forEach(transaccion => {
       totalT += parseFloat(transaccion.importeTotal);
       mCobrado += parseFloat(transaccion.montoCobrado);
     });
 
     return totalT - mCobrado;
-  }
+  };
 }
 export default Transacciones;

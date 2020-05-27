@@ -1,78 +1,85 @@
+const mercadopago = require("mercadopago");
+console.log(mercadopago.preferences);
 
 
-function verAction(req, id){
-//llama a la lista de cuenta corriente
-mercadopago.configure({
+function mercadoPago(server){
+
+
+ //agrega credenciales
+ mercadopago.configure({
   sandbox: true,
-  // "client_id": "7375329851247178",
-  // "client_secret": "O60SO3MRRqfOPFRG0ahwZDGhBkN2ssTB",
-  "access_token": "TEST-7375329851247178-051517-fab641f5f8e37a1ee85557c7cba72ff9-568743931"
+  //  client_id: config.client_id,
+  // client_secret: config.client_secret
+  // access_token: 'PROD_ACCESS_TOKEN'
+  access_token:
+    "TEST-8310985270543526-051822-d1831b295f338486e98b554e2e44ee8a-569345333"
+});
 
+function get_boton_pago(cliente, callback) {
+   var totalCuentaCorriente = 0;
+  if(cliente.transacciones.length != 0){
+ 
+  cliente.transacciones.forEach(transaccion => {
+    return (totalCuentaCorriente +=
+      parseFloat(transaccion.importeTotal) -
+      parseFloat(transaccion.montoCobrado));
+    });
+   }
+  else{
+    return totalCuentaCorriente;
+  }
+  
+  let preference = {
+    items: [
+      {
+        title: "Saldo ropa",
+        quantity: 1,
+        currency_id: "ARS",
+        unit_price: totalCuentaCorriente
+      }
+    ],
+    payer: {
+      email: "test_user_38986855@testuser.com"
+    }
+  };
+
+  mercadopago.preferences.create(preference).then(callback);
+}
+server.get("/clientes/buscar/:ncliente", (req, res) => {
+  var clienteId = req.params.ncliente;
+  console.log("desde server" + clienteId);
+  clienteHome.getUnCliente(clienteId, allObjects => {
+    clienteHome.find({ n_cliente: clienteId }, allObjects => {
+      res.json(allObjects);
+      console.log("a ver si llego aca" + allObjects);
+      res.end();
+    });
+  });
 });
 
 
-}
-
-////sdk de mercado pago
-
-const mercadopago = require ('mercadopago');
-
-
-console.log(mercadopago.preferences)
-
-
-//agrega credenciales
-
-
-  var preference = {
-    items: [
-      {
-        title: 'Cuenta corriente',
-        quantity: 1,
-        currency_id: 'ARS',
-        unit_price: this.montoTotal()
-       },
-  {
-      id:'15',
-    title:'pago de cuenta corriente ',
-        quantity: 1,
-        currency_id: 'ARS',
-        unit_price: 112
-
-  }
-  ],
-  "payer":{
-    "email":"test_user_88440868@testuser.com"
-  },
-  "external_reference":{
-
-  }
-  // "back_urls": {
-  //       "success": "https://www.tu-sitio/success", redirigir para poner una respuestas cuando el pago sucede,falla o queda pendiente
-  //       "failure": "http://www.tu-sitio/failure",
-  //       "pending": "http://www.tu-sitio/pending"
-  //   },
-    // "auto_return": "approved"
- 
-}
-
-
-
-   mercadopago.preferences.create(preference)
-  .then(function(response){
-  console.log("la preferencia " + preference.items)
-  // Este valor reemplazará el string "$$init_point$$" en tu HTML
-    global.init_point = response.body.init_point;
-    console.log("response del body " + global.init_point)
-    console.log("preferences payer" + preference.payer.email)
-  }).catch(function(error){
-    console.log(error);
+server.get("/clientes/:ncliente", (req, res) => {
+  var nCliente = req.params.ncliente;
+  console.log("desde server" + nCliente);
+  clienteHome.getUnCliente(nCliente, cliente => {
+    console.log("a ver si llego aca " + JSON.stringify(cliente));
+    if (cliente) {
+      get_boton_pago(cliente, response => {
+        console.log("response del body " + response.body.init_point);
+        cliente["boton_de_pago"] = response.body.init_point;
+        console.log(JSON.stringify(cliente));
+        res.json(cliente);
+        res.end();
+      });
+    }
+    else {
+      res.json({});
+      res.end();
+    }
+   
   });
+});
 
+}
 
-
-
-
-
-
-// module.exports = {crearPago}
+ module.exports = {mercadoPago}
