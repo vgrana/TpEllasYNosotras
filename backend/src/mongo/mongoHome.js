@@ -27,6 +27,7 @@ class MongoHome{
             console.log(`Resultado de actualizar: ${JSON.stringify(result)}`)
         })
     }
+    
     find(query, callback) {
         this.persistentCollection.find(query).toArray( (error, result)=>{
             if(error) throw error
@@ -38,6 +39,13 @@ class MongoHome{
             if(error) throw error
             callback(result)
         })
+    }
+    delete(elementId) {
+        var objectId = mongoDriver.ObjectID(elementId);
+        this.persistentCollection.deleteOne({"_id" : objectId}, (error, result)=>{
+            if(error) throw error
+            console.log(`Result of delete one: ${JSON.stringify(result)}`)
+        })    
     }
     
 
