@@ -6,6 +6,7 @@ Transaccion=require("./src/transaccion");
 
 mongoConnection= require("./src/mongo/mongoConnection")
 Home= require("./src/mongo/mongoHome")
+ClienteHome = require("./src/mongo/clienteHome")
 
 clienteHome= require("./src/mongo/clienteHome")
 
