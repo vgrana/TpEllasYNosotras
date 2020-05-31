@@ -1,6 +1,6 @@
 server = require("./server");
 Cliente =require("./src/cliente");
-Articulo= require("./src/articulo");
+Usuario= require("./src/usuario");
 Transaccion=require("./src/transaccion");
 
 
@@ -11,7 +11,7 @@ clienteHome= require("./src/mongo/clienteHome")
 
 mongoConnection.connect((db)=>{
     // clienteHome= new Home("clientes",db)
-    articuloHome= new Home("articulos", db)
+    usuarioHome= new Home("usuarios", db)
     transaccionHome= new Home("transacciones",db)
     clienteHome= new ClienteHome("clientes",db)
     
@@ -20,7 +20,7 @@ mongoConnection.connect((db)=>{
     cliente= new Cliente("27826286","grandi","valeria","palacios", "444437", 
     "valeriagrandi@hotmail.com")
     
-    articuloHome.insert(new Articulo("","camisa",3,1200))
+    usuarioHome.insert(new Usuario("valeriagrandi@hotmail.com","larroque"))
     transaccionHome.insert(transaccion2)
     clienteHome.insert(cliente)
  
@@ -28,7 +28,7 @@ mongoConnection.connect((db)=>{
 
 
    
-    server.register(articuloHome);
+    server.register(usuarioHome);
     server.register(transaccionHome);
      server.register(clienteHome);
     //  server.register(clienteHome);

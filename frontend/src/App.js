@@ -5,6 +5,7 @@ import Transacciones from "./components/Transacciones"
 import FormularioCliente from "./components/FormularioCliente"
 import BusquedaCliente from "./components/BusquedaCliente"
 import FormularioTransaccion from "./components/FormularioTransaccion"
+import Login from "./components/Login"
 
 
 
@@ -26,7 +27,7 @@ function App() {
                         <li><Link to="/agregarTransaccion">Agregar transacción a cliente</Link></li>
                           <li><Link to="/listadoTransacciones">Listado de Transacciones</Link></li>
                          
-                        {/* <li><Link to="/clientes/listado">Listado de clientes</Link></li> */} */}
+                        <li><Link to="/login">Login</Link></li>
                         <li className="divider"></li>
                         <li><Link to="/"></Link></li>
                     </ul>
@@ -49,7 +50,7 @@ function App() {
                 <Route path="/agregarTransaccion" component={BusquedaCliente} />
                 <Route path="/clientes/listado" component={Clientes}/>
                 <Route path="/listadoTransacciones" component={Transacciones}/>
-          
+                <Route path="/login" component={Login}/>
                 
                
             </Switch>

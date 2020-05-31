@@ -5,9 +5,13 @@ swaggerJSDoc = require("swagger-jsdoc");
 swaggerUi = require("swagger-ui-express");
 var server = express();
 morgan = require("morgan");
-const { mercadoPago } = require("./crearPago");
+const { mercadoPago } = require("./mercadoPago");
+// const {login} = require("./login")
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 ClienteHome = require("./src/mongo/clienteHome");
+UsuarioHome=  require("./src/mongo/usuarioHome");
 var homes = {};
 
 server.use(morgan("dev"));
@@ -33,7 +37,48 @@ function init() {
   });
 
   server.use(cors());
-  mercadoPago(server);
+  mercadoPago(server)
+  // login(server);
+
+
+
+
+
+server.post('/usuarios', async (req, res) => {
+ console.log(req.body.email + " este es el mail")
+     console.log(req.body.password + " este es la contraseña")
+  const body = {
+   
+    email: req.body.email,
+    // role: req.body.role
+  }
+
+  body.password = bcrypt.hashSync(req.body.password, saltRounds);
+ console.log(body.password + " este es la contraseña")
+ usuarioHome.insert(body)
+  // try {
+
+  //   const userDB = await home.insert(body);
+
+  //   return res.json(userDB);
+    
+  // } catch (error) {
+  //   return res.status(500).json({
+  //     mensaje: 'Ocurrio un error',
+  //     error
+  //   });
+  // }
+})
+
+
+
+
+
+
+
+
+
+
 
   server.get("/:type", (req, res) => {
     home = homes[req.params.type];
