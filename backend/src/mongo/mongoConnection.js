@@ -6,7 +6,8 @@ var db
 
 function connect(callback){
     console.log("...conectando...")
-    MongoClient.connect(url, { useNewUrlParser: true } , function(err, _db) {
+    // MongoClient.connect(url, { useNewUrlParser: true } , function(err, _db) {
+        MongoClient.connect(url, { useUnifiedTopology: true } , function(err, _db) {
         if (err) throw err
         console.log("Mongo DB Connected")
         db=_db.db(dbname)

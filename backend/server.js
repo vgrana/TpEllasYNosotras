@@ -3,12 +3,13 @@ bodyParser = require("body-parser");
 var cors = require('cors');
 swaggerJSDoc=require('swagger-jsdoc');
 swaggerUi=require('swagger-ui-express');
-
+var server = express();
+morgan= require('morgan')
 
 var homes = {}
 const swaggerDefinition =require("./swagger.json");
-// const API_PORT = process.env.API_PORT || 9000;
 
+server.use(morgan ('dev'));
 const options ={
   swaggerDefinition , apis: ['home'],
 };
@@ -21,8 +22,9 @@ function register(home) {
 }
 
 function init() {
-  var server = express();
-  server.use(bodyParser.json());
+  const API_PORT = process.env.PORT || 60000;
+  // var server = express();
+  server.use(express.json());
 
   server.use('/gestionTienda',swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
@@ -71,9 +73,12 @@ function init() {
     home.delete(req.params.id)
     res.status(204).end();  
   });
+  
 
-  server.listen(10000, () => {
-    console.log(`Server running on port ${10000}`);
+  
+
+  server.listen(API_PORT , () => {
+    console.log(`Server running on port ${API_PORT}`);
   });
 }
 
