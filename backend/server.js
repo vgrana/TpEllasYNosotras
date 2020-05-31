@@ -5,7 +5,7 @@ swaggerJSDoc = require("swagger-jsdoc");
 swaggerUi = require("swagger-ui-express");
 var server = express();
 morgan = require("morgan");
-const { mercadoPago } = require("./mercadoPago");
+const { crearPago } = require("./crearPago");
 // const {login} = require("./login")
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -37,7 +37,7 @@ function init() {
   });
 
   server.use(cors());
-  mercadoPago(server)
+  crearPago(server)
   // login(server);
 
 

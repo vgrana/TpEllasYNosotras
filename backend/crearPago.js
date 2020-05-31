@@ -1,8 +1,8 @@
 const mercadopago = require("mercadopago");
-console.log(mercadopago.preferences);
+// console.log(mercadopago.preferences);
 
 
-function mercadoPago(server){
+function crearPago(server){
 
 
  //agrega credenciales
@@ -38,9 +38,9 @@ function get_boton_pago(cliente, callback) {
         unit_price: totalCuentaCorriente
       }
     ],
-    payer: {
-      email: "test_user_38986855@testuser.com"
-    }
+    // payer: {
+    //   email: "test_user_38986855@testuser.com"
+    // }
   };
 
   mercadopago.preferences.create(preference).then(callback);
@@ -48,10 +48,10 @@ function get_boton_pago(cliente, callback) {
 server.get("/clientes/buscar/:ncliente", (req, res) => {
   var clienteId = req.params.ncliente;
   console.log("desde server" + clienteId);
-  clienteHome.getUnCliente(clienteId, allObjects => {
-    clienteHome.find({ n_cliente: clienteId }, allObjects => {
-      res.json(allObjects);
-      console.log("a ver si llego aca" + allObjects);
+  clienteHome.getUnCliente(clienteId, cliente => {
+    clienteHome.find({ n_cliente: clienteId }, cliente => {
+      res.json(cliente);
+      console.log("a ver si llego aca" + cliente);
       res.end();
     });
   });
@@ -82,4 +82,4 @@ server.get("/clientes/:ncliente", (req, res) => {
 
 }
 
- module.exports = {mercadoPago}
+ module.exports = {crearPago}
