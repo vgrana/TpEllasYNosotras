@@ -6,9 +6,7 @@ swaggerUi = require("swagger-ui-express");
 var server = express();
 morgan = require("morgan");
 const { crearPago } = require("./crearPago");
-// const {login} = require("./login")
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const {login} = require("./login")
 
 ClienteHome = require("./src/mongo/clienteHome");
 UsuarioHome=  require("./src/mongo/usuarioHome");
@@ -38,47 +36,7 @@ function init() {
 
   server.use(cors());
   crearPago(server)
-  // login(server);
-
-
-
-
-
-server.post('/usuarios', async (req, res) => {
- console.log(req.body.email + " este es el mail")
-     console.log(req.body.password + " este es la contraseña")
-  const body = {
-   
-    email: req.body.email,
-    // role: req.body.role
-  }
-
-  body.password = bcrypt.hashSync(req.body.password, saltRounds);
- console.log(body.password + " este es la contraseña")
- usuarioHome.insert(body)
-  // try {
-
-  //   const userDB = await home.insert(body);
-
-  //   return res.json(userDB);
-    
-  // } catch (error) {
-  //   return res.status(500).json({
-  //     mensaje: 'Ocurrio un error',
-  //     error
-  //   });
-  // }
-})
-
-
-
-
-
-
-
-
-
-
+  login(server)
 
   server.get("/:type", (req, res) => {
     home = homes[req.params.type];

@@ -8,10 +8,11 @@ mongoConnection= require("./src/mongo/mongoConnection")
 Home= require("./src/mongo/mongoHome")
 
 clienteHome= require("./src/mongo/clienteHome")
+usuarioHome=require("./src/mongo/usuarioHome")
 
 mongoConnection.connect((db)=>{
     // clienteHome= new Home("clientes",db)
-    usuarioHome= new Home("usuarios", db)
+    usuarioHome= new UsuarioHome("usuarios", db)
     transaccionHome= new Home("transacciones",db)
     clienteHome= new ClienteHome("clientes",db)
     

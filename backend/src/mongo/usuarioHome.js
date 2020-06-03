@@ -3,8 +3,8 @@ var mongoDriver = require('mongodb');
 
 class UsuarioHome {
     constructor(type, db){
-        this.type="usuarios";
-        this.usuarios=db.collection("usuarios")
+        this.type ="usuarios";
+        this.usuarios = db.collection("usuarios")
     }
      insert(elemento){
        
@@ -14,39 +14,26 @@ class UsuarioHome {
         })
     }
 
-// agregarUsuario(email, callback) {      
-//             this.usuario.findOne({"email":email}, (error,usuario)=>{
-//                 if(error){
-//                     callback("el usuario no existe")
-//                 this.usuarios.insertOne( usuario, (error, result)=>{
-//                         if(error) 
-//                             callback("error")
-//                             else{
-//                             console.log(`Resultado de insertar: ${JSON.stringify(usuario)}`)
-//                             callback("ok", usuario)
-//                             }
-//                             })
-//                 }
-//             })
-                    
-            // }
- agregarCliente(usuario, callback) {      
-            // this.clientes.findOne({"n_cliente":n_cliente}, (error,clien)=>{
-            //     if(error){
-                    // callback("el cliente no existe")
-                this.clientes.insertOne( cliente, (error, result)=>{
-                        if(error) 
-                            callback("error")
-                            else{
-                            console.log(`Resultado de insertar: ${JSON.stringify(cliente)}`)
-                            callback("ok", cliente)
-                            }
-                })
-                
-            
-                    
- }       
-               
+ registerUsuario(email,usuario, callback) {      
+            this.usuarios.findOne({"email":email}, (error,email)=>{
+            if(error){
+                    callback("el email no existe")
+    this.usuarios.insertOne(usuario , (error, result)=>{
+        if(error) 
+            callback("error")
+        else{
+            console.log(`Resultado de insertar: ${JSON.stringify(usuario)}`)
+            callback("ok", usuario)
+            }
+        })                   
+    }       
+
+loginUsuario(mailUsuario, callback) {      
+          return  this.usuarios.findOne({"email": mailUsuario}, (error,result) => {
+                if(error) throw error
+                    callback(result)                    
+            })
+    }
 
 }
-module.exports = UsuarioHome;
+module.exports=UsuarioHome;

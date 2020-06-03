@@ -6,8 +6,7 @@ class Login extends React.Component {
     super(props);
     this.state={
         usuario:{}
-    }
-    
+    } 
   }
 
   
@@ -18,22 +17,8 @@ class Login extends React.Component {
     this.setState({ usuario: newUsuario });
   }
 
-  handleSubmit = event =>{
-  console.log("aca el evento " + event)
-   
-    this.agregarUsuario()
-    event.preventDefault(event);
-  }
-
-  estadoInicial = () => {
-    this.setState({
-  
-    });
-  }
-
-  agregarUsuario = () => {
-   
-      fetch(`http://localhost:8888/usuarios`, {
+  registerUsuario = () => {
+        fetch(`http://localhost:8888/usuarios/register` , {
         method: "POST",
         body: JSON.stringify(this.state.usuario),
         headers: {
@@ -41,20 +26,18 @@ class Login extends React.Component {
           "Content-Type": "application/json"
         }
       })
-   
   }
 
-  editarcliente = () => {
-    // fetch("http://localhost:8888/clientes", {
-    //   method: "PUT",
-    //   body: JSON.stringify(this.state.cliente),
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json"
-    //   }
-    // })
-    //   .then(this.props.listadoDeClientes)
-    //   .then(this.estadoInicial());
+  loginUsuario = () => { 
+      fetch(`http://localhost:8888/usuarios/login/ `, {
+        method: "POST",
+        body: JSON.stringify(this.state.usuario),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+      }
+      })
+       .then(res => res.json()) 
   }
 
   render() {
@@ -62,7 +45,7 @@ class Login extends React.Component {
       <div className="row">
         <div className="row col s12 m4 offset-m4">
           <div className="card">
-          <form onSubmit={this.handleSubmit}>
+          <form >
                 <div className="card-action teal lighten-1 white-text">
                     <h3> Login form</h3>
                 </div>
@@ -73,7 +56,7 @@ class Login extends React.Component {
                     type="email"
                     required
                     name="email"
-                    onChange={this.handleChange}
+                  onChange={this.handleChange}
                     value={this.state.usuario.email}
                   />
                   <label for="email">Email</label>
@@ -92,11 +75,21 @@ class Login extends React.Component {
                 </div><br></br>
                 <div className="form-field">
                   <button
-                    type="submit"
+                     onClick={() => this.registerUsuario(this.state.usuario)}
                     className="btn-large waves-effect waves-dark  #660066"
                     style={{ margin: "2px" }}
                   >
                     Guardar
+                  </button>
+                </div>
+                 <div className="form-field">
+                  <button
+
+                   onClick={()=> this.loginUsuario()}
+                    className="btn-large waves-effect waves-dark  #660066"
+                    style={{ margin: "2px" }}
+                  >
+                    login
                   </button>
                 </div>
                 </div> 
