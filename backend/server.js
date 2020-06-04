@@ -20,7 +20,7 @@ function register(home) {
 }
 
 function init() {
-  // const API_PORT = process.env.PORT || 8888;
+  server.set('port', process.env.PORT || 8888);
   // var server = express();
   server.use(express.json());
 
@@ -103,8 +103,8 @@ function init() {
     });
   });
 
-  server.listen(8888, () => {
-    console.log("Server running on port 8888");
+  server.listen(server.get('port'), () => {
+    console.log("Server running on port ", server.get('port') );
   });
 }
 

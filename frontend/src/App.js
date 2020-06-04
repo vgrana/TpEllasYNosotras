@@ -17,7 +17,7 @@ function App() {
     <div className="contenedor">
     <Router>
         <header>
-            <nav>
+            {/* <nav>
                 <div className="nav-wrapper">
                     <a href="#!" className="brand-logo right">
                       Ellas y Nosotras
@@ -42,15 +42,38 @@ function App() {
                     </ul>
                 </div>
             </nav>
-          
+           */}
+            <nav className="purple">
+    <div class="nav-wrapper container">
+        
+      <a href="#!" class="brand-logo">Ellas Y Nosotras</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+         <li><Link to="/agregarCliente">Agregar cliente</Link></li>
+         <li><Link to="/agregarTransaccion">Agregar transacción a cliente</Link></li>
+          <li><Link to="/listadoTransacciones">Listado de Transacciones</Link></li>
+         <li><Link to="/login">Login</Link></li>
+      </ul>
+    </div>
+    
+  </nav>
+{/* no anda la barra lateral */}
+  <ul class="sidenav" id="mobile-demo">
+    <li><Link to="/">Login</Link></li>
+    <li><Link to="/agregarCliente">Agregar cliente</Link></li>
+    <li><Link to="/agregarTransaccion">Agregar transacción a cliente</Link></li>
+    <li><Link to="/listadoTransacciones">Listado de Transacciones</Link></li>
+   
+  </ul>
         </header>
         <main>
             <Switch>
+                <Route path="/" component={Login}/>
                 <Route path="/agregarCliente" component={Clientes} />
                 <Route path="/agregarTransaccion" component={BusquedaCliente} />
                 <Route path="/clientes/listado" component={Clientes}/>
                 <Route path="/listadoTransacciones" component={Transacciones}/>
-                <Route path="/login" component={Login}/>
+                
                 
                
             </Switch>

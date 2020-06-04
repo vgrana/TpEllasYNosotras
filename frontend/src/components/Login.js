@@ -38,12 +38,13 @@ class Login extends React.Component {
       }
       })
        .then(res => res.json()) 
+       
   }
 
   render() {
     return (
       <div className="row">
-        <div className="row col s12 m4 offset-m4">
+        <div className="row col s8 m4 offset-m4">
           <div className="card">
           <form >
                 <div className="card-action teal lighten-1 white-text">
@@ -81,10 +82,7 @@ class Login extends React.Component {
                   >
                     Guardar
                   </button>
-                </div>
-                 <div className="form-field">
                   <button
-
                    onClick={()=> this.loginUsuario()}
                     className="btn-large waves-effect waves-dark  #660066"
                     style={{ margin: "2px" }}

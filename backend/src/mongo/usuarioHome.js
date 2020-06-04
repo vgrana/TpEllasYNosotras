@@ -26,7 +26,9 @@ class UsuarioHome {
             callback("ok", usuario)
             }
         })                   
-    }       
+    }
+            })
+ }       
 
 loginUsuario(mailUsuario, callback) {      
           return  this.usuarios.findOne({"email": mailUsuario}, (error,result) => {
