@@ -54,7 +54,7 @@ function init() {
     });
   });
 
-  server.put("/:type", (req, res) => {
+    server.put("/:type", (req, res) => {
     home = homes[req.params.type];
     home.update(req.body);
     res.status(204).end();

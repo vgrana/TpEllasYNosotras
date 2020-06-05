@@ -17,6 +17,15 @@ class Login extends React.Component {
     this.setState({ usuario: newUsuario });
   }
 
+  handleSubmit = event =>{
+    event.preventDefault(event);
+  }
+
+  estadoInicial = () => {
+    this.setState({
+      usuario: {email: " ", password: ""}
+    });
+  }
   registerUsuario = () => {
         fetch(`http://localhost:8888/usuarios/register` , {
         method: "POST",
@@ -25,7 +34,12 @@ class Login extends React.Component {
           Accept: "application/json",
           "Content-Type": "application/json"
         }
-      })
+      }).then((success) => {
+            console.log('success', success.status)
+             this.error(success);
+        })
+        
+      // .then(this.estadoInicial());
   }
 
   loginUsuario = () => { 
@@ -36,9 +50,13 @@ class Login extends React.Component {
           Accept: "application/json",
           "Content-Type": "application/json"
       }
-      })
-       .then(res => res.json()) 
-       
+      }).then((success) => {
+            console.log('success', success.status);
+            this.error(success);
+        })
+          //  .then(res => res.json()) 
+          
+
   }
 
   render() {
@@ -46,7 +64,7 @@ class Login extends React.Component {
       <div className="row">
         <div className="row col s8 m4 offset-m4">
           <div className="card">
-          <form >
+          <form  onSubmit= {this.handleSubmit}>
                 <div className="card-action teal lighten-1 white-text">
                     <h3> Login form</h3>
                 </div>
@@ -96,6 +114,20 @@ class Login extends React.Component {
           </div>
          </div>
       );
+  }
+
+  error = (error) =>{
+
+    if(error.status === 401){
+      alert('email o contraseña incorrecta, por favor reingrese los datos')
+       this.estadoInicial()
+    }
+    
+  if(error.status === 200){
+      alert('logueado satisfactoriamente')
+       this.estadoInicial()
+    }
+     this.estadoInicial()
   }
 }
 export default Login;

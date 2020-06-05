@@ -30,7 +30,7 @@ class UsuarioHome {
             })
  }       
 
-loginUsuario(mailUsuario, callback) {      
+findEmail(mailUsuario, callback) {      
           return  this.usuarios.findOne({"email": mailUsuario}, (error,result) => {
                 if(error) throw error
                     callback(result)                    

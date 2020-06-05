@@ -10,17 +10,17 @@ let email= req.body.email
 console.log("a ver si recibo el mail " + email)
   try {
         // Buscamos email en BD
-        await usuarioHome.loginUsuario(email, usuario => {
+        await usuarioHome.findEmail(email, usuario => {
         // Evaluamos si existe el usuario en BD
         if(!usuario){
-        return res.status(400).json({
+        return res.status(401).json({
             mensaje: 'Usuario! o contraseña inválidos',
         });
         }    
 
-        // Evaluamos la contraseña correcta
+        // Evaluamos la contraseña correcta, 401 el cliente no esta autorizado para hacer la peticion
         if( !bcrypt.compareSync(body.password, usuario.password) ){
-        return res.status(600).json({
+        return res.status(401).json({
             mensaje: 'Usuario o contraseña! inválidos',
         });
         }
@@ -47,7 +47,7 @@ server.post('/usuarios/register', async (req, res) => {
     const body = { 
         email: req.body.email,
         // role: req.body.role
-    }
+    }//antes de registrar debo buscar para ver si ya esta registrado
     body.password = bcrypt.hashSync(req.body.password, saltRounds);
     console.log(body.password + " este es la contraseña")
     try {
