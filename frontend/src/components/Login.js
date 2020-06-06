@@ -34,7 +34,9 @@ class Login extends React.Component {
           Accept: "application/json",
           "Content-Type": "application/json"
         }
-      }).then((success) => {
+      })
+      .then((success) => {
+         
             console.log('success', success.status)
              this.error(success);
         })
@@ -50,10 +52,12 @@ class Login extends React.Component {
           Accept: "application/json",
           "Content-Type": "application/json"
       }
-      }).then((success) => {
+      })
+      .then((success) => {
             console.log('success', success.status);
-            this.error(success);
+            this.login(success.status);
         })
+     
           //  .then(res => res.json()) 
           
 
@@ -65,7 +69,7 @@ class Login extends React.Component {
         <div className="row col s8 m4 offset-m4">
           <div className="card">
           <form  onSubmit= {this.handleSubmit}>
-                <div className="card-action teal lighten-1 white-text">
+                <div className="card-action # ffcdd2 red lighten-4 lighten-1 white-text">
                     <h3> Login form</h3>
                 </div>
                 <div className="card-content">
@@ -95,18 +99,21 @@ class Login extends React.Component {
                 <div className="form-field">
                   <button
                      onClick={() => this.registerUsuario(this.state.usuario)}
-                    className="btn-large waves-effect waves-dark  #660066"
+                    className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
                     style={{ margin: "2px" }}
                   >
-                    Guardar
+                    Registrarse
                   </button>
                   <button
                    onClick={()=> this.loginUsuario()}
-                    className="btn-large waves-effect waves-dark  #660066"
+                    className="btn-large waves-effect waves-dark #fce4ec pink lighten-1"
                     style={{ margin: "2px" }}
                   >
-                    login
+                    Ingresar
                   </button>
+                  <div>
+                  <a href="#!"> Desbloquear usuario</a> 
+                  </div>
                 </div>
                 </div> 
              </form>
@@ -124,10 +131,24 @@ class Login extends React.Component {
     }
     
   if(error.status === 200){
+   
       alert('logueado satisfactoriamente')
        this.estadoInicial()
     }
-     this.estadoInicial()
+     
   }
+  login =(error)=>{
+    //  this.estadoInicial()
+    if(error === 200){
+      alert('ingreso satisfactorio')
+       this.estadoInicial()
+     
+    }
+    else{
+      alert('El usuario y/o la contraseña son incorrectas')
+    }
+   
+  }
+
 }
 export default Login;

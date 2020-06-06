@@ -6,6 +6,7 @@ import FormularioCliente from "./components/FormularioCliente"
 import BusquedaCliente from "./components/BusquedaCliente"
 import FormularioTransaccion from "./components/FormularioTransaccion"
 import Login from "./components/Login"
+import Home from "./components/Home"
 
 
 
@@ -15,6 +16,7 @@ import "./App.css";
 function App() { 
   return (
     <div className="contenedor">
+    
     <Router>
         <header>
             {/* <nav>
@@ -43,12 +45,14 @@ function App() {
                 </div>
             </nav>
            */}
-            <nav className="purple">
+            <nav className="#ff80ab pink accent-1">
     <div class="nav-wrapper container">
         
       <a href="#!" class="brand-logo">Ellas Y Nosotras</a>
-      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+      <i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
+         <li><Link to="/home">Home</Link></li>
          <li><Link to="/agregarCliente">Agregar cliente</Link></li>
          <li><Link to="/agregarTransaccion">Agregar transacción a cliente</Link></li>
           <li><Link to="/listadoTransacciones">Listado de Transacciones</Link></li>
@@ -59,7 +63,8 @@ function App() {
   </nav>
 {/* no anda la barra lateral */}
   <ul class="sidenav" id="mobile-demo">
-    <li><Link to="/">Login</Link></li>
+    <li><Link to="/home">Home</Link></li>
+    <li><Link to="/login">Login</Link></li>
     <li><Link to="/agregarCliente">Agregar cliente</Link></li>
     <li><Link to="/agregarTransaccion">Agregar transacción a cliente</Link></li>
     <li><Link to="/listadoTransacciones">Listado de Transacciones</Link></li>
@@ -68,7 +73,8 @@ function App() {
         </header>
         <main>
             <Switch>
-                <Route path="/" component={Login}/>
+                <Route path="/home" component={Home}/>
+                <Route path="/login" component={Login}/>
                 <Route path="/agregarCliente" component={Clientes} />
                 <Route path="/agregarTransaccion" component={BusquedaCliente} />
                 <Route path="/clientes/listado" component={Clientes}/>
@@ -80,6 +86,7 @@ function App() {
         </main>
     </Router>
 </div>
+
   );
  } 
  
