@@ -56,11 +56,7 @@ class Login extends React.Component {
       .then((success) => {
             console.log('success', success.status);
             this.login(success.status);
-        })
-     
-          //  .then(res => res.json()) 
-          
-
+        }) 
   }
 
   render() {
@@ -70,7 +66,7 @@ class Login extends React.Component {
           <div className="card">
           <form  onSubmit= {this.handleSubmit}>
                 <div className="card-action # ffcdd2 red lighten-4 lighten-1 white-text">
-                    <h3> Login form</h3>
+                    <h5>Bienvenidos a Ellas y Nosotras</h5>
                 </div>
                 <div className="card-content">
                 <div class="form-field">

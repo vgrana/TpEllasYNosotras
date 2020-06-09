@@ -7,12 +7,25 @@ var server = express();
 morgan = require("morgan");
 const { crearPago } = require("./crearPago");
 const {login} = require("./login")
+const passport = require('passport');
+const session = require("express-session");
+// const {localAuth} = require("./src/passport/localAuth");
+// const LocalStrategy = require('passport-local').Strategy;
+
 
 ClienteHome = require("./src/mongo/clienteHome");
 UsuarioHome=  require("./src/mongo/usuarioHome");
 var homes = {};
 
 server.use(morgan("dev"));
+server.use(passport.initialize());
+server.use(passport.session());
+server.use(express.static("public"));
+server.use(session({ secret: "cats",
+//en cada peticion aunque la sesion no haya sido modificada se va a guardar 
+  resave:true,
+  //aunque no hayamos guardado nada igual la sesion se guarda
+  saveUninitialized:true }));
 
 function register(home) {
   console.log(`registering handlers for ${home.type}`);
@@ -35,8 +48,11 @@ function init() {
   });
 
   server.use(cors());
-  crearPago(server)
   login(server)
+  // localAuth(server)
+  crearPago(server)
+ 
+  
 
   server.get("/:type", (req, res) => {
     home = homes[req.params.type];

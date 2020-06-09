@@ -6,7 +6,9 @@ import FormularioCliente from "./components/FormularioCliente"
 import BusquedaCliente from "./components/BusquedaCliente"
 import FormularioTransaccion from "./components/FormularioTransaccion"
 import Login from "./components/Login"
-import Home from "./components/Home"
+import Home from "./components/Home";
+// import PrivateRouter from "./components/PrivateRouter"
+
 
 
 

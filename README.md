@@ -40,6 +40,10 @@ Damos de alta un:
  
 
 
+ Documentación de passport
+[ middleware de autenticación para Node.js ](http://www.passportjs.org/)
+
+
 
 
 
