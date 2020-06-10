@@ -1,4 +1,4 @@
-
+express = require("express");
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const {localAuth} = require("./src/passport/localAuth");
@@ -7,7 +7,41 @@ const LocalStrategy = require('passport-local').Strategy;
 
 
 function login(server){
-server.use(passport.initialize());
+const server= express();
+passport.use(new LocalStrategy((username, password,done) => {
+  console.log("user" + username  + password)
+  usuarioHome.findEmail(username, usuario => {
+    console.log("user" + username  + password)
+    if (err) { return done(err); }
+    if (!usuario) {
+      return done(null, false, { message: 'Incorrect username.' });
+    }
+    // if (!usuario.validPassword(password)) {
+    //   return done(null, false, { message: 'Incorrect password.' });
+      
+    // }
+    return done(null, usuario);
+
+
+
+    // Evaluamos si existe el usuario en BD
+    // if(!usuario){
+    // return res.status(401).json({
+    //     mensaje: 'Usuario! o contraseña inválidos',
+    // });
+    // }    
+
+    // // Evaluamos la contraseña correcta, 401 el cliente no esta autorizado para hacer la peticion
+    // if( !bcrypt.compareSync(body.password, usuario.password) ){
+    // return res.status(401).json({
+    //     mensaje: 'Usuario o contraseña! inválidos',
+    // });
+    // }
+
+    // // Pasó las validaciones
+    // return res.json(usuario).res.end()
+}) 
+}))
 
 //usuario.id q inicia sesion
 //el usuario se encripta de la base de datos y
@@ -25,38 +59,25 @@ passport.deserializeUser(function(id, cb) {
   // db.users.findById(id, function (err, user) {
   //   if (err) { return cb(err); }
   //   cb(null, user);
-  });
+  // });
 });
 
-server.post('/usuarios/login/',(req, res) => { 
-let body = req.body;
-let email= req.body.email
-let pass= req.body.password
+// app.post('/usuarios/login/', passport.authenticate('local', { successRedirect: '/',
+// failureRedirect: '/login'})
 
-
+// )
+app.post('/usuarios/login/', (req,res) =>{
+  console.log("entre al post login")
+  res.send(200)
+  })
   // localAuth(email,password)
- passport.use(new LocalStrategy(email => {
-      usuarioHome.findEmail(email, usuario => {
-        // Evaluamos si existe el usuario en BD
-        if(!usuario){
-        return res.status(401).json({
-            mensaje: 'Usuario! o contraseña inválidos',
-        });
-        }    
 
-        // Evaluamos la contraseña correcta, 401 el cliente no esta autorizado para hacer la peticion
-        if( !bcrypt.compareSync(body.password, usuario.password) ){
-        return res.status(401).json({
-            mensaje: 'Usuario o contraseña! inválidos',
-        });
-        }
+ app.get('/login', (req,res) =>{
+ res.send(400)
+ })
 
-        // Pasó las validaciones
-        return res.json(usuario)
-        res.end()
-    }) 
-  }))
-})
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // server.post('/usuarios/login/',(req, res) => { 
@@ -96,7 +117,7 @@ let pass= req.body.password
 
 // })
 
-server.post('/usuarios/register', async (req, res) => {
+app.post('/usuarios/register', async (req, res) => {
     console.log(req.body.email + " este es el mail")
     console.log(req.body.password + " este es la contraseña")
     const body = { 

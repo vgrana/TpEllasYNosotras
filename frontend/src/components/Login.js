@@ -57,6 +57,7 @@ class Login extends React.Component {
             console.log('success', success.status);
             this.login(success.status);
         }) 
+        // depende de la respuesta si es igual al que le pase, si se logio(console.log), lo redirijo...
   }
 
   render() {

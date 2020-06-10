@@ -1,7 +1,7 @@
 server = require("./server");
-Cliente =require("./src/cliente");
-Usuario= require("./src/usuario");
-Transaccion=require("./src/transaccion");
+Cliente =require("./src/modelos/cliente");
+Usuario= require("./src/modelos/usuario");
+Transaccion=require("./src/modelos/transaccion");
 
 
 mongoConnection= require("./src/mongo/mongoConnection")
