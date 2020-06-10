@@ -36,7 +36,7 @@ class UsuarioHome {
     });
   }
 
-  getCliente(usuarioId, callback) {
+  getUsuario(usuarioId, callback) {
     return this.clientes.findOne({ _id: usuarioId }, (error, result) => {
       if (error) throw error;
       callback(result);
