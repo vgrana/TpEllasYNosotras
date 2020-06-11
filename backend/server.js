@@ -1,8 +1,6 @@
 express = require("express");
 bodyParser = require("body-parser");
 var cors = require("cors");
-swaggerJSDoc = require("swagger-jsdoc");
-swaggerUi = require("swagger-ui-express");
 var server = express();
 morgan = require("morgan");
 const { crearPago } = require("./crearPago");
@@ -10,18 +8,23 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const session = require('express-session');
+// const cookieParser= require('cookie-Parser')
 
 ClienteHome = require("./src/mongo/clienteHome");
 UsuarioHome = require("./src/mongo/usuarioHome");
 var homes = {};
 
+
+
 server.use(morgan("dev"));
-// server.use(express.static("public"));
-// server.use(session({ secret: "cats",
-// //en cada peticion aunque la sesion no haya sido modificada se va a guardar
-//   resave:true,
-//   //aunque no hayamos guardado nada igual la sesion se guarda
-//   saveUninitialized:true }));
+server.use(express.static("public"));
+// server.use(cookieParser('es mi secreto'));
+server.use(session({ secret: "cats",
+//en cada peticion aunque la sesion no haya sido modificada se va a guardar
+  resave:true,
+  //aunque no hayamos guardado nada igual la sesion se guarda
+  saveUninitialized:true }));
 
 function register(home) {
   console.log(`registering handlers for ${home.type}`);
@@ -34,7 +37,7 @@ function init() {
 
   server.use(passport.initialize());
   server.use(passport.session());
-
+ 
 
 
   server.use(express.json());
@@ -54,33 +57,67 @@ function init() {
   // localAuth(server)
   // crearPago(server);
 
-  passport.serializeUser((user, cb) => {
-    cb(null, user.id);
-  });
-
-  passport.deserializeUser(async(id, cb) => {
-    //buscar el id  que recibo en la base de datos
-    await usuarioHome.getUsuario(id, user => {
-    
-      cb(null, user);
-    });
-  });
-
-  passport.use(new LocalStrategy((username, password, done) => {
-      console.log("a ver si llego aca " + JSON.stringify(username));
+passport.use(new LocalStrategy(function(username, password, done){
+      console.log("a ver si llego aca " + JSON.stringify(username +  password));
+     /////asi andaaaaa
+      // if(username === "vale@gmail.com" && password==="1234"){
+      //     console.log("siiiiiiii entre a la strategy")
+      //     return(done(null,{id:1, name:"laVAle"}))
+      //   }
+      //   done(null,false,"vacio");
       usuarioHome.findEmail(username, usuario => {
-        console.log("user" + username + password);
-        if (err) {
-          return done(err);
-        }
+        console.log("user " + username + password);
+        // if (err) {
+        //   return done(err);
+        // }
         if (!usuario) {
-          return done(null, false, res.sendStatus(100));
+          return done(null, false, { message: 'Incorrect email' });
         }
-        if (!usuario.validPassword(password)) {
-          return done(null, false, { message: 'Incorrect password.' });
+        if( !bcrypt.compareSync(password, usuario.password) ){
+           return done(null, false, { message: 'Incorrect password.' });
 
         }
+        console.log("el usuario q devuelve es " + usuario.email + " pass " + usuario.password)
         return done(null, usuario);
+
+  })
+}))
+
+ 
+
+  passport.serializeUser((usuario, done) => {
+    console.log("en serialize el done " + usuario.id)
+    done(null, usuario.id);
+  });
+
+  passport.deserializeUser(async(id, done) => {
+    //buscar el id  que recibo en la base de datos
+    // await usuarioHome.getUsuario(id, user => {
+    
+      // done(null, user);
+      done(null,{id:1, name:"laVAle"})
+    // });
+  });
+
+  // passport.use(new LocalStrategy((username, password, done) => {
+  //     console.log("a ver si llego aca " + JSON.stringify(username));
+  //       if(username === "vale@gmail.com" && password==="1234"){
+  //         console.log("siiiiiiii entre")
+  //         return(done(null,{id:1, name:"laVAle"}))
+  //       }
+      // usuarioHome.findEmail(username, usuario => {
+      //   console.log("user" + username + password);
+      //   if (err) {
+      //     return done(err);
+      //   }
+      //   if (!usuario) {
+      //     return done(null, false, res.sendStatus(100));
+      //   }
+      //   if (!usuario.validPassword(password)) {
+      //     return done(null, false, { message: 'Incorrect password.' });
+
+      //   }
+      //   return done(null, usuario);
 
       //   // Evaluamos si existe el usuario en BD
       //   // if(!usuario){
@@ -98,26 +135,55 @@ function init() {
 
       //   // // Pasó las validaciones
       //   // return res.json(usuario).res.end()
-      });
-    })
-  );
+      // });
+  //   })
+  // );
 
   server.post(
-    'usuarios/login',
-    passport.authenticate('local', {
-      successRedirect: '/',
-      failureRedirect: 'usuarios/login'
+    '/usuarios/login',passport.authenticate('local',
+    //  function(req, res) {
+    //    console.log("klfkdlfkdlfk adento de post")
+    // // authentication successful
+    //  })
+  
+
+
+    // passport.authenticate('local',
+    {
+      successRedirect: '/usuarios/login',
+      failureRedirect:"mi redireccion si falla" 
+      // 'usuarios/login'
     })
   );
   // server.post("/usuarios/login", (req,res) =>{
-  //   console.log("entre al post login")
-  //   res.sendStatus(200)
+   
+  //   res.sendStatus(200);
   //   })
-  // // localAuth(email,password)
+ 
 
-  server.get('usuarios/login', (req, res) => {
+  server.get('/usuarios/login', (req, res) => {
+    console.log("get de login")
     res.sendStatus(400);
   });
+
+
+
+// server.get('/usuarios/logout', (req, res, next) => {
+//   req.logout();
+//   res.redirect('/');
+// });
+
+
+function isAuthenticated(req, res, next) {
+  if(req.isAuthenticated()) {
+    return next();
+  }
+
+  res.redirect('/usuarios')
+}
+
+
+
 
   
   
@@ -158,26 +224,26 @@ function init() {
 
   // })
 
-  // server.post("/usuarios/register", async (req, res) => {
-  //   console.log(req.body.email + " este es el mail");
-  //   console.log(req.body.password + " este es la contraseña");
-  //   const body = {
-  //     email: req.body.email
-  //     // role: req.body.role
-  //   }; //antes de registrar debo buscar para ver si ya esta registrado
-  //   body.password = bcrypt.hashSync(req.body.password, saltRounds);
-  //   console.log(body.password + " este es la contraseña");
-  //   try {
-  //     const usuario = await usuarioHome.insert(body);
+  server.post("/usuarios/register", async (req, res) => {
+    console.log(req.body.email + " este es el mail");
+    console.log(req.body.password + " este es la contraseña");
+    const body = {
+      email: req.body.email
+      // role: req.body.role
+    }; //antes de registrar debo buscar para ver si ya esta registrado
+    body.password = bcrypt.hashSync(req.body.password, saltRounds);
+    console.log(body.password + " este es la contraseña");
+    try {
+      const usuario = await usuarioHome.insert(body);
 
-  //     return res.json(usuario);
-  //   } catch (error) {
-  //     return res.status(500).json({
-  //       mensaje: "Ocurrio un error",
-  //       error
-  //     });
-  //   }
-  // });
+      return res.json(usuario);
+    } catch (error) {
+      return res.status(500).json({
+        mensaje: "Ocurrio un error",
+        error
+      });
+    }
+  });
 
   // server.post("/usuarios/login/", (req, res) => {
   //   console.log("entre al post login");
