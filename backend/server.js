@@ -8,23 +8,28 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const session = require('express-session');
-// const cookieParser= require('cookie-Parser')
+const session = require("express-session");
+const {login} =require ("./login")
+
 
 ClienteHome = require("./src/mongo/clienteHome");
 UsuarioHome = require("./src/mongo/usuarioHome");
 var homes = {};
 
-
-
 server.use(morgan("dev"));
 server.use(express.static("public"));
-// server.use(cookieParser('es mi secreto'));
-server.use(session({ secret: "cats",
-//en cada peticion aunque la sesion no haya sido modificada se va a guardar
-  resave:true,
-  //aunque no hayamos guardado nada igual la sesion se guarda
-  saveUninitialized:true }));
+////ver si hay q instalarlo... y si se usa
+// server.use(express.cookieParser());
+///////////////////
+server.use(
+  session({
+    secret: "cats",
+    //en cada peticion aunque la sesion no haya sido modificada se va a guardar
+    resave: true,
+    //aunque no hayamos guardado nada igual la sesion se guarda
+    saveUninitialized: true
+  })
+);
 
 function register(home) {
   console.log(`registering handlers for ${home.type}`);
@@ -33,15 +38,10 @@ function register(home) {
 
 function init() {
   server.set("port", process.env.PORT || 8888);
-  // var server = express();
-
+  
   server.use(passport.initialize());
   server.use(passport.session());
- 
-
-
   server.use(express.json());
-  // app.use("/login");
   server.use("(/:type/*)|(/:type)", (req, res, next) => {
     if (!homes[req.params.type]) {
       console.log(` home de ${req.params.type} no existe`);
@@ -53,140 +53,60 @@ function init() {
   });
 
   server.use(cors());
-  // login(server)
+  login(server);
   // localAuth(server)
-  // crearPago(server);
+  crearPago(server);
 
-passport.use(new LocalStrategy(function(username, password, done){
-      console.log("a ver si llego aca " + JSON.stringify(username +  password));
-     /////asi andaaaaa
-      // if(username === "vale@gmail.com" && password==="1234"){
-      //     console.log("siiiiiiii entre a la strategy")
-      //     return(done(null,{id:1, name:"laVAle"}))
-      //   }
-      //   done(null,false,"vacio");
-      usuarioHome.findEmail(username, usuario => {
-        console.log("user " + username + password);
-        // if (err) {
-        //   return done(err);
-        // }
-        if (!usuario) {
-          return done(null, false, { message: 'Incorrect email' });
-        }
-        if( !bcrypt.compareSync(password, usuario.password) ){
-           return done(null, false, { message: 'Incorrect password.' });
-
-        }
-        console.log("el usuario q devuelve es " + usuario.email + " pass " + usuario.password)
-        return done(null, usuario);
-
-  })
-}))
-
- 
-
-  passport.serializeUser((usuario, done) => {
-    console.log("en serialize el done " + usuario.id)
-    done(null, usuario.id);
-  });
-
-  passport.deserializeUser(async(id, done) => {
-    //buscar el id  que recibo en la base de datos
-    // await usuarioHome.getUsuario(id, user => {
+  // passport.use(
+  //   new LocalStrategy(function(username, password, done) {
     
-      // done(null, user);
-      done(null,{id:1, name:"laVAle"})
-    // });
-  });
-
-  // passport.use(new LocalStrategy((username, password, done) => {
-  //     console.log("a ver si llego aca " + JSON.stringify(username));
-  //       if(username === "vale@gmail.com" && password==="1234"){
-  //         console.log("siiiiiiii entre")
-  //         return(done(null,{id:1, name:"laVAle"}))
+  //     usuarioHome.findEmail(username, user => {
+  //       console.log("user " + username + password);
+  //       // if (err) {
+  //       //   console.log("a ver el error " + err)
+  //       //   return done(err);
+  //       // }
+  //       if (!user) {
+  //         return done(null, false, { message: "Incorrect email" });
   //       }
-      // usuarioHome.findEmail(username, usuario => {
-      //   console.log("user" + username + password);
-      //   if (err) {
-      //     return done(err);
-      //   }
-      //   if (!usuario) {
-      //     return done(null, false, res.sendStatus(100));
-      //   }
-      //   if (!usuario.validPassword(password)) {
-      //     return done(null, false, { message: 'Incorrect password.' });
-
-      //   }
-      //   return done(null, usuario);
-
-      //   // Evaluamos si existe el usuario en BD
-      //   // if(!usuario){
-      //   // return res.status(401).json({
-      //   //     mensaje: 'Usuario! o contraseña inválidos',
-      //   // });
-      //   // }
-
-      //   // // Evaluamos la contraseña correcta, 401 el cliente no esta autorizado para hacer la peticion
-      //   // if( !bcrypt.compareSync(body.password, usuario.password) ){
-      //   // return res.status(401).json({
-      //   //     mensaje: 'Usuario o contraseña! inválidos',
-      //   // });
-      //   // }
-
-      //   // // Pasó las validaciones
-      //   // return res.json(usuario).res.end()
-      // });
+  //       if (!bcrypt.compareSync(password, user.password)) {
+  //         return done(null, false, { message: "Incorrect password." });
+  //       }
+  //       console.log(
+  //         "el usuario q devuelve es " +
+  //           user.email +
+  //           " pass " +
+  //           user.password
+  //       );
+  //       return done(null, user)
+        
+  //     })
   //   })
   // );
 
-  server.post(
-    '/usuarios/login',passport.authenticate('local',
-    //  function(req, res) {
-    //    console.log("klfkdlfkdlfk adento de post")
-    // // authentication successful
-    //  })
+  // passport.serializeUser(function(user, done) {
+  //   console.log("en serialize el done " + user._id);
+  //   done(null, user._id);
+  // });
+
+  // passport.deserializeUser((id, done)=>{
+  //   //buscar el id  que recibo en la base de datos
+  //   usuarioHome.getUsuario(id, usuario => {
+  //   done(null, usuario);
+  //    });
+  // });
+
   
-
-
-    // passport.authenticate('local',
-    {
-      successRedirect: '/usuarios/login',
-      failureRedirect:"mi redireccion si falla" 
-      // 'usuarios/login'
-    })
+  server.post("/usuarios/login",
+      passport.authenticate("local"),
+      function(req, res) {
+         console.log("klfkdlfkdlfk adento de post " + req.user._id )
+      // authentication successful
+      // res.redirect('/users/' + req.user.username);
+      res.status(200).json(req.user)
+       }
   );
-  // server.post("/usuarios/login", (req,res) =>{
-   
-  //   res.sendStatus(200);
-  //   })
  
-
-  server.get('/usuarios/login', (req, res) => {
-    console.log("get de login")
-    res.sendStatus(400);
-  });
-
-
-
-// server.get('/usuarios/logout', (req, res, next) => {
-//   req.logout();
-//   res.redirect('/');
-// });
-
-
-function isAuthenticated(req, res, next) {
-  if(req.isAuthenticated()) {
-    return next();
-  }
-
-  res.redirect('/usuarios')
-}
-
-
-
-
-  
-  
   // server.post('/usuarios/login/',(req, res) => {
   // let body = req.body;
   // let email= req.body.email
@@ -225,10 +145,10 @@ function isAuthenticated(req, res, next) {
   // })
 
   server.post("/usuarios/register", async (req, res) => {
-    console.log(req.body.email + " este es el mail");
+    console.log(req.body.username + " este es el mail");
     console.log(req.body.password + " este es la contraseña");
     const body = {
-      email: req.body.email
+      email: req.body.username
       // role: req.body.role
     }; //antes de registrar debo buscar para ver si ya esta registrado
     body.password = bcrypt.hashSync(req.body.password, saltRounds);
@@ -301,19 +221,19 @@ function isAuthenticated(req, res, next) {
     });
   });
 
-  // server.get("/:type", (req, res) => {
-  //   var query = {};
-  //   if (req.query.consulta) {
-  //     console.log("Query:" + req.query.consulta);
-  //     var Consulta = req.query.consulta;
-  //     query = rsqlMongoDB(Consulta);
-  //   }
-  //   home = homes[req.params.type];
-  //   home.find(query, allObjects => {
-  //     res.json(allObjects);
-  //     res.end();
-  //   });
-  // });
+  server.get("/:type", (req, res) => {
+    var query = {};
+    if (req.query.consulta) {
+      console.log("Query:" + req.query.consulta);
+      var Consulta = req.query.consulta;
+      query = rsqlMongoDB(Consulta);
+    }
+    home = homes[req.params.type];
+    home.find(query, allObjects => {
+      res.json(allObjects);
+      res.end();
+    });
+  });
 
   server.listen(server.get("port"), () => {
     console.log("Server running on port ", server.get("port"));
