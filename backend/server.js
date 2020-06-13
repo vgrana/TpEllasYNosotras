@@ -1,20 +1,35 @@
 express = require("express");
 bodyParser = require("body-parser");
-var cors = require('cors');
-swaggerJSDoc=require('swagger-jsdoc');
-swaggerUi=require('swagger-ui-express');
-ClienteHome = require("./src/mongo/clienteHome")
-
-
-
+var cors = require("cors");
 var server = express();
 morgan = require("morgan");
-const { mercadoPago } = require("./crearPago");
+const { crearPago } = require("./crearPago");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const session = require("express-session");
+const {login} =require ("./login")
+
 
 ClienteHome = require("./src/mongo/clienteHome");
+UsuarioHome = require("./src/mongo/usuarioHome");
 var homes = {};
 
 server.use(morgan("dev"));
+server.use(express.static("public"));
+////ver si hay q instalarlo... y si se usa
+// server.use(express.cookieParser());
+///////////////////
+server.use(
+  session({
+    secret: "cats",
+    //en cada peticion aunque la sesion no haya sido modificada se va a guardar
+    resave: true,
+    //aunque no hayamos guardado nada igual la sesion se guarda
+    saveUninitialized: true
+  })
+);
 
 function register(home) {
   console.log(`registering handlers for ${home.type}`);
@@ -22,8 +37,10 @@ function register(home) {
 }
 
 function init() {
-  // const API_PORT = process.env.PORT || 8888;
-  // var server = express();
+  server.set("port", process.env.PORT || 8888);
+  
+  server.use(passport.initialize());
+  server.use(passport.session());
   server.use(express.json());
   server.use("(/:type/*)|(/:type)", (req, res, next) => {
     if (!homes[req.params.type]) {
@@ -36,7 +53,9 @@ function init() {
   });
 
   server.use(cors());
-  mercadoPago(server);
+  login(server);
+  // localAuth(server)
+  crearPago(server);
 
   server.post("/clientes/:id", (req, res) => {
     clienteHome = new ClienteHome(db)
@@ -59,13 +78,107 @@ function init() {
     });
   });
 
-  server.get("/:type/:id", (req, res) => {
-    home = homes[req.params.type];
-    home.get(req.params.id, myObject => {
-      res.json(myObject);
-      res.end();
-    });
+  // passport.serializeUser(function(user, done) {
+  //   console.log("en serialize el done " + user._id);
+  //   done(null, user._id);
+  // });
+
+  // passport.deserializeUser((id, done)=>{
+  //   //buscar el id  que recibo en la base de datos
+  //   usuarioHome.getUsuario(id, usuario => {
+  //   done(null, usuario);
+  //    });
+  // });
+
+  
+  server.post("/usuarios/login",
+      passport.authenticate("local"),
+      function(req, res) {
+         console.log("klfkdlfkdlfk adento de post " + req.user._id )
+      // authentication successful
+      // res.redirect('/users/' + req.user.username);
+      res.status(200).json(req.user)
+       }
+  );
+ 
+  // server.post('/usuarios/login/',(req, res) => {
+  // let body = req.body;
+  // let email= req.body.email
+  // console.log("a ver si recibo el mail " + email)
+  //   try {
+
+  //  await usuarioHome.findEmail(email, usuario => {
+  //         // Evaluamos si existe el usuario en BD
+  //         if(!usuario){
+  //         return res.status(401).json({
+  //             mensaje: 'Usuario! o contraseña inválidos',
+  //         });
+  //         }
+
+  //         // Evaluamos la contraseña correcta, 401 el cliente no esta autorizado para hacer la peticion
+  //         if( !bcrypt.compareSync(body.password, usuario.password) ){
+  //         return res.status(401).json({
+  //             mensaje: 'Usuario o contraseña! inválidos',
+  //         });
+  //         }
+
+  //         // Pasó las validaciones
+  //         return res.json(usuario
+  //         //   ,token: 'fkajsdkf'
+  //         )
+  //         res.end()
+  //     })
+
+  //     }catch (error) {
+  //         return res.status(800).json({
+  //         mensaje: 'Ocurrio un error',
+  //         error
+  //         });
+  //     }
+
+  // })
+
+  server.post("/usuarios/register", async (req, res) => {
+    console.log(req.body.username + " este es el mail");
+    console.log(req.body.password + " este es la contraseña");
+    const body = {
+      email: req.body.username
+      // role: req.body.role
+    }; //antes de registrar debo buscar para ver si ya esta registrado
+    body.password = bcrypt.hashSync(req.body.password, saltRounds);
+    console.log(body.password + " este es la contraseña");
+    try {
+      const usuario = await usuarioHome.insert(body);
+
+      return res.json(usuario);
+    } catch (error) {
+      return res.status(500).json({
+        mensaje: "Ocurrio un error",
+        error
+      });
+    }
   });
+
+  // server.post("/usuarios/login/", (req, res) => {
+  //   console.log("entre al post login");
+  //   res.sendStatus(200);
+  // });
+
+  // app.get("/:type", (req, res) => {
+  //   home = homes[req.params.type];
+  //   home.all(allObjects => {
+  //     res.json(allObjects);
+  //     res.end();
+  //   });
+  // });
+
+  // server.get("/:type/:id", (req, res) => {
+  //   home = homes[req.params.type];
+  //   home.get(req.params.id, myObject => {
+  //     res.json(myObject);
+  //     res.end();
+  //   });
+  // });
 
   server.put("/:type", (req, res) => {
     home = homes[req.params.type];
@@ -116,8 +229,8 @@ function init() {
     });
   });
 
-  server.listen(8888, () => {
-    console.log("Server running on port 8888");
+  server.listen(server.get("port"), () => {
+    console.log("Server running on port ", server.get("port"));
   });
 }
 
