@@ -2,7 +2,6 @@
   "os": [
     "linux"
   ],
-  "dist": "xenial",
   "node_js": [
     "11.15.0",
     "13.12.0
