@@ -38,9 +38,18 @@ function get_boton_pago(cliente, callback) {
         unit_price: totalCuentaCorriente
       }
     ],
-    // payer: {
-    //   email: "test_user_38986855@testuser.com"
-    // }
+    payer: {
+      email: cliente.usermane,
+      nombre: cliente.nombre,
+      apellido: cliente.apellido,
+      telefono:cliente.telefono
+
+    },
+    "back_urls": {
+        "success": "http://localhost:3000/login",
+        "failure": "http://localhost:3000/home",
+        // "pending": "http://www.pending.com"
+    },
   };
 
   mercadopago.preferences.create(preference).then(callback);

@@ -6,6 +6,7 @@ Transaccion=require("./src/modelos/transaccion");
 
 mongoConnection= require("./src/mongo/mongoConnection")
 Home= require("./src/mongo/mongoHome")
+ClienteHome = require("./src/mongo/clienteHome")
 
 clienteHome= require("./src/mongo/clienteHome")
 usuarioHome=require("./src/mongo/usuarioHome")
@@ -21,7 +22,7 @@ mongoConnection.connect((db)=>{
     cliente= new Cliente("27826286","grandi","valeria","palacios", "444437", 
     "valeriagrandi@hotmail.com")
     
-    usuarioHome.insert(new Usuario("valeriagrandi@hotmail.com","larroque"))
+    articuloHome.insert(new Articulo("","camisa",3,1200))
     transaccionHome.insert(transaccion2)
     clienteHome.insert(cliente)
  
