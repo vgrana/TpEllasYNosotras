@@ -1,4 +1,4 @@
-var mercadopago = require('mercadopago');
+var mercadopago = require('../../index');
 var config = require('../config');
 var oldAccessToken = mercadopago.configurations.getAccessToken();
 
