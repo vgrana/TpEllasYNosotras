@@ -34,7 +34,7 @@ class ClienteHome {
         })
     }
 
-    borrarCliente(elementId,callback) {
+ borrarCliente(elementId,callback) {
             var objectId = mongoDriver.ObjectID(elementId);
             this.clientes.findOne({"_id":objectId}, (error, cliente)=>{
                 if(error)
@@ -97,11 +97,11 @@ class ClienteHome {
             console.log(`Resultado de actualizar: ${JSON.stringify(result)}`)
         })
     }
-    
 
-
-
-    find(query, callback) {
+  
+  
+  
+  find(query, callback) {
         this.clientes.find(query).toArray( (error, result)=>{
             if(error) throw error
             callback(result)
