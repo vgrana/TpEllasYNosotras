@@ -22,7 +22,7 @@ mongoConnection.connect((db)=>{
     cliente= new Cliente("27826286","grandi","valeria","palacios", "444437", 
     "valeriagrandi@hotmail.com")
     
-    articuloHome.insert(new Articulo("","camisa",3,1200))
+   
     transaccionHome.insert(transaccion2)
     clienteHome.insert(cliente)
  

@@ -10,6 +10,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const {login} =require ("./login")
+const flash = require("connect-flash")
 
 
 ClienteHome = require("./src/mongo/clienteHome");
@@ -30,6 +31,7 @@ server.use(
     saveUninitialized: true
   })
 );
+server.use(flash());
 
 function register(home) {
   console.log(`registering handlers for ${home.type}`);
@@ -101,44 +103,7 @@ function init() {
        }
   );
  
-  // server.post('/usuarios/login/',(req, res) => {
-  // let body = req.body;
-  // let email= req.body.email
-  // console.log("a ver si recibo el mail " + email)
-  //   try {
-
-  //  await usuarioHome.findEmail(email, usuario => {
-  //         // Evaluamos si existe el usuario en BD
-  //         if(!usuario){
-  //         return res.status(401).json({
-  //             mensaje: 'Usuario! o contraseña inválidos',
-  //         });
-  //         }
-
-  //         // Evaluamos la contraseña correcta, 401 el cliente no esta autorizado para hacer la peticion
-  //         if( !bcrypt.compareSync(body.password, usuario.password) ){
-  //         return res.status(401).json({
-  //             mensaje: 'Usuario o contraseña! inválidos',
-  //         });
-  //         }
-
-  //         // Pasó las validaciones
-  //         return res.json(usuario
-  //         //   ,token: 'fkajsdkf'
-  //         )
-  //         res.end()
-  //     })
-
-  //     }catch (error) {
-  //         return res.status(800).json({
-  //         mensaje: 'Ocurrio un error',
-  //         error
-  //         });
-  //     }
-
-  // })
-
-  server.post("/usuarios/register", async (req, res) => {
+  server.post("/usuarios/signup", async (req, res) => {
     console.log(req.body.username + " este es el mail");
     console.log(req.body.password + " este es la contraseña");
     const body = {
@@ -159,19 +124,14 @@ function init() {
     }
   });
 
-  // server.post("/usuarios/login/", (req, res) => {
-  //   console.log("entre al post login");
-  //   res.sendStatus(200);
-  // });
+//  server.get("/logout", (req,res ) =>{
+//    req.logout();
+//    res.redirect("/")
 
-  // app.get("/:type", (req, res) => {
-  //   home = homes[req.params.type];
-  //   home.all(allObjects => {
-  //     res.json(allObjects);
-  //     res.end();
-  //   });
-  // });
+//  })
+ 
 
+ 
   // server.get("/:type/:id", (req, res) => {
   //   home = homes[req.params.type];
   //   home.get(req.params.id, myObject => {

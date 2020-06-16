@@ -15,10 +15,13 @@ passport.use(
         //   return done(err);
         // }
         if (!user) {
-          return done(null, false, { message: "Incorrect email" });
+          return done(null, false,
+          // req.flash('message', 'User Not found.')
+          ); 
         }
         if (!bcrypt.compareSync(password, user.password)) {
-          return done(null, false, { message: "Incorrect password." });
+          return done(null, false)
+          // , req.flash('message', "Incorrect password." ));
         }
         console.log(
           "el usuario q devuelve es " +

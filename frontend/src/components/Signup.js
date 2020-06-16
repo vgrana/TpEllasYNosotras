@@ -1,18 +1,13 @@
 import React from "react";
 import auth from "./Auth";
 
-class Login extends React.Component {
+class Signup extends React.Component {
   constructor(props) {
-
     super(props);
     this.state = {
-      usuario: {},
-      usuarioLogueado: {}
+      usuario: {}
     };
   }
- componentWillReceiveProps(props) {
-   console.log("las props de login" + props)
- }
 
   handleChange = event => {
     console.log("entre al handle..." + event);
@@ -30,24 +25,9 @@ class Login extends React.Component {
       usuario: { username: " ", password: "" }
     });
   };
-  registerUsuario = () => {
-    fetch(`http://localhost:8888/usuarios/register`, {
-      method: "POST",
-      body: JSON.stringify(this.state.usuario),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
-    }).then(success => {
-      console.log("success", success.status);
-      this.error(success);
-    });
 
-    // .then(this.estadoInicial());
-  };
-
-  loginUsuario = () => {
-    fetch(`http://localhost:8888/usuarios/login/ `, {
+  signup = () => {
+    fetch(`http://localhost:8888/usuarios/signup/`, {
       method: "POST",
       body: JSON.stringify(this.state.usuario),
       headers: {
@@ -55,54 +35,16 @@ class Login extends React.Component {
         "Content-Type": "application/json"
       }
     })
+    ///////porq se rompe si le pongo el json
       .then(res => res.json())
-      .then(usuario => this.setState({ usuarioLogueado: usuario }))
-      .then(res => {
-       if (this.state.usuarioLogueado !== {}) {
-            auth.login(() => {
-            this.props.history.push("/listadoTransacciones");
-          });
-      } else {
-        const error = new Error(res.error);
-        throw error;
-      }
-    })
-    .catch(err => {
+      // .then(res => this.setState({ usuarioRegistrado: res }))
+      .then(this.estadoInicial()) 
+      .catch(err => {
       console.error(err);
-      alert('email o contraseña incorrecta, por favor reingrese los datos');
-      this.estadoInicial();
+      // alert('email o contraseña incorrecta, por favor reingrese los datos');
+      // this.estadoInicial();
     });
   }
-
-  salir = () => {
-    fetch(`http://localhost:8888/logout/ `, {
-      method: "POST",
-      body: JSON.stringify(this.state.usuario),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
-    })
-      // .then(res => res.json())
-      // .then(usuario => this.setState({ usuarioLogueado: usuario }))
-      // .then(res => {
-      //  if (this.state.usuarioLogueado !== {}) {
-      //       auth.logout((props) => {
-      //       this.props.history.push("/home");
-      //     });
-      // } else {
-      //   const error = new Error(res.error);
-      //   throw error;
-      // }
-    // })
-    // .catch(err => {
-    //   console.error(err);
-    //   alert('creo q sali');
-    //   this.estadoInicial();
-    // });
-  }
-  
-
 
   render() {
     return (
@@ -140,20 +82,14 @@ class Login extends React.Component {
                 </div>
                 <br></br>
                 <div className="form-field">
-                  {/* <button
-                    onClick={() => this.registerUsuario(this.state.usuario)}
+                  <button
+                    onClick={() => this.signup(this.state.usuario)}
                     className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
                     style={{ margin: "2px" }}
                   >
                     Registrarse
-                  </button> */}
-                  <button
-                    onClick={() => this.loginUsuario()}
-                    className="btn-large waves-effect waves-dark #fce4ec pink lighten-1"
-                    style={{ margin: "2px" }}
-                  >
-                    Ingresar
                   </button>
+
                   <div>
                     <a href="#!"> Desbloquear usuario</a>
                   </div>
@@ -186,5 +122,8 @@ class Login extends React.Component {
       alert("El usuario y/o la contraseña son incorrectas");
     }
   };
+
+  
+  
 }
-export default Login;
+export default Signup;

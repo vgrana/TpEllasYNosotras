@@ -66,14 +66,20 @@ class Transacciones extends React.Component {
       alert("debe ingresar un N° de cliente");
     } else {
       fetch(`http://localhost:8888/clientes/` + elCliente)
+     
         .then(res => res.json())
-        .then(clts =>
+        .then(clts =>(
           this.setState({
             seleccionado: clts,
             mostrarLista: true,
             clienteTransacciones: clts.transacciones
           })
-        );
+          //  console.log("desde fetech " + clts._id),this.sisi(clts))
+
+        )
+        )
+      
+        
     }
   };
 
@@ -92,14 +98,14 @@ class Transacciones extends React.Component {
   };
 
   render() {
-    var listaDniCliente = this.state.clientes.map(cliente => {
+    // var listaDniCliente = this.state.clientes.map(cliente => {
       
-      return (
-        <div>
-          <option value={cliente.n_cliente} />
-        </div>
-      );
-    });
+    //   return (
+    //     <div>
+    //       <option value={cliente.n_cliente} />
+    //     </div>
+    //   );
+    // });
 
     var pago = this.state.seleccionado.boton_de_pago;
 
@@ -152,7 +158,7 @@ class Transacciones extends React.Component {
                     autoComplete="off"
                   ></input>
                   <label for="n_cliente">Buscar por DNI</label>
-                  <datalist id="clientes">{listaDniCliente}</datalist>
+                  {/* <datalist id="clientes">{listaDniCliente}</datalist> */}
                   <div className="row">
                     <div class="input-field col s6">
                       <button
@@ -227,5 +233,6 @@ class Transacciones extends React.Component {
 
     return totalT - mCobrado;
   };
+ 
 }
 export default Transacciones;
