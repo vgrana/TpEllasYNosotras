@@ -82,8 +82,9 @@ server.get("/clientes/:ncliente", (req, res) => {
       });
     }
     else {
-      res.json({});
-      res.end();
+      res.sendStatus(401);
+      // res.json({});
+      // res.end();
     }
    
   });

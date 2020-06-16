@@ -74,10 +74,15 @@ class Transacciones extends React.Component {
             mostrarLista: true,
             clienteTransacciones: clts.transacciones
           })
+
+        
+          ////si me devuelve vacio xq no puedo hacer un if preguntado el estado para q no se me rompa
           //  console.log("desde fetech " + clts._id),this.sisi(clts))
 
         )
         )
+        .catch(function(error)
+        {   alert('El número de documento ingresado no es correcto'); });
       
         
     }
