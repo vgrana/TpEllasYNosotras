@@ -8,6 +8,8 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const cookieParser = require('cookie-parser')
+const session = require("express-session");
 
 const {login} =require ("./login")
 
@@ -43,6 +45,21 @@ function register(home) {
 }
 
 function init() {
+   server.use(express.static("public"));
+////ver si hay q instalarlo... y si se usa
+// server.use(express.cookieParser());
+server.use(cookieParser())
+///////////////////
+server.use(
+  session({
+    secret: "cats",
+    //en cada peticion aunque la sesion no haya sido modificada se va a guardar
+    resave: false,
+    //aunque no hayamos guardado nada igual la sesion se guarda
+    saveUninitialized: false
+  })
+);
+
   server.set("port", process.env.PORT || 8888);
   
   server.use(passport.initialize());
@@ -83,21 +100,19 @@ function init() {
     });
   });
 
-  // passport.serializeUser(function(user, done) {
-  //   console.log("en serialize el done " + user._id);
-  //   done(null, user._id);
-  // });
-
-  // passport.deserializeUser((id, done)=>{
-  //   //buscar el id  que recibo en la base de datos
-  //   usuarioHome.getUsuario(id, usuario => {
-  //   done(null, usuario);
-  //    });
-  // });
-
   
-  server.post("/usuarios/login",
-      passport.authenticate("local"),
+  ////Asi anda/////////////
+  // server.post("/usuarios/login",
+  //     passport.authenticate("local"),
+  //     function(req, res) {
+  //        console.log("klfkdlfkdlfk adento de post " + req.user._id )
+  //     // authentication successful
+  //     // res.redirect('/users/' + req.user.username);
+  //     res.status(200).json(req.user)
+  //      }
+  // );
+///////////////////////
+  server.post("/usuarios/login",  passport.authenticate("login"),
       function(req, res) {
          console.log("klfkdlfkdlfk adento de post " + req.user._id )
       // authentication successful
@@ -105,18 +120,29 @@ function init() {
       res.status(200).json(req.user)
        }
   );
- 
-  server.post("/usuarios/signup", async (req, res) => {
+
+
+
+ ///////////////////////////////////ANDA////////////////////////////////////////////////////////
+  server.post("/usuarios/signup",  (req, res) => {
     console.log(req.body.username + " este es el mail");
     console.log(req.body.password + " este es la contraseña");
     const body = {
       email: req.body.username
       // role: req.body.role
     }; //antes de registrar debo buscar para ver si ya esta registrado
+
+ usuarioHome.findEmail(req.body.username, user => {
+        console.log("lo encontre " + req.body.username + req.body.password);
+        // if (err) {
+        //   console.log("a ver el error " + err)
+        //   return done(err);
+        // }
+        if (!user) {
     body.password = bcrypt.hashSync(req.body.password, saltRounds);
     console.log(body.password + " este es la contraseña");
     try {
-      const usuario = await usuarioHome.insert(body);
+      const usuario =  usuarioHome.insert(body);
 
       return res.json(usuario);
     } catch (error) {
@@ -125,15 +151,13 @@ function init() {
         error
       });
     }
-  });
-
-//  server.get("/logout", (req,res ) =>{
-//    req.logout();
-//    res.redirect("/")
-
-//  })
- 
-
+        }
+        else{
+          res.sendStatus(401);
+        }
+  })
+  })
+///////////////////////////////////////////////////////////////////////////////////////
  
   // server.get("/:type/:id", (req, res) => {
   //   home = homes[req.params.type];

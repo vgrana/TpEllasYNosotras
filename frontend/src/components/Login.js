@@ -30,21 +30,42 @@ class Login extends React.Component {
       usuario: { username: " ", password: "" }
     });
   };
-  // registerUsuario = () => {
-  //   fetch(`http://localhost:8888/usuarios/register`, {
+  // signup = () => {
+  //   fetch(`http://localhost:8888/usuarios/signup/`, {
   //     method: "POST",
   //     body: JSON.stringify(this.state.usuario),
   //     headers: {
   //       Accept: "application/json",
   //       "Content-Type": "application/json"
   //     }
-  //   }).then(success => {
-  //     console.log("success", success.status);
-  //     this.error(success);
+  //   })
+  //   .then(usuario => this.setState({ usuarioLogueado: usuario }))
+  //     .then(res => {
+  //      if (this.state.usuarioLogueado !== {}) {
+  //           auth.login(() => {
+  //           this.props.history.push("/listadoTransacciones");
+  //         });
+       
+  //       // const error = new Error(res.error);
+  //       // throw error;
+  //     }
+  //     })
+  //   .catch(err => {
+  //     console.error(err);
+  //      alert('email o contraseña incorrecta, por favor reingrese los datos, sino tiene cuenta haga clic en registrarse');
+  //     this.estadoInicial();
   //   });
+  //   // ///////porq se rompe si le pongo el json
+  //   //   .then(res => res.json())
+  //   //   // .then(res => this.setState({ usuarioRegistrado: res }))
+  //   //   .then(this.estadoInicial()) 
+  //   //   .catch(err => {
+  //   //   console.error(err);
+  //   //   // alert('email o contraseña incorrecta, por favor reingrese los datos');
+  //   //   // this.estadoInicial();
+  //   // });
+  // }
 
-  //   // .then(this.estadoInicial());
-  // };
 
   loginUsuario = () => {
     fetch(`http://localhost:8888/usuarios/login/ `, {
@@ -140,13 +161,7 @@ class Login extends React.Component {
                 </div>
                 <br></br>
                 <div className="form-field">
-                  {/* <button
-                    onClick={() => this.registerUsuario(this.state.usuario)}
-                    className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
-                    style={{ margin: "2px" }}
-                  >
-                    Registrarse
-                  </button> */}
+                 
                   <button
                     onClick={() => this.loginUsuario()}
                     className="btn-large waves-effect waves-dark #fce4ec pink lighten-1"
@@ -154,6 +169,13 @@ class Login extends React.Component {
                   >
                     Ingresar
                   </button>
+                   {/* <button
+                    onClick={() => this.signup(this.state.usuario)}
+                    className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
+                    style={{ margin: "2px" }}
+                  >
+                    Registrarse
+                  </button> */}
                   <div>
                     {/* <button onClick={this.props.history.push("/signup")}> Sino tiene cuenta</button> */}
                   </div>

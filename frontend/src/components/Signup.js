@@ -35,16 +35,16 @@ class Signup extends React.Component {
         "Content-Type": "application/json"
       }
     })
-    ///////porq se rompe si le pongo el json
       .then(res => res.json())
-      // .then(res => this.setState({ usuarioRegistrado: res }))
-      .then(this.estadoInicial()) 
+      .then(res => this.setState({ usua: res }))
       .catch(err => {
       console.error(err);
-      // alert('email o contraseña incorrecta, por favor reingrese los datos');
-      // this.estadoInicial();
-    });
+       alert('Usuario ya registrado, por favor ingrese en login');
+      this.estadoInicial();
+    })
   }
+
+  
 
   render() {
     return (

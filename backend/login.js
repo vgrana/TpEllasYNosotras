@@ -3,26 +3,10 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const cookieParser = require('cookie-parser')
-const session = require("express-session");
 
 function login(server){
-  server.use(express.static("public"));
-////ver si hay q instalarlo... y si se usa
-// server.use(express.cookieParser());
-server.use(cookieParser())
-///////////////////
-server.use(
-  session({
-    secret: "cats",
-    //en cada peticion aunque la sesion no haya sido modificada se va a guardar
-    resave: true,
-    //aunque no hayamos guardado nada igual la sesion se guarda
-    saveUninitialized: true
-  })
-);
-
-passport.use(
+ 
+passport.use('login',
     new LocalStrategy(function(username, password, done) {
       usuarioHome.findEmail(username, user => {
         console.log("user " + username + password);
@@ -50,7 +34,7 @@ passport.use(
       })
     })
   );
-
+  
   passport.serializeUser(function(user, done) {
     console.log("en serialize el done " + user._id);
     done(null, user._id);

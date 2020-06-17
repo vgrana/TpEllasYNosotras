@@ -12,6 +12,7 @@ import Home from "./components/Home";
 import Logout from "./components/Logout";
 import auth from "./components/Auth";
 import NavUsuario from "./NavUsuario";
+import NavEmpresa from "./NavEmpresa";
 // import { PropsRoute, PublicRoute, PrivateRoute } from 'react-router-with-props';
 import {PrivateRoute} from "./components/PrivateRoute"
 
@@ -21,12 +22,8 @@ class App  extends React.Component {
    constructor(props){
      super(props)
    }
-       salir = () => {
-        this.child.salir();
-    }
-    triggerChildAlert = () => {
-        this.child.showAlert();
-    }
+    
+    
 
   render(){
  
@@ -35,10 +32,11 @@ class App  extends React.Component {
  
   return (
     <div className="contenedor">
-      <Router>
-        <header>
-        <NavUsuario render={props => <NavUsuario {...props} />}
-            />
+      {/* <Router> */}
+        {/* <header> */}
+        {/* <NavUsuario render={props => <NavUsuario {...props} />} */}
+            
+            <NavUsuario/>
           {/* <nav className="#ff80ab pink accent-1">
             <div class="nav-wrapper container">
                             <a href="#" data-target="mobile-demo" class="sidenav-trigger">
@@ -108,7 +106,7 @@ class App  extends React.Component {
               {/* <Link to="/login">Login/Entrar</Link> */}
             {/* </li> */}
           {/* </ul>  */}
-        </header>
+        {/* </header> */}
         {/* <main>
           <Switch>
             <Route exact path="/" component={Home} />
@@ -138,7 +136,7 @@ class App  extends React.Component {
               <Route path="*" component={() => "404 NOT FOUND"} />
           </Switch> */}
         {/* </main> */}
-      </Router>
+      {/* </Router> */}
     </div>
   );
 
