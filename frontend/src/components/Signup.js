@@ -53,7 +53,7 @@ class Signup extends React.Component {
           <div className="card">
             <form onSubmit={this.handleSubmit}>
               <div className="card-action # ffcdd2 red lighten-4 lighten-1 white-text">
-                <h5>Bienvenidos a Ellas y Nosotras</h5>
+                <h5>Registrarse</h5>
               </div>
               <div className="card-content">
                 <div class="form-field">

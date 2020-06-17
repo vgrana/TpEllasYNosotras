@@ -8,9 +8,12 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const session = require("express-session");
+
 const {login} =require ("./login")
-const flash = require("connect-flash")
+
+ 
+
+
 
 
 ClienteHome = require("./src/mongo/clienteHome");
@@ -18,20 +21,21 @@ UsuarioHome = require("./src/mongo/usuarioHome");
 var homes = {};
 
 server.use(morgan("dev"));
-server.use(express.static("public"));
-////ver si hay q instalarlo... y si se usa
-// server.use(express.cookieParser());
-///////////////////
-server.use(
-  session({
-    secret: "cats",
-    //en cada peticion aunque la sesion no haya sido modificada se va a guardar
-    resave: true,
-    //aunque no hayamos guardado nada igual la sesion se guarda
-    saveUninitialized: true
-  })
-);
-server.use(flash());
+// server.use(express.static("public"));
+// ////ver si hay q instalarlo... y si se usa
+// // server.use(express.cookieParser());
+// server.use(cookieParser())
+// ///////////////////
+// server.use(
+//   session({
+//     secret: "cats",
+//     //en cada peticion aunque la sesion no haya sido modificada se va a guardar
+//     resave: true,
+//     //aunque no hayamos guardado nada igual la sesion se guarda
+//     saveUninitialized: true
+//   })
+// );
+
 
 function register(home) {
   console.log(`registering handlers for ${home.type}`);
@@ -56,7 +60,6 @@ function init() {
 
   server.use(cors());
   login(server);
-  // localAuth(server)
   crearPago(server);
 
   server.post("/clientes/:id", (req, res) => {

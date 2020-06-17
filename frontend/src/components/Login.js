@@ -30,21 +30,21 @@ class Login extends React.Component {
       usuario: { username: " ", password: "" }
     });
   };
-  registerUsuario = () => {
-    fetch(`http://localhost:8888/usuarios/register`, {
-      method: "POST",
-      body: JSON.stringify(this.state.usuario),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
-    }).then(success => {
-      console.log("success", success.status);
-      this.error(success);
-    });
+  // registerUsuario = () => {
+  //   fetch(`http://localhost:8888/usuarios/register`, {
+  //     method: "POST",
+  //     body: JSON.stringify(this.state.usuario),
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json"
+  //     }
+  //   }).then(success => {
+  //     console.log("success", success.status);
+  //     this.error(success);
+  //   });
 
-    // .then(this.estadoInicial());
-  };
+  //   // .then(this.estadoInicial());
+  // };
 
   loginUsuario = () => {
     fetch(`http://localhost:8888/usuarios/login/ `, {
@@ -62,45 +62,45 @@ class Login extends React.Component {
             auth.login(() => {
             this.props.history.push("/listadoTransacciones");
           });
-      } else {
-        const error = new Error(res.error);
-        throw error;
+       
+        // const error = new Error(res.error);
+        // throw error;
       }
-    })
+      })
     .catch(err => {
       console.error(err);
-      alert('email o contraseña incorrecta, por favor reingrese los datos');
+       alert('email o contraseña incorrecta, por favor reingrese los datos, sino tiene cuenta haga clic en registrarse');
       this.estadoInicial();
     });
   }
 
-  salir = () => {
-    fetch(`http://localhost:8888/logout/ `, {
-      method: "POST",
-      body: JSON.stringify(this.state.usuario),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
-    })
-      // .then(res => res.json())
-      // .then(usuario => this.setState({ usuarioLogueado: usuario }))
-      // .then(res => {
-      //  if (this.state.usuarioLogueado !== {}) {
-      //       auth.logout((props) => {
-      //       this.props.history.push("/home");
-      //     });
-      // } else {
-      //   const error = new Error(res.error);
-      //   throw error;
-      // }
-    // })
-    // .catch(err => {
-    //   console.error(err);
-    //   alert('creo q sali');
-    //   this.estadoInicial();
-    // });
-  }
+  // salir = () => {
+  //   fetch(`http://localhost:8888/logout/ `, {
+  //     method: "POST",
+  //     body: JSON.stringify(this.state.usuario),
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json"
+  //     }
+  //   })
+  //     // .then(res => res.json())
+  //     // .then(usuario => this.setState({ usuarioLogueado: usuario }))
+  //     // .then(res => {
+  //     //  if (this.state.usuarioLogueado !== {}) {
+  //     //       auth.logout((props) => {
+  //     //       this.props.history.push("/home");
+  //     //     });
+  //     // } else {
+  //     //   const error = new Error(res.error);
+  //     //   throw error;
+  //     // }
+  //   // })
+  //   // .catch(err => {
+  //   //   console.error(err);
+  //   //   alert('creo q sali');
+  //   //   this.estadoInicial();
+  //   // });
+  // }
   
 
 
@@ -111,7 +111,7 @@ class Login extends React.Component {
           <div className="card">
             <form onSubmit={this.handleSubmit}>
               <div className="card-action # ffcdd2 red lighten-4 lighten-1 white-text">
-                <h5>Bienvenidos a Ellas y Nosotras</h5>
+                <h5>Ingresar</h5>
               </div>
               <div className="card-content">
                 <div class="form-field">
@@ -155,7 +155,7 @@ class Login extends React.Component {
                     Ingresar
                   </button>
                   <div>
-                    <a href="#!"> Desbloquear usuario</a>
+                    {/* <button onClick={this.props.history.push("/signup")}> Sino tiene cuenta</button> */}
                   </div>
                 </div>
               </div>
