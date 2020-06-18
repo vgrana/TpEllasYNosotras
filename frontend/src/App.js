@@ -25,9 +25,13 @@ function App (){
   
     return (
       <div className="contenedor">
-      {auth.isAuthenticated()? (
-      <NavElUsuario/> ):(
-      <NavLaEmpresa/>)}
+      {/* {auth.isAuthenticated()? (
+      <NavElUsuario/> 
+      ):(
+       console.log("No estoy autenticado"),
+       <NavLaEmpresa/> 
+      )} */}
+      <NavElUsuario/> 
       </div>
   //     <div className="contenedor">
   //       <Router>
