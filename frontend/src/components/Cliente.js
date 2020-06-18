@@ -42,7 +42,7 @@ class Cliente extends React.Component {
           className="btn waves-effect waves-red"
           onClick={this.selectCliente}
         >
-          ver/agregar transacción
+          agregar transacción
         </button>
       );
     }

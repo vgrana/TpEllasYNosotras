@@ -1,7 +1,6 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import auth from "./Auth"
-
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
+import auth from "./Auth";
 
 export const PrivateRoute = ({component: Component, ...rest}) => {
       // Show the component only when the user is logged in
@@ -10,6 +9,7 @@ export const PrivateRoute = ({component: Component, ...rest}) => {
           <Route
             {...rest}
             render={props => {
+              console.log("las props " + props)
               if (auth.isAuthenticated()) {
                 return <Component {...props} />;
               } else {
@@ -28,9 +28,3 @@ export const PrivateRoute = ({component: Component, ...rest}) => {
           />
         );
       }
-         
-   
-   
-  
-      
-  

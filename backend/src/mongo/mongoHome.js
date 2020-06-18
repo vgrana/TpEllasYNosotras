@@ -1,54 +1,60 @@
-var mongoDriver= require('mongodb');
+var mongoDriver = require("mongodb");
 
-class MongoHome{
-    constructor(type,db){
-        this.type=type;
-        this.persistentCollection= db.collection(type)
-    }
+class MongoHome {
+  constructor(type, db) {
+    this.type = type;
+    this.persistentCollection = db.collection(type);
+  }
 
-    insert(elemento){
-        this.persistentCollection.insertOne(elemento,(error,result)=>{
-            if(error) throw error
-            console.log(`Resultado de insertar el elemento: ${JSON.stringify(result)}`)
-        })
-    }
-    get(elementId, callback) {
-        var objectId = mongoDriver.ObjectID(elementId);
-        return this.persistentCollection.findOne({"_id" : objectId}, (error, result)=>{
-            if(error) throw error
-            callback(result)
-        })
-    }
-    update(element) {
-        var objectId = mongoDriver.ObjectID(element._id);
-        element._id = objectId;
-        this.persistentCollection.replaceOne({"_id" : objectId}, element, (error, result)=>{
-            if(error) throw error
-            console.log(`Resultado de actualizar: ${JSON.stringify(result)}`)
-        })
-    }
-    
-    find(query, callback) {
-        this.persistentCollection.find(query).toArray( (error, result)=>{
-            if(error) throw error
-            callback(result)
-        })
-    }
-    all(callback) {
-        this.persistentCollection.find({}).toArray( (error, result)=>{
-            if(error) throw error
-            callback(result)
-        })
-    }
-    delete(elementId) {
-        var objectId = mongoDriver.ObjectID(elementId);
-        this.persistentCollection.deleteOne({"_id" : objectId}, (error, result)=>{
-            if(error) throw error
-            console.log(`Result of delete one: ${JSON.stringify(result)}`)
-        })    
-    }
-    
+  insert(elemento) {
+    this.persistentCollection.insertOne(elemento, (error, result) => {
+      if (error) throw error;
+      console.log(
+        `Resultado de insertar el elemento: ${JSON.stringify(result)}`
+      );
+    });
+  }
+  get(elementId, callback) {
+    var objectId = mongoDriver.ObjectID(elementId);
+    return this.persistentCollection.findOne(
+      { _id: objectId },
+      (error, result) => {
+        if (error) throw error;
+        callback(result);
+      }
+    );
+  }
+  update(element) {
+    var objectId = mongoDriver.ObjectID(element._id);
+    element._id = objectId;
+    this.persistentCollection.replaceOne(
+      { _id: objectId },
+      element,
+      (error, result) => {
+        if (error) throw error;
+        console.log(`Resultado de actualizar: ${JSON.stringify(result)}`);
+      }
+    );
+  }
 
-
+  find(query, callback) {
+    this.persistentCollection.find(query).toArray((error, result) => {
+      if (error) throw error;
+      callback(result);
+    });
+  }
+  all(callback) {
+    this.persistentCollection.find({}).toArray((error, result) => {
+      if (error) throw error;
+      callback(result);
+    });
+  }
+  delete(elementId) {
+    var objectId = mongoDriver.ObjectID(elementId);
+    this.persistentCollection.deleteOne({ _id: objectId }, (error, result) => {
+      if (error) throw error;
+      console.log(`Result of delete one: ${JSON.stringify(result)}`);
+    });
+  }
 }
-module.exports=MongoHome
+module.exports = MongoHome;

@@ -19,7 +19,7 @@ class FormularioTransaccion extends React.Component {
     // this.agregarTransaccion = this.agregarTransaccion.bind(this);
     // this.listadoDeTodosLosClientes=this.listadoDeTodosLosClientes.bind(this);
   }
-   componentWillReceiveProps(props) {
+  componentWillReceiveProps(props) {
     this.setState({ cliente: props.cliente });
     this.setState({ clienTransacciones: props.clienTransacciones });
     this.setState({ clientes: props.clientes });
@@ -35,14 +35,14 @@ class FormularioTransaccion extends React.Component {
       newTransaccion["clienteId"] = this.state.cliente._id;
       this.setState({ transaccion: newTransaccion });
     }
-  }
+  };
 
   handleSubmit = event => {
     this.agregarTransaccion(event);
     event.preventDefault(event);
-  }
+  };
 
-  estadoInicial =() => {
+  estadoInicial = () => {
     this.setState({
       cliente: {
         nombre: " ",
@@ -54,12 +54,12 @@ class FormularioTransaccion extends React.Component {
         montoCobrado: " "
       }
     });
-  }
+  };
   listadoDeTodosLosClientes = () => {
     fetch(`http://localhost:8888/clientes`)
       .then(res => res.json())
       .then(clts => this.setState({ clientes: clts }));
-  }
+  };
 
   agregarTransaccion = event => {
     console.log("acaaaaa" + event);
@@ -73,7 +73,7 @@ class FormularioTransaccion extends React.Component {
     })
       .then(this.estadoInicial())
       .then(this.props.listado());
-  }
+  };
 
   render() {
     return (
@@ -136,7 +136,7 @@ class FormularioTransaccion extends React.Component {
                   />
                   <a> Entrega</a>
                 </div>
-                <div className="input-field col s3">
+                {/* <div className="input-field col s2"> */}
                   <button
                     type="submit"
                     className="btn #660066"
@@ -144,7 +144,7 @@ class FormularioTransaccion extends React.Component {
                   >
                     Guardar
                   </button>
-                </div>
+                {/* </div> */}
               </div>
             </div>
           </div>

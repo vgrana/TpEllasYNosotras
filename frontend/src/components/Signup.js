@@ -12,6 +12,7 @@ class Signup extends React.Component {
   handleChange = event => {
     console.log("entre al handle..." + event);
     var newUsuario = Object.assign({}, this.state.usuario);
+    newUsuario.rol = "usuario";
     newUsuario[event.target.name] = event.target.value;
     this.setState({ usuario: newUsuario });
   };
@@ -22,7 +23,7 @@ class Signup extends React.Component {
 
   estadoInicial = () => {
     this.setState({
-      usuario: { username: " ", password: "" }
+      usuario: { username: " ", password: "", rol: "usuario" }
     });
   };
 
@@ -36,15 +37,27 @@ class Signup extends React.Component {
       }
     })
       .then(res => res.json())
-      .then(res => this.setState({ usua: res }))
-      .catch(err => {
-      console.error(err);
-       alert('Usuario ya registrado, por favor ingrese en login');
-      this.estadoInicial();
-    })
-  }
+      .then(usuario => this.setState({ usuario: usuario }))
+      .then(res => {
+        if (this.state.usuario !== {}) {
+          auth.login(() => {
+            this.props.history.push("/listadoTransacciones");
+          });
 
-  
+          //   // const error = new Error(res.error);
+          //   // throw error;
+        }
+      })
+
+      .catch(err => {
+        console.error(err);
+        if (err === 401) {
+          console.log("este es el error" + err);
+        }
+        //  alert(' ringrese los datos, sino tiene cuenta haga clic en registrarse');
+        this.estadoInicial();
+      });
+  };
 
   render() {
     return (
@@ -122,8 +135,5 @@ class Signup extends React.Component {
       alert("El usuario y/o la contraseña son incorrectas");
     }
   };
-
-  
-  
 }
 export default Signup;

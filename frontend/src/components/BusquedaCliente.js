@@ -119,6 +119,9 @@ class BusquedaCliente extends React.Component {
                   <label for="apelllido">Apellido del cliente</label>
                 </div>
               </div>
+              <div className="row">
+              <div className="input-field col s5">
+
               <button
                 type="button"
                 className="btn sm #660066"
@@ -130,11 +133,13 @@ class BusquedaCliente extends React.Component {
               <button
                 type="button"
                 className="btn #660066"
-                style={{ margin: "1px" }}
+                style={{ margin: "2px" }}
                 onClick={this.limpiezaFormListaClientes}
               >
                 Nueva búsqueda
               </button>
+              </div>
+              </div>
             </div>
           </form>
         </div>

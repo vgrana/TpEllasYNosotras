@@ -3,16 +3,15 @@ import auth from "./Auth";
 
 class Login extends React.Component {
   constructor(props) {
-
     super(props);
     this.state = {
       usuario: {},
       usuarioLogueado: {}
     };
   }
- componentWillReceiveProps(props) {
-   console.log("las props de login" + props)
- }
+  componentWillReceiveProps(props) {
+    console.log("las props de login" + props);
+  }
 
   handleChange = event => {
     console.log("entre al handle..." + event);
@@ -45,7 +44,7 @@ class Login extends React.Component {
   //           auth.login(() => {
   //           this.props.history.push("/listadoTransacciones");
   //         });
-       
+
   //       // const error = new Error(res.error);
   //       // throw error;
   //     }
@@ -58,14 +57,13 @@ class Login extends React.Component {
   //   // ///////porq se rompe si le pongo el json
   //   //   .then(res => res.json())
   //   //   // .then(res => this.setState({ usuarioRegistrado: res }))
-  //   //   .then(this.estadoInicial()) 
+  //   //   .then(this.estadoInicial())
   //   //   .catch(err => {
   //   //   console.error(err);
   //   //   // alert('email o contraseña incorrecta, por favor reingrese los datos');
   //   //   // this.estadoInicial();
   //   // });
   // }
-
 
   loginUsuario = () => {
     fetch(`http://localhost:8888/usuarios/login/ `, {
@@ -79,21 +77,23 @@ class Login extends React.Component {
       .then(res => res.json())
       .then(usuario => this.setState({ usuarioLogueado: usuario }))
       .then(res => {
-       if (this.state.usuarioLogueado !== {}) {
-            auth.login(() => {
+        if (this.state.usuarioLogueado !== {}) {
+          auth.login(() => {
             this.props.history.push("/listadoTransacciones");
           });
-       
-        // const error = new Error(res.error);
-        // throw error;
-      }
+
+          // const error = new Error(res.error);
+          // throw error;
+        }
       })
-    .catch(err => {
-      console.error(err);
-       alert('email o contraseña incorrecta, por favor reingrese los datos, sino tiene cuenta haga clic en registrarse');
-      this.estadoInicial();
-    });
-  }
+      .catch(err => {
+        console.error(err);
+        alert(
+          "email o contraseña incorrecta, por favor reingrese los datos, sino tiene cuenta haga clic en registrarse"
+        );
+        this.estadoInicial();
+      });
+  };
 
   // salir = () => {
   //   fetch(`http://localhost:8888/logout/ `, {
@@ -122,8 +122,6 @@ class Login extends React.Component {
   //   //   this.estadoInicial();
   //   // });
   // }
-  
-
 
   render() {
     return (
@@ -161,7 +159,6 @@ class Login extends React.Component {
                 </div>
                 <br></br>
                 <div className="form-field">
-                 
                   <button
                     onClick={() => this.loginUsuario()}
                     className="btn-large waves-effect waves-dark #fce4ec pink lighten-1"
@@ -169,7 +166,7 @@ class Login extends React.Component {
                   >
                     Ingresar
                   </button>
-                   {/* <button
+                  {/* <button
                     onClick={() => this.signup(this.state.usuario)}
                     className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
                     style={{ margin: "2px" }}

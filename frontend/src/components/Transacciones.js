@@ -11,7 +11,8 @@ class Transacciones extends React.Component {
       seleccionado: {},
       n_cliente: "",
       elCliente: {},
-      mostrarLista: false
+      mostrarLista: false,
+      mostarBotonPago: true
     };
   }
 
@@ -111,8 +112,8 @@ class Transacciones extends React.Component {
     //     </div>
     //   );
     // });
-
-    var pago = this.state.seleccionado.boton_de_pago;
+    // if(this.state.usuario.rol === usuario){this.setState({mostarBotonPago:true})}
+    const mostarBotonPago = this.state.seleccionado.boton_de_pago;
 
     const mostrarLista = this.state.mostrarLista;
     let lista;
@@ -135,7 +136,7 @@ class Transacciones extends React.Component {
             <th>{this.montoAdeudado()}</th>
             <th></th>
             <th>
-              <a href={pago} target="_blank">
+              <a href={mostarBotonPago} target="_blank">
                 Realizar pago
               </a>
             </th>
