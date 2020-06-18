@@ -1,16 +1,26 @@
 import React from "react";
 import auth from "./Auth";
+import {UserContext} from "../user-context";
 
 class Login extends React.Component {
+
+  static contextType = UserContext;
+
   constructor(props) {
     super(props);
     this.state = {
       usuario: {},
       usuarioLogueado: {}
     };
+    this.loginExitoso = this.loginExitoso.bind(this);
   }
-  componentWillReceiveProps(props) {
-    console.log("las props de login" + props);
+
+  // componentWillReceiveProps(props) {
+  //   console.log("las props de login" + props);
+  // }
+
+  componentDidMount() {
+    console.log(this.props.pepito);
   }
 
   handleChange = event => {
@@ -65,6 +75,11 @@ class Login extends React.Component {
   //   // });
   // }
 
+  loginExitoso(usuario) {
+    this.setState({ usuarioLogueado: usuario });
+    this.props.setUser(usuario);
+  }
+
   loginUsuario = () => {
     fetch(`http://localhost:8888/usuarios/login/ `, {
       method: "POST",
@@ -75,7 +90,7 @@ class Login extends React.Component {
       }
     })
       .then(res => res.json())
-      .then(usuario => this.setState({ usuarioLogueado: usuario }))
+      .then(usuario => this.loginExitoso(usuario))
       .then(res => {
         if (this.state.usuarioLogueado !== {}) {
           auth.login(() => {

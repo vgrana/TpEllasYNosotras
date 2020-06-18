@@ -1,8 +1,13 @@
 import React from "react";
 import Transaccion from "./Transaccion";
 import Cliente from "./Cliente";
+import {UserContext} from "../user-context";
+
 
 class Transacciones extends React.Component {
+
+  static contextType = UserContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -18,6 +23,7 @@ class Transacciones extends React.Component {
 
   componentWillMount() {
     this.listadoDeClientes();
+    console.log(this.context.usuario)
   }
 
   handleChange = e => {
