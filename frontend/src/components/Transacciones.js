@@ -1,11 +1,9 @@
 import React from "react";
 import Transaccion from "./Transaccion";
 import Cliente from "./Cliente";
-import {UserContext} from "../user-context";
-
+import { UserContext } from "../user-context";
 
 class Transacciones extends React.Component {
-
   static contextType = UserContext;
 
   constructor(props) {
@@ -17,13 +15,14 @@ class Transacciones extends React.Component {
       n_cliente: "",
       elCliente: {},
       mostrarLista: false,
-      mostarBotonPago: true
+      mostrarBotonPago: false,
+      cliente: {},
+      usuario: {}
     };
   }
 
   componentWillMount() {
     this.listadoDeClientes();
-    console.log(this.context.usuario)
   }
 
   handleChange = e => {
@@ -50,10 +49,10 @@ class Transacciones extends React.Component {
   handleSubmit = event => {
     console.log("desde hundler" + event);
     var consulta;
-    if (this.state.n_cliente == " ") {
+    if (this.state.n_cliente === " ") {
       this.listadoBusqueda(consulta);
     }
-    if (this.state.n_cliente != "") {
+    if (this.state.n_cliente !== "") {
       consulta = '?consulta=n_cliente=="' + this.state.n_cliente + '"';
       this.listadoBusqueda(consulta);
     }
@@ -69,29 +68,27 @@ class Transacciones extends React.Component {
   };
 
   resultadoBusqueda = elCliente => {
-    if (elCliente == "") {
+    if (elCliente === "") {
       alert("debe ingresar un N° de cliente");
     } else {
       fetch(`http://localhost:8888/clientes/` + elCliente)
-     
         .then(res => res.json())
-        .then(clts =>(
+        .then(cliente =>
           this.setState({
-            seleccionado: clts,
+            seleccionado: cliente,
             mostrarLista: true,
-            clienteTransacciones: clts.transacciones
+            clienteTransacciones: cliente.transacciones
           })
-
-        
-          ////si me devuelve vacio xq no puedo hacer un if preguntado el estado para q no se me rompa
-          //  console.log("desde fetech " + clts._id),this.sisi(clts))
-
         )
-        )
-        .catch(function(error)
-        {   alert('El número de documento ingresado no es correcto'); });
-      
-        
+
+        ////si me devuelve vacio xq no puedo hacer un if preguntado el estado para q no se me rompa
+        //  console.log("desde fetech " + clts._id),this.sisi(clts))
+
+        .catch(function(error) {
+          alert(
+            "El número de documento ingresado no es correcto,o su cuenta no tiene deuda. Por favor verifique y vuelva a intentarlo"
+          );
+        });
     }
   };
 
@@ -103,7 +100,8 @@ class Transacciones extends React.Component {
     this.setState({
       clienteTransacciones: [],
       seleccionado: [],
-      mostrarLista: false
+      mostrarLista: false,
+      mostrarBotonPago: false
     });
     this.limpiarFormulario();
     this.listadoDeClientes();
@@ -111,19 +109,26 @@ class Transacciones extends React.Component {
 
   render() {
     // var listaDniCliente = this.state.clientes.map(cliente => {
-      
+
     //   return (
     //     <div>
     //       <option value={cliente.n_cliente} />
     //     </div>
     //   );
     // });
-    // if(this.state.usuario.rol === usuario){this.setState({mostarBotonPago:true})}
-    const mostarBotonPago = this.state.seleccionado.boton_de_pago;
 
+    const mostrarBotonPago = this.state.seleccionado.boton_de_pago;
     const mostrarLista = this.state.mostrarLista;
     let lista;
-    if (mostrarLista) {
+    let mostrarBoton;
+
+    mostrarBoton = (
+      <a href={mostrarBotonPago} target="_blank">
+        Realizar pago
+      </a>
+    );
+    
+    if (mostrarLista && this.state.clienteTransacciones.length >= 1) {
       lista = (
         <table className="left responsive-table highlight">
           <thead className="bordered hoverable">
@@ -142,9 +147,7 @@ class Transacciones extends React.Component {
             <th>{this.montoAdeudado()}</th>
             <th></th>
             <th>
-              <a href={mostarBotonPago} target="_blank">
-                Realizar pago
-              </a>
+              {mostrarBoton}
             </th>
           </tr>
         </table>
@@ -229,11 +232,10 @@ class Transacciones extends React.Component {
   };
 
   transaccionesRows = () => {
-      return this.state.clienteTransacciones.map(unaTransaccion => {
-        return <Transaccion transaccion={unaTransaccion} />;
-      });
-    }
-  
+    return this.state.clienteTransacciones.map(unaTransaccion => {
+      return <Transaccion transaccion={unaTransaccion} />;
+    });
+  };
 
   montoAdeudado = () => {
     var totalT = 0;
@@ -245,6 +247,5 @@ class Transacciones extends React.Component {
 
     return totalT - mCobrado;
   };
- 
 }
 export default Transacciones;

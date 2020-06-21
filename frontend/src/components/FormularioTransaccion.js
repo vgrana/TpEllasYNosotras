@@ -1,8 +1,5 @@
 import React from "react";
 
-import Transacciones from "./Transacciones";
-import BusquedaCliente from "./BusquedaCliente";
-import Cliente from "./Cliente";
 class FormularioTransaccion extends React.Component {
   constructor(props) {
     super(props);
@@ -13,11 +10,6 @@ class FormularioTransaccion extends React.Component {
       transaccion: {},
       clienTransacciones: props.clienTransacciones
     };
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.estadoInicial = this.estadoInicial.bind(this);
-    // this.agregarTransaccion = this.agregarTransaccion.bind(this);
-    // this.listadoDeTodosLosClientes=this.listadoDeTodosLosClientes.bind(this);
   }
   componentWillReceiveProps(props) {
     this.setState({ cliente: props.cliente });
@@ -26,7 +18,7 @@ class FormularioTransaccion extends React.Component {
   }
 
   handleChange = event => {
-    if (this.state.cliente.nombre == " ") {
+    if (this.state.cliente.nombre === " ") {
       alert("debe seleccionar un cliente");
       this.estadoInicial();
     } else {
@@ -85,8 +77,7 @@ class FormularioTransaccion extends React.Component {
                 <div className="card-panel #ffebee red lighten-4">
                   <div className="row">
                     <legend>
-                      {" "}
-                      Agregar movimiento a la cuenta de : <a></a>
+                      Agregar movimiento a la cuenta de :
                       <a>{this.state.cliente.apellido} </a>
                       <a>{this.state.cliente.nombre}</a>
                     </legend>
@@ -136,15 +127,13 @@ class FormularioTransaccion extends React.Component {
                   />
                   <a> Entrega</a>
                 </div>
-                {/* <div className="input-field col s2"> */}
-                  <button
-                    type="submit"
-                    className="btn #660066"
-                    style={{ margin: "2px" }}
-                  >
-                    Guardar
-                  </button>
-                {/* </div> */}
+                <button
+                  type="submit"
+                  className="btn #660066"
+                  style={{ margin: "2px" }}
+                >
+                  Guardar
+                </button>
               </div>
             </div>
           </div>

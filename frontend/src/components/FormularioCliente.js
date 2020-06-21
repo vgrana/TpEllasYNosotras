@@ -1,5 +1,5 @@
 import React from "react";
-import Clientes from "./Clientes";
+
 
 class FormularioCliente extends React.Component {
   constructor(props) {
@@ -10,11 +10,7 @@ class FormularioCliente extends React.Component {
       clientes: this.props.clientes,
       elCliente: []
     };
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.estadoInicial = this.estadoInicial.bind(this);
-    // this.buscarElCliente = this.buscarElCliente.bind(this);
-  }
+    }
 
   componentWillReceiveProps(props) {
     this.setState({ cliente: props.cliente });
@@ -65,7 +61,7 @@ class FormularioCliente extends React.Component {
   }
 
   agregarCliente = clientes => {
-    if (clientes.length == 0) {
+    if (clientes.length === 0) {
       console.log("hollaaa " + clientes.length);
       fetch(`http://localhost:8888/clientes`, {
         method: "POST",

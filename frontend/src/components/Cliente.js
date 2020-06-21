@@ -1,6 +1,4 @@
 import React from "react";
-import FormularioCliente from "./FormularioCliente";
-
 class Cliente extends React.Component {
   constructor(props) {
     super(props);
@@ -9,28 +7,23 @@ class Cliente extends React.Component {
       editarActivado: this.props.editarActivado,
       borrarActivado: this.props.borrarActivado
     };
-
-    // this.selectCliente = this.selectCliente.bind(this);
-    // this.borrarCliente = this.borrarCliente.bind(this);
-    // this.actualizar = this.actualizar.bind(this);
-    // this.editCliente = this.editCliente.bind(this);
   }
 
   selectCliente = () => {
     this.props.clienteSeleccionado(this.props.cliente);
-  }
+  };
 
   borrarCliente = () => {
     this.props.eliminarCliente(this.props.cliente);
-  }
+  };
 
   editCliente = () => {
     this.props.editarCliente(this.props.cliente);
-  }
+  };
 
   actualizar = () => {
     this.props.actualizacionDeClientes(this.props.cliente);
-  }
+  };
 
   render() {
     const activado = this.state.estaActivado;
@@ -51,13 +44,13 @@ class Cliente extends React.Component {
     let buttonBorrar;
     if (borrarActivado) {
       buttonBorrar = (
-        <button 
-          className="btn #283593 indigo darken-3 " style={{margin:"4px"}}
+        <button
+          className="btn #283593 indigo darken-3 "
+          style={{ margin: "4px" }}
           onClick={this.borrarCliente}
         >
           <i className="material-icons">delete</i>
         </button>
-       
       );
     }
 
@@ -66,13 +59,11 @@ class Cliente extends React.Component {
     if (editarActivado) {
       buttonEditar = (
         <button
-        
           className="btn #283593 indigo darken-3"
           onClick={this.editCliente}
         >
           <i className="material-icons">edit</i>
         </button>
-       
       );
     }
 
@@ -96,6 +87,3 @@ class Cliente extends React.Component {
   }
 }
 export default Cliente;
-
- 
- 

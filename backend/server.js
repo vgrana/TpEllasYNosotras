@@ -95,30 +95,37 @@ function init() {
   });
 
   ////Asi anda/////////////
- 
-  ///////////////////////
-  server.post("/usuarios/login",  passport.authenticate("login"),
-      function(req, res) {
-         console.log("klfkdlfkdlfk adento de post " + req.user._id )
-      // authentication successful
-      // res.redirect('/users/' + req.user.username);
-      res.status(200).json(req.user)
-       }
-  );
-   server.post("/usuarios/signup", passport.authenticate("signup"
-  //  successRedirect: '/',
-  //     failureRedirect: 'http://localhost:3000/usuarios/login',
-  ), function(req,res){
-     console.log("signup " + req.user  + "kfdlfkdkfldkl")
-     res.status(403).json(req.user)
 
+  ///////////////////////
+  server.post("/usuarios/login", passport.authenticate("login"), function(
+    req,
+    res
+  ) {
+    console.log("klfkdlfkdlfk adento de post " + req.user._id);
+    // authentication successful
+    // res.redirect('/users/' + req.user.username);
+    res.status(200).json(req.user);
+  });
+  server.post(
+    "/usuarios/signup",
+    passport.authenticate(
+      "signup"
+      //  successRedirect: '/',
+      //     failureRedirect: 'http://localhost:3000/usuarios/login',
+    ),
+    function(req, res) {
+      console.log("signup " + req.user + "kfdlfkdkfldkl");
+      res.status(403).json(req.user);
     }
-   );
-  // server.get("usuarios/logout", (req,res) =>{
-  //   req.session.destroy();
-  //   res.logout()
-  //   res.sendStatus(307)
-  // })
+  );
+  server.get("usuarios/logout", (req, res) => {
+    console.log("alguine ma llla")
+    res.json({ 
+      status: "logout"})
+
+    req.session.destroy();
+    res.logOut();
+  });
   ///////////////////////////////////ANDA////////////////////////////////////////////////////////
   //   server.post("/usuarios/signup",  (req, res) => {
   //     console.log(req.body.username + " este es el mail");

@@ -46,7 +46,7 @@ class Clientes extends React.Component {
 
   eliminarCliente = unCliente => {
     this.setState({ eliminarCliente: unCliente });
-    if (unCliente.transacciones.length == 0) {
+    if (unCliente.transacciones.length === 0) {
       this.eliminandoCliente(unCliente._id, unCliente);
       this.actualizacionDeClientes(unCliente);
     } else {

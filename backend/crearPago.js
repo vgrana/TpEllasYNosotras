@@ -65,8 +65,8 @@ function crearPago(server) {
     console.log("desde server" + nCliente);
     clienteHome.getUnCliente(nCliente, cliente => {
       console.log("a ver si llego aca " + JSON.stringify(cliente));
-      if (cliente) {
-        get_boton_pago(cliente, response => {
+      if (cliente && cliente.transacciones.length >=1) {
+        get_boton_pago( cliente, response => {
           console.log("response del body " + response.body.init_point);
           cliente["boton_de_pago"] = response.body.init_point;
           console.log(JSON.stringify(cliente));
@@ -76,7 +76,7 @@ function crearPago(server) {
       } else {
         res.sendStatus(401);
         // res.json({});
-        // res.end();
+        res.end();
       }
     });
   });

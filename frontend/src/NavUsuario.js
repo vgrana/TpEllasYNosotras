@@ -10,15 +10,14 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import Logout from "./components/Logout";
-import auth from "./components/Auth";
-import NavUsuario from "./NavUsuario";
-
+import {UserContext} from "./user-context"
 // import { PropsRoute, PublicRoute, PrivateRoute } from 'react-router-with-props';
 import { PrivateRoute } from "./components/PrivateRoute";
 
 import "./App.css";
 
 class NavElUsuario extends React.Component {
+  static contextType = UserContext;
   render() {
     return (
       <div className="contenedor">
@@ -45,18 +44,7 @@ class NavElUsuario extends React.Component {
                   <li>
                     <Link to="/signup">Registrarse</Link>
                   </li>
-                  {/* <li> */}
-
-                  {/* <div>
-               <Child ref={element => {this.child = element}} />
-                <button onClick={this.salir}>Saliendo</button>
-              </div> */}
-                  {/* <Link to="/salir" id="salir">Salir</Link> */}
-                  {/* <button >Salirrr </button>   */}
-
-                  {/* <button>Salir</button>   */}
-
-                  {/* </li> */}
+                
                 </ul>
               </div>
             </nav>
@@ -84,7 +72,7 @@ class NavElUsuario extends React.Component {
                 exact
                 path="/login"
                 name="Login Page"
-                render={props => <Login {...props} />}
+                render={props => <Login {...props} setUser={this.setUser}/>}
               />
               <Route
                 exact

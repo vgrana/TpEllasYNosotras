@@ -77,10 +77,10 @@ class BusquedaCliente extends React.Component {
 
   handleSubmit = event => {
     var consulta;
-    if (this.state.apellido == "") {
+    if (this.state.apellido === "") {
       this.listadoBusqueda(consulta);
     }
-    if (this.state.apellido != "") {
+    if (this.state.apellido !== "") {
       consulta = '?consulta=apellido=="' + this.state.apellido + '"';
       this.listadoBusqueda(consulta);
     }

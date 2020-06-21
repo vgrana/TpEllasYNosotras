@@ -1,9 +1,8 @@
 import React from "react";
 import auth from "./Auth";
-import {UserContext} from "../user-context";
+import { UserContext } from "../user-context";
 
 class Login extends React.Component {
-
   static contextType = UserContext;
 
   constructor(props) {
@@ -14,15 +13,7 @@ class Login extends React.Component {
     };
     this.loginExitoso = this.loginExitoso.bind(this);
   }
-
-  // componentWillReceiveProps(props) {
-  //   console.log("las props de login" + props);
-  // }
-
-  componentDidMount() {
-    console.log(this.props.pepito);
-  }
-
+ 
   handleChange = event => {
     console.log("entre al handle..." + event);
     var newUsuario = Object.assign({}, this.state.usuario);
@@ -76,8 +67,20 @@ class Login extends React.Component {
   // }
 
   loginExitoso(usuario) {
+    console.log("soy el usario del login " + usuario.rol);
     this.setState({ usuarioLogueado: usuario });
     this.props.setUser(usuario);
+    if (
+      this.state.usuarioLogueado !== {} &&
+      this.state.usuarioLogueado.rol === "usuario"
+    ) {
+      auth.login(() => {
+        this.props.history.push("/listadoTransacciones");
+      });
+
+      // const error = new Error(res.error);
+      // throw error;
+    }
   }
 
   loginUsuario = () => {
@@ -91,16 +94,16 @@ class Login extends React.Component {
     })
       .then(res => res.json())
       .then(usuario => this.loginExitoso(usuario))
-      .then(res => {
-        if (this.state.usuarioLogueado !== {}) {
-          auth.login(() => {
-            this.props.history.push("/listadoTransacciones");
-          });
+      // .then(res => {
+      // if (this.state.usuarioLogueado !== {}) {
+      //   auth.login(() => {
+      //     this.props.history.push("/listadoTransacciones");
+      //   });
 
-          // const error = new Error(res.error);
-          // throw error;
-        }
-      })
+      //   // const error = new Error(res.error);
+      //   // throw error;
+      // }
+      // })
       .catch(err => {
         console.error(err);
         alert(
