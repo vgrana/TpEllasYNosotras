@@ -10,6 +10,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import Logout from "./components/Logout";
+import auth from "./components/Auth";
 // import { PropsRoute, PublicRoute, PrivateRoute } from 'react-router-with-props';
 import { PrivateRoute } from "./components/PrivateRoute";
 import { UserContext } from "./user-context";
@@ -37,24 +38,25 @@ class App extends React.Component {
     let navListatransacciones;
     let agregarClientes;
     let agregarTransaccion;
-    if (this.state.usuario.rol === "usuario") {
-      navListatransacciones = (
-        <Link to="/listadoTransacciones">Listado Transacciones</Link>
-      );
-      // agregarClientes = <Link to="/agregarCliente">Agregar cliente</Link>;
-      // agregarTransaccion = (
-      //   <Link to="/agregarTransaccion">Agregar transacción</Link>
-      // );
-    }
-    // if (this.state.usuario.rol === "administrador") {
+    // if (this.state.usuario.rol === "usuario" ) {
+    
     //   navListatransacciones = (
     //     <Link to="/listadoTransacciones">Listado Transacciones</Link>
     //   );
-    //   agregarClientes = <Link to="/agregarCliente">Agregar cliente</Link>;
-    //   agregarTransaccion = (
-    //     <Link to="/agregarTransaccion">Agregar transacción</Link>
-    //   );
+    //   // agregarClientes = <Link to="/agregarCliente">Agregar cliente</Link>;
+    //   // agregarTransaccion = (
+    //   //   <Link to="/agregarTransaccion">Agregar transacción</Link>
+    //   // );
     // }
+    if (this.state.usuario.rol === "administrador") {
+      navListatransacciones = (
+        <Link to="/listadoTransacciones">Listado Transacciones</Link>
+      );
+      agregarClientes = <Link to="/agregarCliente">Agregar cliente</Link>;
+      agregarTransaccion = (
+        <Link to="/agregarTransaccion">Agregar transacción</Link>
+      );
+    }
 
     return (
       <UserContext.Provider value={this.state.usuario}>
@@ -95,7 +97,7 @@ class App extends React.Component {
                   <button onClick={this.salir}>Saliendo</button>
                 </div> */}
                     <Link to="/salir"  >Salir</Link> 
-                    {/* <button onClick={}> Salirrr </button> */}
+                    {/* <button onClick={auth.logout()}> Salirrr </button> */}
 
                     {/* <button>Salir</button>   */}
                   </ul>
@@ -157,8 +159,8 @@ class App extends React.Component {
                 <Route
                   exact
                   path="/listadoTransacciones"
-                  // component={Transacciones}
-                  render={props => <Transacciones {...props} setUser={this.setUser} />}
+                  component={Transacciones}
+                  // render={props => <Transacciones {...props} setUser={this.setUser} />}
                 />
                 {/* <Route
                   exact
@@ -175,7 +177,7 @@ class App extends React.Component {
     );
   }
 
-  salir = () => {};
+ 
 }
 
 export default App;

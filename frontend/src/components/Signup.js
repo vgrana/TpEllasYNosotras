@@ -12,7 +12,7 @@ class Signup extends React.Component {
   handleChange = event => {
     console.log("entre al handle..." + event);
     var newUsuario = Object.assign({}, this.state.usuario);
-    newUsuario.rol = "usuario";
+    newUsuario.rol = "administrador";
     newUsuario[event.target.name] = event.target.value;
     this.setState({ usuario: newUsuario });
   };
@@ -26,6 +26,10 @@ class Signup extends React.Component {
       usuario: { username: " ", password: "", rol: "usuario" }
     });
   };
+  usuarioNuevo = () => {
+    console.log("desde signuop " + auth.isAuthenticated());
+    this.props.history.push("./login");
+  };
 
   signup = () => {
     fetch(`http://localhost:8888/usuarios/signup/`, {
@@ -37,18 +41,8 @@ class Signup extends React.Component {
       }
     })
       .then(res => res.json())
-      .then(usuario => this.setState({ usuario: usuario }))
-      .then(res => {
-        if (this.state.usuario !== {}) {
-          auth.login(() => {
-            this.props.history.push("/listadoTransacciones");
-          });
-
-          //   // const error = new Error(res.error);
-          //   // throw error;
-        }
-      })
-
+      .then(res => this.setState({ usuario: res }))
+      .then(this.usuarioNuevo())
       .catch(err => {
         console.error(err);
         if (err === 401) {
@@ -101,6 +95,13 @@ class Signup extends React.Component {
                     style={{ margin: "2px" }}
                   >
                     Registrarse
+                  </button>
+                  <button
+                    onClick={() => this.props.history.push("./home")}
+                    className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
+                    style={{ margin: "2px" }}
+                  >
+                    Cancelar
                   </button>
 
                   <div>

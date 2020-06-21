@@ -13,7 +13,7 @@ class Login extends React.Component {
     };
     this.loginExitoso = this.loginExitoso.bind(this);
   }
- 
+
   handleChange = event => {
     console.log("entre al handle..." + event);
     var newUsuario = Object.assign({}, this.state.usuario);
@@ -30,58 +30,23 @@ class Login extends React.Component {
       usuario: { username: " ", password: "" }
     });
   };
-  // signup = () => {
-  //   fetch(`http://localhost:8888/usuarios/signup/`, {
-  //     method: "POST",
-  //     body: JSON.stringify(this.state.usuario),
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json"
-  //     }
-  //   })
-  //   .then(usuario => this.setState({ usuarioLogueado: usuario }))
-  //     .then(res => {
-  //      if (this.state.usuarioLogueado !== {}) {
-  //           auth.login(() => {
-  //           this.props.history.push("/listadoTransacciones");
-  //         });
-
-  //       // const error = new Error(res.error);
-  //       // throw error;
-  //     }
-  //     })
-  //   .catch(err => {
-  //     console.error(err);
-  //      alert('email o contraseña incorrecta, por favor reingrese los datos, sino tiene cuenta haga clic en registrarse');
-  //     this.estadoInicial();
-  //   });
-  //   // ///////porq se rompe si le pongo el json
-  //   //   .then(res => res.json())
-  //   //   // .then(res => this.setState({ usuarioRegistrado: res }))
-  //   //   .then(this.estadoInicial())
-  //   //   .catch(err => {
-  //   //   console.error(err);
-  //   //   // alert('email o contraseña incorrecta, por favor reingrese los datos');
-  //   //   // this.estadoInicial();
-  //   // });
-  // }
 
   loginExitoso(usuario) {
     console.log("soy el usario del login " + usuario.rol);
     this.setState({ usuarioLogueado: usuario });
+    auth.login();
     this.props.setUser(usuario);
-    if (
-      this.state.usuarioLogueado !== {} &&
-      this.state.usuarioLogueado.rol === "usuario"
-    ) {
-      auth.login(() => {
-        this.props.history.push("/listadoTransacciones");
-      });
-
-      // const error = new Error(res.error);
-      // throw error;
-    }
+    this.rolUsuario(usuario);
   }
+
+  rolUsuario = usuario => {
+    if (usuario.rol === "usuario") {
+      this.props.history.push("/listadoTransacciones");
+    }
+    if (usuario.rol === "administrador") {
+      this.props.history.push("/agregarCliente");
+    }
+  };
 
   loginUsuario = () => {
     fetch(`http://localhost:8888/usuarios/login/ `, {
@@ -94,16 +59,6 @@ class Login extends React.Component {
     })
       .then(res => res.json())
       .then(usuario => this.loginExitoso(usuario))
-      // .then(res => {
-      // if (this.state.usuarioLogueado !== {}) {
-      //   auth.login(() => {
-      //     this.props.history.push("/listadoTransacciones");
-      //   });
-
-      //   // const error = new Error(res.error);
-      //   // throw error;
-      // }
-      // })
       .catch(err => {
         console.error(err);
         alert(
@@ -112,34 +67,6 @@ class Login extends React.Component {
         this.estadoInicial();
       });
   };
-
-  // salir = () => {
-  //   fetch(`http://localhost:8888/logout/ `, {
-  //     method: "POST",
-  //     body: JSON.stringify(this.state.usuario),
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json"
-  //     }
-  //   })
-  //     // .then(res => res.json())
-  //     // .then(usuario => this.setState({ usuarioLogueado: usuario }))
-  //     // .then(res => {
-  //     //  if (this.state.usuarioLogueado !== {}) {
-  //     //       auth.logout((props) => {
-  //     //       this.props.history.push("/home");
-  //     //     });
-  //     // } else {
-  //     //   const error = new Error(res.error);
-  //     //   throw error;
-  //     // }
-  //   // })
-  //   // .catch(err => {
-  //   //   console.error(err);
-  //   //   alert('creo q sali');
-  //   //   this.estadoInicial();
-  //   // });
-  // }
 
   render() {
     return (
@@ -184,13 +111,13 @@ class Login extends React.Component {
                   >
                     Ingresar
                   </button>
-                  {/* <button
-                    onClick={() => this.signup(this.state.usuario)}
+                  <button
+                    onClick={() => this.props.history.push("./home")}
                     className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
                     style={{ margin: "2px" }}
                   >
-                    Registrarse
-                  </button> */}
+                    Cancelar
+                  </button>
                   <div>
                     {/* <button onClick={this.props.history.push("/signup")}> Sino tiene cuenta</button> */}
                   </div>

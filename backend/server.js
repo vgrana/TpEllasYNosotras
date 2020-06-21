@@ -120,8 +120,8 @@ function init() {
   );
   server.get("usuarios/logout", (req, res) => {
     console.log("alguine ma llla")
-    res.json({ 
-      status: "logout"})
+    // res.json({ 
+    //   status: "logout"})
 
     req.session.destroy();
     res.logOut();
