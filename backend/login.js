@@ -33,44 +33,43 @@ function login(server) {
     })
   );
 
-  passport.use(
-    "signup",
-    new LocalStrategy(
-      {
-        passReqToCallback: true
-      },
-      async function(req, username, password, done) {
-        console.log("desde sttrategy " + username);
-        const body = {
-          email: req.body.username,
-          password: req.body.password,
-          rol: req.body.rol
-        };
-        // findOrCreateUser = async function(){
-        // find a user in Mongo with provided username
+  // passport.use(
+  //   "signup",
+  //   new LocalStrategy(
+  //     {
+  //       passReqToCallback: true
+  //     },
+  //     async function(req,username, password, done) {
+  //       console.log("desde sttrategy " + username);
+  //       const body = {
+  //         email: req.body.username,
+  //         password: req.body.password,
+  //         rol: req.body.rol
+  //       };
+  //       await usuarioHome.findEmail(username, (user, err) => {
+  //         try {
+  //           // In case of any error return
+  //           if (err) throw err;
+  //           // already exists
+  //           if (user) {
+  //             console.log("User already exists");
+  //             return done(null, false);
+  //             // done(null, false);
+  //           //  return res.sendStatus(406)
+  //           } else {
+  //             body.password = bcrypt.hashSync(req.body.password, saltRounds);
+  //             console.log(password + " este es la contraseña");
+  //             const usuario = usuarioHome.insert(body);
+  //             return done(null, usuario);
+  //           }
+  //         } catch (error) {}
+  //       });
 
-        await usuarioHome.findEmail(username, (user, err) => {
-          try {
-            // In case of any error return
-            if (err) throw err;
-            // already exists
-            if (user) {
-              console.log("User already exists");
-              return done(null, false, sendStatus(401));
-            } else {
-              body.password = bcrypt.hashSync(req.body.password, saltRounds);
-              console.log(password + " este es la contraseña");
-              const usuario = usuarioHome.insert(body);
-              return done(null, usuario);
-            }
-          } catch (error) {}
-        });
-
-        // }
-        //  process.nextTick(findOrCreateUser);
-      }
-    )
-  );
+  //       // }
+  //       //  process.nextTick(findOrCreateUser);
+  //     }
+  //   )
+  // );
   // Delay the execution of findOrCreateUser and execute
   // the method in the next tick of the event loop
 

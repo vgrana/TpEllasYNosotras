@@ -10,9 +10,8 @@ class Signup extends React.Component {
   }
 
   handleChange = event => {
-    console.log("entre al handle..." + event);
     var newUsuario = Object.assign({}, this.state.usuario);
-    newUsuario.rol = "administrador";
+    newUsuario.rol = "usuario";
     newUsuario[event.target.name] = event.target.value;
     this.setState({ usuario: newUsuario });
   };
@@ -23,11 +22,10 @@ class Signup extends React.Component {
 
   estadoInicial = () => {
     this.setState({
-      usuario: { username: " ", password: "", rol: "usuario" }
+      usuario: { username: " ", password: "" }
     });
   };
   usuarioNuevo = () => {
-    console.log("desde signuop " + auth.isAuthenticated());
     this.props.history.push("./login");
   };
 
@@ -40,17 +38,19 @@ class Signup extends React.Component {
         "Content-Type": "application/json"
       }
     })
-      .then(res => res.json())
+      .then(res => this.error(res))
+      // .then(res => res.json())
       .then(res => this.setState({ usuario: res }))
       .then(this.usuarioNuevo())
-      .catch(err => {
-        console.error(err);
-        if (err === 401) {
-          console.log("este es el error" + err);
-        }
-        //  alert(' ringrese los datos, sino tiene cuenta haga clic en registrarse');
-        this.estadoInicial();
-      });
+      // .catch(err => {
+      //   console.log(err);
+      //   if (err === 401) {
+      //     console.log("este es el error" + err);
+      //   }
+      //   //  alert(' ringrese los datos, sino tiene cuenta haga clic en registrarse');
+       
+      // });
+      this.estadoInicial();
   };
 
   render() {
@@ -103,7 +103,6 @@ class Signup extends React.Component {
                   >
                     Cancelar
                   </button>
-
                   <div>
                     <a href="#!"> Desbloquear usuario</a>
                   </div>
@@ -116,13 +115,13 @@ class Signup extends React.Component {
     );
   }
 
-  error = error => {
-    if (error.status === 401) {
-      alert("email o contraseña incorrecta, por favor reingrese los datos");
-      this.estadoInicial();
+  error = res => {
+    if (res.status === 401) {
+      alert("email ya se encuentra registrado");
+    
     }
 
-    if (error.status === 200) {
+    if (res.status === 200) {
       alert("logueado satisfactoriamente");
       this.estadoInicial();
     }

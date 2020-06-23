@@ -102,66 +102,56 @@ function init() {
     res
   ) {
     console.log("klfkdlfkdlfk adento de post " + req.user._id);
-    // authentication successful
-    // res.redirect('/users/' + req.user.username);
     res.status(200).json(req.user);
   });
-  server.post(
-    "/usuarios/signup",
-    passport.authenticate(
-      "signup"
-      //  successRedirect: '/',
-      //     failureRedirect: 'http://localhost:3000/usuarios/login',
-    ),
-    function(req, res) {
-      console.log("signup " + req.user + "kfdlfkdkfldkl");
-      res.status(403).json(req.user);
-    }
-  );
-  server.get("usuarios/logout", (req, res) => {
-    console.log("alguine ma llla")
-    // res.json({ 
-    //   status: "logout"})
 
+  // server.post("/usuarios/signup", passport.authenticate("signup"));
+  server.get("/usuarios/logout", (req, res) => {
+    console.log("alguine ma llla");
+
+    req.logOut();
     req.session.destroy();
-    res.logOut();
+    res.sendStatus(200);
   });
+
   ///////////////////////////////////ANDA////////////////////////////////////////////////////////
-  //   server.post("/usuarios/signup",  (req, res) => {
-  //     console.log(req.body.username + " este es el mail");
-  //     console.log(req.body.password + " este es la contraseña");
-  //     console.log('Cookies: ', req.cookies)
-  //     const body = {
-  //       email: req.body.username
-  //       // role: req.body.role
-  //     }; //antes de registrar debo buscar para ver si ya esta registrado
+  server.post("/usuarios/signup", (req, res) => {
+    console.log(req.body.username + " este es el mail");
+    console.log(req.body.password + " este es la contraseña");
+    console.log(req.body.rol + " este es el rol");
+    console.log("Cookies: ", req.cookies);
+    const body = {
+      email: req.body.username,
+      rol: req.body.rol,
+      password: req.body.password
+    };
+    //antes de registrar debo buscar para ver si ya esta registrado
+    usuarioHome.findEmail(req.body.username, user => {
+      console.log("lo encontre " + req.body.username + req.body.password);
+      // if (err) {
+      //   console.log("a ver el error " + err)
+      //   return done(err);
+      // }
+      if (!user) {
+        body.password = bcrypt.hashSync(req.body.password, saltRounds);
+        console.log(body.password + " este es la contraseña");
+        // try {
+        usuarioHome.insert(body);
 
-  //  usuarioHome.findEmail(req.body.username, user => {
-  //         console.log("lo encontre " + req.body.username + req.body.password);
-  //         // if (err) {
-  //         //   console.log("a ver el error " + err)
-  //         //   return done(err);
-  //         // }
-  //         if (!user) {
-  //     body.password = bcrypt.hashSync(req.body.password, saltRounds);
-  //     console.log(body.password + " este es la contraseña");
-  //     // try {
-  //       const usuario =  usuarioHome.insert(body);
+        return res.json(user);
+      }
+      // catch (error) {
+      //   return res.status(500).json({
+      //     mensaje: "Ocurrio un error",
+      //     error
+      //   });
 
-  //     return res.json(user);
-  //     }
-  //     // catch (error) {
-  //     //   return res.status(500).json({
-  //     //     mensaje: "Ocurrio un error",
-  //     //     error
-  //     //   });
-
-  //        if (user) {
-  //          console.log("el user del servidor " + user)
-  //           res.sendStatus(401);
-  //         }
-  //   });
-  //   });
+      if (user) {
+        console.log("el user del servidor " + user);
+        res.sendStatus(401);
+      }
+    });
+  });
   ///////////////////////////////////////////////////////////////////////////////////////
 
   // server.get("/:type/:id", (req, res) => {
@@ -190,11 +180,11 @@ function init() {
     });
   });
 
-  server.post("/:type/", (req, res) => {
-    home = homes[req.params.type];
-    home.insert(req.body);
-    res.status(204).end();
-  });
+  // server.post("/:type/", (req, res) => {
+  //   home = homes[req.params.type];
+  //   home.insert(req.body);
+  //   res.status(204).end();
+  // });
 
   server.delete("/:clientes/:id", (req, res) => {
     clienteId = req.params.id;
@@ -207,19 +197,19 @@ function init() {
     });
   });
 
-  server.get("/:type", (req, res) => {
-    var query = {};
-    if (req.query.consulta) {
-      console.log("Query:" + req.query.consulta);
-      var Consulta = req.query.consulta;
-      query = rsqlMongoDB(Consulta);
-    }
-    home = homes[req.params.type];
-    home.find(query, allObjects => {
-      res.json(allObjects);
-      res.end();
-    });
-  });
+  // server.get("/:type", (req, res) => {
+  //   var query = {};
+  //   if (req.query.consulta) {
+  //     console.log("Query:" + req.query.consulta);
+  //     var Consulta = req.query.consulta;
+  //     query = rsqlMongoDB(Consulta);
+  //   }
+  //   home = homes[req.params.type];
+  //   home.find(query, allObjects => {
+  //     res.json(allObjects);
+  //     res.end();
+  //   });
+  // });
 
   server.listen(server.get("port"), () => {
     console.log("Server running on port ", server.get("port"));

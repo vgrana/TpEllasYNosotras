@@ -44,6 +44,7 @@ class Login extends React.Component {
       this.props.history.push("/listadoTransacciones");
     }
     if (usuario.rol === "administrador") {
+      auth.login();
       this.props.history.push("/agregarCliente");
     }
   };

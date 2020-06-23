@@ -10,41 +10,25 @@ class Logout extends React.Component {
     this.logoutExitoso = this.logoutExitoso.bind(this);
   }
 
-  logoutExitoso =(usuario)=> {
+  logoutExitoso = usuario => {
     this.props.setUser(usuario);
-    this.setState({ kldkfld: usuario });
-    console.log("desde logout " + usuario);
     auth.logout();
-    console.log("desde logout " + auth.isAuthenticated())
     this.props.history.push("/home");
-  }
+  };
 
   salir = () => {
+    console.log("adentroe del fecthhh");
     fetch(`http://localhost:8888/usuarios/logout/ `)
-      .then(res => res.json())
-      // res.json())
       .then(this.logoutExitoso())
-      //   this.logoutExitoso(usuario));
-      //  (this.setState({ aver: usuario }),
-      // //     .then(res => {
-      // if (this.state.usuarioLogueado !== {}) {
-      //         auth.logout(() => {
-      //         this.props.history.push("/home");
-      //     });
-      // //     } else {
-      // //         const error = new Error(res.error);
-      // //         throw error;
-      // .then(res => this.logoutExitoso(res) )
-
-      .catch(err => {
-        console.error(err.success);
-        console.log("erere" + err.success);
+      .catch(function(error) {
+        alert("gracias por su visita");
       });
   };
+
   render() {
     return (
       <div>
-        <button onClick={this.salir()}> Gracias por visitarnos</button>
+        <button onClick={this.salir()}>Salir</button>
       </div>
     );
   }
