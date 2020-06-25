@@ -22,7 +22,7 @@ class Signup extends React.Component {
 
   estadoInicial = () => {
     this.setState({
-      usuario: { username: " ", password: "" }
+      usuario: { username: " ", password: "" , dni: "" }
     });
   };
   usuarioNuevo = () => {
@@ -71,6 +71,7 @@ class Signup extends React.Component {
                     name="username"
                     onChange={this.handleChange}
                     value={this.state.usuario.username}
+                    title="Ingrese una dirección de email"
                   />
                   <label for="username">Email</label>
                 </div>
@@ -84,8 +85,24 @@ class Signup extends React.Component {
                     name="password"
                     onChange={this.handleChange}
                     value={this.state.usuario.password}
+                    title="Ingrese una contraseña"
                   />
                   <label for="password">Password</label>
+                </div>
+                <br></br>
+                <div className="form-field">
+                <input
+                    className="validate"
+                    type="number"
+                    required
+                    name="dni"
+                    id="dni"
+                    max="99999999"
+                    onChange={this.handleChange}
+                    value={this.state.usuario.dni}
+                    title="Ingrese su DNI"
+                  />
+                  <label for="dni">Dni</label>
                 </div>
                 <br></br>
                 <div className="form-field">
