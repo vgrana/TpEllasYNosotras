@@ -101,8 +101,14 @@ function init() {
     req,
     res
   ) {
+    var usuario={
+      email:req.user.email,
+      dni: req.user.dni,
+      rol: req.user.rol,
+      _id: req.user._id
+    }
     console.log("klfkdlfkdlfk adento de post " + req.user._id);
-    res.status(200).json(req.user);
+    res.status(200).json(usuario);
   });
 
   // server.post("/usuarios/signup", passport.authenticate("signup"));
@@ -119,11 +125,13 @@ function init() {
     console.log(req.body.username + " este es el mail");
     console.log(req.body.password + " este es la contraseña");
     console.log(req.body.rol + " este es el rol");
+    console.log(req.body.dni + " este es el dni");
     console.log("Cookies: ", req.cookies);
     const body = {
       email: req.body.username,
       rol: req.body.rol,
-      password: req.body.password
+      password: req.body.password,
+      dni:req.body.dni
     };
     //antes de registrar debo buscar para ver si ya esta registrado
     usuarioHome.findEmail(req.body.username, user => {
@@ -180,11 +188,11 @@ function init() {
     });
   });
 
-  // server.post("/:type/", (req, res) => {
-  //   home = homes[req.params.type];
-  //   home.insert(req.body);
-  //   res.status(204).end();
-  // });
+  server.post("/:type/", (req, res) => {
+    home = homes[req.params.type];
+    home.insert(req.body);
+    res.status(204).end();
+  });
 
   server.delete("/:clientes/:id", (req, res) => {
     clienteId = req.params.id;

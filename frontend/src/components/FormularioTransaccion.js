@@ -53,13 +53,13 @@ class FormularioTransaccion extends React.Component {
   };
 
   agregarTransaccion = event => {
-    if (
-      this.state.transaccion.montoCobrado > this.state.transaccion.importeTotal
-    ) {
-      alert(
-        "el monto cobrado no puede ser superior al monto de la transacción"
-      );
-    } else {
+    // if (
+    //   this.state.transaccion.montoCobrado > this.state.transaccion.importeTotal
+    // ) {
+    //   alert(
+    //     "el monto cobrado no puede ser superior al monto de la transacción"
+    //   );
+    // } else {
       console.log("acaaaaa" + event);
       fetch(`http://localhost:8888/clientes/` + this.state.cliente._id, {
         method: "PUT",
@@ -72,7 +72,7 @@ class FormularioTransaccion extends React.Component {
         .then(this.transaccionExitosa())
 
         .then(this.props.listado());
-    }
+    // }
   };
 
   render() {

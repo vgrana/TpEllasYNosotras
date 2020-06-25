@@ -125,6 +125,7 @@ class Transacciones extends React.Component {
 
     if (this.context.rol === "usuario") {
       traerCliente = (
+        <div> <span> Si desea ver sus movimientos : <br></br></span>
         <button
           type="button"
           className="btn sm #660066"
@@ -133,6 +134,7 @@ class Transacciones extends React.Component {
         >
           Ver Movimientos
         </button>
+        </div>
       );
     }
     if (this.state.clienteTransacciones.length >= 1) {
