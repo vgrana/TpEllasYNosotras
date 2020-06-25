@@ -24,7 +24,6 @@ class FormularioTransaccion extends React.Component {
     } else {
       var newTransaccion = Object.assign({}, this.state.transaccion);
       newTransaccion[event.target.name] = event.target.value;
-      newTransaccion["clienteId"] = this.state.cliente._id;
       this.setState({ transaccion: newTransaccion });
     }
   };
@@ -54,17 +53,26 @@ class FormularioTransaccion extends React.Component {
   };
 
   agregarTransaccion = event => {
-    console.log("acaaaaa" + event);
-    fetch(`http://localhost:8888/clientes/` + this.state.cliente._id, {
-      method: "PUT",
-      body: JSON.stringify(this.state.transaccion),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
-    })
-      .then(this.estadoInicial())
-      .then(this.props.listado());
+    if (
+      this.state.transaccion.montoCobrado > this.state.transaccion.importeTotal
+    ) {
+      alert(
+        "el monto cobrado no puede ser superior al monto de la transacción"
+      );
+    } else {
+      console.log("acaaaaa" + event);
+      fetch(`http://localhost:8888/clientes/` + this.state.cliente._id, {
+        method: "PUT",
+        body: JSON.stringify(this.state.transaccion),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      })
+        .then(this.transaccionExitosa())
+
+        .then(this.props.listado());
+    }
   };
 
   render() {
@@ -141,5 +149,9 @@ class FormularioTransaccion extends React.Component {
       </div>
     );
   }
+  transaccionExitosa = () => {
+    this.estadoInicial();
+    alert("se ha agregado un movimiento a la cuenta corriente");
+  };
 }
 export default FormularioTransaccion;

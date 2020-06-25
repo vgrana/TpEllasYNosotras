@@ -33,18 +33,17 @@ class Login extends React.Component {
 
   loginExitoso(usuario) {
     console.log("soy el usario del login " + usuario.rol);
-    this.setState({ usuarioLogueado: usuario });
     auth.login();
     this.props.setUser(usuario);
-    this.rolUsuario(usuario);
+    this.rolUsuario();
   }
 
-  rolUsuario = usuario => {
-    if (usuario.rol === "usuario") {
+  rolUsuario = () => {
+    console.log("desde login " + this.context.rol);
+    if (this.context.rol === "usuario") {
       this.props.history.push("/listadoTransacciones");
     }
-    if (usuario.rol === "administrador") {
-      auth.login();
+    if (this.context.rol === "administrador") {
       this.props.history.push("/agregarCliente");
     }
   };
