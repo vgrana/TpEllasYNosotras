@@ -13,10 +13,10 @@ class Transacciones extends React.Component {
       clientes: [],
       seleccionado: {},
       n_cliente: "",
-      elCliente: {},
-      mostrarLista: false,
+      // elCliente: {},
+      mostrarLista: true,
       mostrarBotonPago: false,
-      cliente: {},
+      // cliente: {},
       usuario: {}
     };
   }
@@ -76,7 +76,7 @@ class Transacciones extends React.Component {
         .then(cliente =>
           this.setState({
             seleccionado: cliente,
-            mostrarLista: true,
+            // mostrarLista: true,
             clienteTransacciones: cliente.transacciones
           })
         )
@@ -100,7 +100,7 @@ class Transacciones extends React.Component {
     this.setState({
       clienteTransacciones: [],
       seleccionado: [],
-      mostrarLista: false,
+      mostrarLista: true,
       mostrarBotonPago: false
     });
     this.limpiarFormulario();
@@ -108,30 +108,65 @@ class Transacciones extends React.Component {
   };
 
   render() {
-    // var listaDniCliente = this.state.clientes.map(cliente => {
-
-    //   return (
-    //     <div>
-    //       <option value={cliente.n_cliente} />
-    //     </div>
-    //   );
-    // });
-
-    const mostrarBotonPago = this.state.seleccionado.boton_de_pago;
-    const mostrarLista = this.state.mostrarLista;
-    let lista;
+    const mostrarBotonDePago = this.state.seleccionado.boton_de_pago;
+    let traerCliente;
+    let datosClientes;
     let mostrarBoton;
+    let lista;
+    let transaccionesClientes;
 
-    mostrarBoton = (
-      <a href={mostrarBotonPago} target="_blank">
-        Realizar pago
-      </a>
-    );
-    
-    if (mostrarLista && this.state.clienteTransacciones.length >= 1) {
+    var listaDniCliente = this.state.clientes.map(cliente => {
+      return (
+        <div>
+          <option value={cliente.n_cliente} />
+        </div>
+      );
+    });
+
+    if (this.context.rol === "usuario") {
+      traerCliente = (
+        <button
+          type="button"
+          className="btn sm #660066"
+          style={{ margin: "2px" }}
+          onClick={() => this.resultadoBusqueda(this.context.dni)}
+        >
+          Ver Movimientos
+        </button>
+      );
+    }
+    if (this.state.clienteTransacciones.length >= 1) {
+      datosClientes = (
+        <div className="row col s12">
+          <div className="row card-panel col s10">
+            <div className="card-panel #ffebee red lighten-5 col 10">
+              <div className="input-field col s12">
+                <legend>
+                  Movimientos del usuario:
+                  {this.state.seleccionado.n_cliente} , apellido{" "}
+                  {this.state.seleccionado.apellido} , nombre{" "}
+                  {this.state.seleccionado.nombre}
+                </legend>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (this.context.rol === "usuario") {
+      mostrarBoton = (
+        <a href={mostrarBotonDePago} target="_blank">
+          Realizar pago
+        </a>
+      );
+    }
+
+    if (this.state.clienteTransacciones.length >= 1) {
       lista = (
         <table className="left responsive-table highlight">
           <thead className="bordered hoverable">
+            {/* <legend>{this.state.seleccionado.nombre}</legend> */}
             <tr className="border: green 4px solid">
               <th>Fecha operación</th>
               <th>Total operación </th>
@@ -146,17 +181,71 @@ class Transacciones extends React.Component {
             <th></th>
             <th>{this.montoAdeudado()}</th>
             <th></th>
-            <th>
-              {mostrarBoton}
-            </th>
+            <th>{mostrarBoton}</th>
           </tr>
         </table>
       );
     }
-
+    if (this.context.rol === "administrador") {
+      transaccionesClientes = (
+        <div>
+          <div class="row">
+            <div class="col s12">
+              <div class="row">
+                <form onSubmit={this.handleSubmit}>
+                  <div class="input-field col s5">
+                    <i class="material-icons prefix">search</i>
+                    <input
+                      type="number"
+                      id="n_cliente"
+                      name="n_cliente"
+                      max="99999999"
+                      required
+                      onChange={this.handleChange}
+                      list="clientes"
+                      autoComplete="off"
+                    ></input>
+                    <label for="n_cliente">Buscar por DNI</label>
+                    <datalist id="clientes">{listaDniCliente}</datalist>
+                    <div className="row">
+                      <div class="input-field col s6">
+                        <button
+                          type="button"
+                          className="btn sm #660066"
+                          style={{ margin: "2px" }}
+                          onClick={() =>
+                            this.resultadoBusqueda(this.state.n_cliente)
+                          }
+                        >
+                          Consultar
+                        </button>
+                        <button
+                          type="button"
+                          className="btn #660066"
+                          style={{ margin: "1px" }}
+                          onClick={this.limpiezaFormListaClientes}
+                        >
+                          Nueva búsqueda
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="container">
-        <div class="row">
+      
+        {traerCliente}
+        {transaccionesClientes}
+        {datosClientes}
+        {lista}
+        {/* {transaccionesUsuario} */}
+        {/* <div class="row">
           <div class="col s12">
             <div class="row">
               <form onSubmit={this.handleSubmit}>
@@ -174,7 +263,7 @@ class Transacciones extends React.Component {
                   ></input>
                   <label for="n_cliente">Buscar por DNI</label>
                   {/* <datalist id="clientes">{listaDniCliente}</datalist> */}
-                  <div className="row">
+        {/* <div className="row">
                     <div class="input-field col s6">
                       <button
                         type="button"
@@ -201,10 +290,10 @@ class Transacciones extends React.Component {
             </div>
           </div>
         </div>
-        <div className="row">
+      {/* <div className="row">
           <legend>{this.unCliente()}</legend>
-        </div>
-        <div className="row">{lista}</div>
+        </div>  */}
+        {/* <div className="row">{lista}</div>  */}
       </div>
     );
   }
