@@ -1,4 +1,5 @@
 import React from "react";
+import swal from '@sweetalert/with-react'
 
 class Signup extends React.Component {
   constructor(props) {
@@ -139,14 +140,14 @@ class Signup extends React.Component {
 
   error = res => {
     if (res.status === 401) {
-      alert("email ya se encuentra registrado");
+      swal("email ya se encuentra registrado");
     }
 
     if (res.status === 200) {
-      alert("logueado satisfactoriamente");
+      swal("logueado satisfactoriamente");
     }
     if (res.status === 403) {
-      alert(
+      swal(
         "Su cuenta no se pudo crear. Por favor vuela a registrarse y complete todos los campos"
       );
       this.estadoInicial();

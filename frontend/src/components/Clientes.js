@@ -1,6 +1,7 @@
 import React from "react";
 import Cliente from "./Cliente";
 import FormularioCliente from "./FormularioCliente";
+import swal from '@sweetalert/with-react'
 
 class Clientes extends React.Component {
   constructor(props) {
@@ -50,19 +51,18 @@ class Clientes extends React.Component {
       this.eliminandoCliente(unCliente._id, unCliente);
       this.actualizacionDeClientes(unCliente);
     } else {
-      alert(
-        "el cliente no puede ser eliminado porque tiene transacciones en su cuenta"
-      );
+      swal({
+        text: "el cliente no puede ser eliminado porque tiene transacciones en su cuenta",
+        buttons: {
+        cancel: "volver",
+        }
+      })
     }
   }
 
   eliminandoCliente = (_id, unCliente) => {
-    alert(
-      "esta a punto de eliminar el cliente: " +
-        unCliente.apellido +
-        " " +
-        unCliente.nombre
-    );
+     swal(`Ud. eliminó el cliente : ${unCliente.apellido},${unCliente.nombre}`);
+            
     fetch("http://localhost:8888/clientes/" + _id, {
       method: "delete",
       headers: {

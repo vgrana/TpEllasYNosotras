@@ -100,15 +100,15 @@ class BusquedaCliente extends React.Component {
       );
     });
     return (
-      <div className="contenedor">
-        <div className="row input-field col s6">
+      <div className="container">
+        <div className="row input-field col s12">
           <form
             onSubmit={this.handleSubmit}
             id="formulario"
             className="input-field col s10 responsive-form"
           >
             <div className="row">
-              <div className="input-field col s4">
+              <div className="input-field col s5 m4">
                 <div>
                   <input
                     type="text"
@@ -122,18 +122,21 @@ class BusquedaCliente extends React.Component {
                 </div>
               </div>
               <div className="row">
-                <div className="input-field col s5">
+                <div className="input-field col s6">
                   <button
                     type="button"
-                    className="btn sm #660066"
+                    className="btn sm #660066 waves-light btn"
                     style={{ margin: "2px" }}
                     onClick={() => this.resultadoBusqueda(this.state.apellido)}
                   >
                     Consultar
                   </button>
+                  {/* </div>
+                  <div className="input-field col s6 "> */}
+                  
                   <button
                     type="button"
-                    className="btn #660066"
+                    className="btn #660066 waves-light btn"
                     style={{ margin: "2px" }}
                     onClick={this.limpiezaFormListaClientes}
                   >

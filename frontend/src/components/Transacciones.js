@@ -2,6 +2,7 @@ import React from "react";
 import Transaccion from "./Transaccion";
 import Cliente from "./Cliente";
 import { UserContext } from "../user-context";
+import swal from '@sweetalert/with-react'
 
 class Transacciones extends React.Component {
   static contextType = UserContext;
@@ -67,7 +68,7 @@ class Transacciones extends React.Component {
 
   resultadoBusqueda = elCliente => {
     if (elCliente === "") {
-      alert("debe ingresar un N° de cliente");
+      swal("debe ingresar un N° de cliente");
     } else {
       fetch(`http://localhost:8888/clientes/` + elCliente)
         .then(res => res.json())
@@ -78,7 +79,7 @@ class Transacciones extends React.Component {
           })
         )
         .catch(function(error) {
-          alert(
+          swal(
             "El número de documento ingresado no es correcto,o su cuenta no tiene deuda. Por favor verifique y vuelva a intentarlo"
           );
         });
@@ -164,6 +165,7 @@ class Transacciones extends React.Component {
     }
     if (this.state.clienteTransacciones.length >= 1) {
       lista = (
+        <div className="contenedor">
         <table className="left responsive-table highlight">
           <thead className="bordered hoverable white-text">
             {/* <legend>{this.state.seleccionado.nombre}</legend> */}
@@ -176,7 +178,9 @@ class Transacciones extends React.Component {
             <tr></tr>
           </thead>
           <tbody className="bordered hoverable">
+            
             {this.transaccionesRows()}
+          
             <tr className="border: card blue-grey darken-1">
               <th>Total Cuenta Corriente</th>
               <th></th>
@@ -185,17 +189,20 @@ class Transacciones extends React.Component {
             </tr>
           </tbody>
         </table>
+        </div>
       );
     }
     if (this.context.rol === "administrador") {
       transaccionesClientes = (
-        <div>
-          <div class="row">
-            <div class="col s12">
-              <div class="row">
-                <form onSubmit={this.handleSubmit}>
-                  <div class="input-field col s5">
-                    <i class="material-icons prefix">search</i>
+      
+           
+            <div className="row input-field col s12">
+              {/* <div class="row"> */}
+                <form onSubmit={this.handleSubmit} className= "input-field col s10 responsive-form">
+                  
+                   <div className="row">
+              <div className="input-field col s5 m4">
+              <div>
                     <input
                       type="number"
                       id="n_cliente"
@@ -208,11 +215,12 @@ class Transacciones extends React.Component {
                     ></input>
                     <label for="n_cliente">Buscar por DNI</label>
                     <datalist id="clientes">{listaDniCliente}</datalist>
+                    </div>
                     <div className="row">
-                      <div class="input-field col s3 m6">
+                      <div class="input-field col s12 m12 ">
                         <button
                           type="button"
-                          className="btn sm #660066"
+                          className="btn sm #660066 waves-light btn"
                           style={{ margin: "2px" }}
                           onClick={() =>
                             this.resultadoBusqueda(this.state.n_cliente)
@@ -223,8 +231,8 @@ class Transacciones extends React.Component {
 
                         <button
                           type="button"
-                          className="btn #660066"
-                          style={{ margin: "1px" }}
+                          className="btn #660066 waves-light btn"
+                          style={{ margin: "2px" }}
                           onClick={this.limpiezaFormListaClientes}
                         >
                           Nueva búsqueda
@@ -232,11 +240,13 @@ class Transacciones extends React.Component {
                       </div>
                     </div>
                   </div>
+                  </div>
+                  {/* </div> */}
                 </form>
               </div>
-            </div>
-          </div>
-        </div>
+            //  </div>
+        //   </div>
+        // </div>
       );
     }
     return (
@@ -288,10 +298,10 @@ class Transacciones extends React.Component {
     // return Math.round((totalT - mCobrado) * 100) / 100;
     return (totalT - mCobrado).toFixed(2);
   };
-  error = req => {
-    if (req.status === 400) {
-      alert("email ya");
-    }
-  };
+  // error = req => {
+  //   if (req.status === 400) {
+  //     alert("email ya");
+  //   }
+  // };
 }
 export default Transacciones;

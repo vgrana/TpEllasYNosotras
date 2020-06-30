@@ -1,6 +1,7 @@
 import React from "react";
 import auth from "./Auth";
 import { UserContext } from "../user-context";
+import swal from '@sweetalert/with-react'
 
 class Logout extends React.Component {
   static contextType = UserContext;
@@ -21,7 +22,7 @@ class Logout extends React.Component {
     fetch(`http://localhost:8888/usuarios/logout/ `)
       .then(this.logoutExitoso())
       .catch(function(error) {
-        alert("gracias por su visita");
+        swal("Gracias por su visita");
       });
   };
 

@@ -1,5 +1,5 @@
 import React from "react";
-
+import swal from '@sweetalert/with-react'
 class FormularioTransaccion extends React.Component {
   constructor(props) {
     super(props);
@@ -36,7 +36,7 @@ class FormularioTransaccion extends React.Component {
 
   handleSubmit(event) {
     if(this.state.cliente._id === undefined){
-      alert('debe seleccionar un cliente')
+      swal('debe seleccionar un cliente')
       this.estadoInicialTransaccion();
     }
     else{
@@ -92,7 +92,7 @@ class FormularioTransaccion extends React.Component {
         .then(this.estadoInicialCliente(), this.estadoInicialTransaccion());
     }
     if (diferencia < 0) {
-      alert(" el cliente no puede tener saldo a favor");
+      swal(" el cliente no puede tener saldo a favor");
     }
   
     this.estadoInicialCliente();
@@ -100,11 +100,11 @@ class FormularioTransaccion extends React.Component {
   }
   render() {
     return (
-      <div className="container">
+       <div className="container">
         <form onSubmit={this.handleSubmit} input-field s12 id="formulario">
           <div className="row">
             <div className="card-panel responsive-card #ffebee red lighten-4">
-              <div className="row ">
+              {/* <div className="row "> */}
                 <div className="card-panel #ffebee red lighten-4">
                   <div className="row">
                     <legend>
@@ -114,7 +114,7 @@ class FormularioTransaccion extends React.Component {
                     </legend>
                   </div>
                 </div>
-                <div className="input-field col s4">
+                <div className="input-field col s5 ">
                   <input
                     className="validate"
                     type="date"
@@ -129,7 +129,7 @@ class FormularioTransaccion extends React.Component {
                     <label>Fecha de entrega</label>
                   </div>
                 </div>
-                <div className="input-field col s3">
+                <div className="input-field col s3 ">
                   <input
                     className="validate"
                     id="importeTotal"
@@ -145,7 +145,7 @@ class FormularioTransaccion extends React.Component {
                   />
                   <a>Importe transacción</a>
                 </div>
-                <div className="input-field col s2">
+                <div className="input-field col s3">
                   <input
                     type="Number"
                     maxlength="8"
@@ -169,16 +169,16 @@ class FormularioTransaccion extends React.Component {
                 </button>
               </div>
             </div>
-          </div>
+          {/* </div> */}
         </form>
       </div>
     );
   }
   error = res => {
     if (res.status === 500) {
-      alert("Debe seleccionar un cliente");
+      swal("Debe seleccionar un cliente");
     } else {
-      alert("su pago ha sido registrado en su cuenta corriente");
+      swal("su pago ha sido registrado en su cuenta corriente");
     }
   };
 

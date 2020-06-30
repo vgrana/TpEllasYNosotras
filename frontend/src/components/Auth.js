@@ -1,3 +1,4 @@
+import swal from '@sweetalert/with-react'
 class Auth {
   constructor() {
     this.authenticated = false;
@@ -9,7 +10,13 @@ class Auth {
 
   logout() {
     this.authenticated = false;
-    alert("Gracias por su visita");
+      // swal("Gracias por su visita")
+      swal({
+        text: "Ellas y Nosostras les agradece su visita",
+        buttons: {
+        cancel: "Salir",
+        }
+      })
   }
 
   isAuthenticated() {

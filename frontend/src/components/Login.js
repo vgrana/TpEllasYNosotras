@@ -1,6 +1,7 @@
 import React from "react";
 import auth from "./Auth";
 import { UserContext } from "../user-context";
+import swal from '@sweetalert/with-react'
 
 class Login extends React.Component {
   static contextType = UserContext;
@@ -61,7 +62,7 @@ class Login extends React.Component {
       .then(usuario => this.loginExitoso(usuario))
       .catch(err => {
         console.error(err);
-        alert(
+        swal(
           "email o contraseña incorrecta, por favor reingrese los datos, sino tiene cuenta haga clic en registrarse"
         );
         this.estadoInicial();
@@ -132,22 +133,22 @@ class Login extends React.Component {
 
   error = error => {
     if (error.status === 401) {
-      alert("email o contraseña incorrecta, por favor reingrese los datos");
+      swal("email o contraseña incorrecta, por favor reingrese los datos");
       this.estadoInicial();
     }
 
     if (error.status === 200) {
-      alert("logueado satisfactoriamente");
+      swal("logueado satisfactoriamente");
       this.estadoInicial();
     }
   };
   login = error => {
     //  this.estadoInicial()
     if (error === 200) {
-      alert("ingreso satisfactorio");
+      swal("ingreso satisfactorio");
       this.estadoInicial();
     } else {
-      alert("El usuario y/o la contraseña son incorrectas");
+      swal("El usuario y/o la contraseña son incorrectas");
     }
   };
 }

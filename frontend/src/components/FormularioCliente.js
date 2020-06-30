@@ -1,5 +1,5 @@
 import React from "react";
-
+import swal from '@sweetalert/with-react'
 class FormularioCliente extends React.Component {
   constructor(props) {
     super(props);
@@ -73,7 +73,7 @@ class FormularioCliente extends React.Component {
         .then(this.props.listadoDeClientes)
         .then(this.estadoInicial());
     } else {
-      alert("el cliente ya tiene cuenta");
+      swal(`el cliente  ${this.state.cliente.n_cliente}, ${this.state.cliente.apellido}, ${this.state.cliente.nombre} ya tiene cuenta `);
       this.estadoInicial();
     }
   };
