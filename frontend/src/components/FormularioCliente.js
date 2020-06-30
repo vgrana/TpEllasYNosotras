@@ -1,6 +1,5 @@
 import React from "react";
 
-
 class FormularioCliente extends React.Component {
   constructor(props) {
     super(props);
@@ -10,7 +9,7 @@ class FormularioCliente extends React.Component {
       clientes: this.props.clientes,
       elCliente: []
     };
-    }
+  }
 
   componentWillReceiveProps(props) {
     this.setState({ cliente: props.cliente });
@@ -21,23 +20,23 @@ class FormularioCliente extends React.Component {
 
   componentWillMount = () => {
     this.props.listadoDeClientes();
-  }
+  };
 
   handleChange = event => {
     console.log("entre al handle..." + event);
     var newCliente = Object.assign({}, this.state.cliente);
-    newCliente[event.target.name] = event.target.value;
+    newCliente[event.target.name] = event.target.value.toUpperCase();
     this.setState({ cliente: newCliente });
-  }
+  };
 
-  handleSubmit = event =>{
+  handleSubmit = event => {
     if (this.state.cliente._id) {
       this.editarcliente();
     } else {
       this.buscarElCliente(this.state.cliente.n_cliente);
     }
     event.preventDefault(event);
-  }
+  };
 
   estadoInicial = () => {
     this.setState({
@@ -50,7 +49,7 @@ class FormularioCliente extends React.Component {
         telefono: " "
       }
     });
-  }
+  };
 
   buscarElCliente = elCliente => {
     fetch(`http://localhost:8888/clientes/buscar/` + elCliente)
@@ -58,7 +57,7 @@ class FormularioCliente extends React.Component {
       .then(clts =>
         this.setState({ elCliente: clts }, this.agregarCliente(clts))
       );
-  }
+  };
 
   agregarCliente = clientes => {
     if (clientes.length === 0) {
@@ -77,7 +76,7 @@ class FormularioCliente extends React.Component {
       alert("el cliente ya tiene cuenta");
       this.estadoInicial();
     }
-  }
+  };
 
   editarcliente = () => {
     fetch("http://localhost:8888/clientes", {
@@ -88,9 +87,9 @@ class FormularioCliente extends React.Component {
         "Content-Type": "application/json"
       }
     })
-      .then(this.props.listadoDeClientes)
+      .then(this.props.listadoDeClientes())
       .then(this.estadoInicial());
-  }
+  };
 
   render() {
     return (

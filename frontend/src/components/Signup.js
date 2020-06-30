@@ -1,5 +1,4 @@
 import React from "react";
-import auth from "./Auth";
 
 class Signup extends React.Component {
   constructor(props) {
@@ -7,14 +6,15 @@ class Signup extends React.Component {
     this.state = {
       usuario: {}
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange = event => {
+  handleChange(event) {
     var newUsuario = Object.assign({}, this.state.usuario);
     newUsuario.rol = "usuario";
-    newUsuario[event.target.name] = event.target.value;
+    newUsuario[event.target.name] = event.target.value.toUpperCase();
     this.setState({ usuario: newUsuario });
-  };
+  }
 
   handleSubmit = event => {
     event.preventDefault(event);
@@ -22,14 +22,16 @@ class Signup extends React.Component {
 
   estadoInicial = () => {
     this.setState({
-      usuario: { username: " ", password: "" , dni: "" }
+      usuario: { username: " ", password: "", dni: "" }
     });
   };
-  usuarioNuevo = () => {
-    this.props.history.push("./login");
-  };
 
-  signup = () => {
+  usuarioNuevo() {
+    if (this.state.usuario !== {}) {
+      this.props.history.push("./login");
+    }
+  }
+  signup() {
     fetch(`http://localhost:8888/usuarios/signup/`, {
       method: "POST",
       body: JSON.stringify(this.state.usuario),
@@ -39,93 +41,96 @@ class Signup extends React.Component {
       }
     })
       .then(res => this.error(res))
-      // .then(res => res.json())
       .then(res => this.setState({ usuario: res }))
-      .then(this.usuarioNuevo())
-      // .catch(err => {
-      //   console.log(err);
-      //   if (err === 401) {
-      //     console.log("este es el error" + err);
-      //   }
-      //   //  alert(' ringrese los datos, sino tiene cuenta haga clic en registrarse');
-       
-      // });
-      this.estadoInicial();
-  };
+      .then(this.usuarioNuevo());
+    // .catch(err => {
+    //   console.log(err);
+    //   if (err === 500) {
+    //     console.log("este es el error" + err);
+    //   }
+    //   //  alert(' ringrese los datos, sino tiene cuenta haga clic en registrarse');
+
+    // });
+  }
 
   render() {
     return (
-      <div className="row">
-        <div className="row col s8 m4 offset-m4">
-          <div className="card">
-            <form onSubmit={this.handleSubmit}>
-              <div className="card-action # ffcdd2 red lighten-4 lighten-1 white-text">
-                <h5>Registrarse</h5>
-              </div>
-              <div className="card-content">
-                <div class="form-field">
-                  <input
-                    className="validate"
-                    type="email"
-                    required
-                    name="username"
-                    onChange={this.handleChange}
-                    value={this.state.usuario.username}
-                    title="Ingrese una dirección de email"
-                  />
-                  <label for="username">Email</label>
+      <div className="contenedor">
+        <div className="row">
+          <div className="row col .s8 .m8 push-s2 push-m4">
+            <div className="card">
+              <form onSubmit={this.handleSubmit}>
+                <div className="card-panel # responsive-card ffcdd2 red lighten-4 lighten-1 white-text">
+                  <h5>Registrarse</h5>
                 </div>
-                <br></br>
-                <div className="form-field">
-                  <input
-                    className="validate "
-                    id="password"
-                    type="password"
-                    required
-                    name="password"
-                    onChange={this.handleChange}
-                    value={this.state.usuario.password}
-                    title="Ingrese una contraseña"
-                  />
-                  <label for="password">Password</label>
-                </div>
-                <br></br>
-                <div className="form-field">
-                <input
-                    className="validate"
-                    type="number"
-                    required
-                    name="dni"
-                    id="dni"
-                    max="99999999"
-                    onChange={this.handleChange}
-                    value={this.state.usuario.dni}
-                    title="Ingrese su DNI"
-                  />
-                  <label for="dni">Dni</label>
-                </div>
-                <br></br>
-                <div className="form-field">
-                  <button
-                    onClick={() => this.signup(this.state.usuario)}
-                    className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
-                    style={{ margin: "2px" }}
-                  >
-                    Registrarse
-                  </button>
-                  <button
-                    onClick={() => this.props.history.push("./home")}
-                    className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
-                    style={{ margin: "2px" }}
-                  >
-                    Cancelar
-                  </button>
-                  <div>
-                    <a href="#!"> Desbloquear usuario</a>
+                <div className="card-content">
+                  <div class="input-field">
+                    <input
+                      className="validate"
+                      placeholder="me@example.com"
+                      type="email"
+                      name="username"
+                      id="username"
+                      onChange={this.handleChange}
+                      value={this.state.usuario.username}
+                      // title="Ingrese una dirección de email"
+                    />
+                    <label for="username">Email</label>
+                  </div>
+                  <br></br>
+                  <div className="input-field">
+                    <input
+                      className="validate"
+                      id="password"
+                      type="password"
+                      required
+                      name="password"
+                      title="Ingrese una contraseña, minimo 8 caracteres"
+                      minlength="8"
+                      onChange={this.handleChange}
+                      value={this.state.usuario.password}
+                    />
+                    <label for="password">Password</label>
+                  </div>
+                  <br></br>
+                  <div className="input-field">
+                    <input
+                      className="validate"
+                      type="number"
+                      required
+                      name="dni"
+                      id="dni"
+                      min="30000000"
+                      Max_Length="8"
+                      title="Ingrese su DNI"
+                      onChange={this.handleChange}
+                      value={this.state.usuario.dni}
+                    />
+                    <label for="dni">Dni</label>
+                  </div>
+                  <br></br>
+                  <div className="form-field">
+                    <button
+                      onClick={() => this.signup(this.state.usuario)}
+                      className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
+                      style={{ margin: "2px" }}
+                    >
+                      Registrarse
+                    </button>
+                    <button
+                      onClick={() => this.props.history.push("/home")}
+                      className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
+                      style={{ margin: "2px" }}
+                    >
+                      Cancelar
+                    </button>
+                    <div>
+                      <a href="#!"> Desbloquear usuario</a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -135,21 +140,17 @@ class Signup extends React.Component {
   error = res => {
     if (res.status === 401) {
       alert("email ya se encuentra registrado");
-    
     }
 
     if (res.status === 200) {
       alert("logueado satisfactoriamente");
-      this.estadoInicial();
     }
-  };
-  login = error => {
-    //  this.estadoInicial()
-    if (error === 200) {
-      alert("ingreso satisfactorio");
+    if (res.status === 403) {
+      alert(
+        "Su cuenta no se pudo crear. Por favor vuela a registrarse y complete todos los campos"
+      );
       this.estadoInicial();
-    } else {
-      alert("El usuario y/o la contraseña son incorrectas");
+      this.props.history.push("./signup");
     }
   };
 }

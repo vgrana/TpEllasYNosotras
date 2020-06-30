@@ -18,6 +18,7 @@ class ClienteHome {
 
   agregarTx(clienteId, transaccion, callback) {
     var objectId = mongoDriver.ObjectID(clienteId);
+   
     this.clientes.findOne({ _id: objectId }, (error, cliente) => {
       if (error) callback("error");
       else {
@@ -35,7 +36,9 @@ class ClienteHome {
           }
         );
       }
+    
     });
+
   }
 
   borrarCliente(elementId, callback) {

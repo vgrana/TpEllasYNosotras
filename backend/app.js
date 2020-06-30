@@ -7,7 +7,7 @@ mongoConnection = require("./src/mongo/mongoConnection");
 Home = require("./src/mongo/mongoHome");
 ClienteHome = require("./src/mongo/clienteHome");
 
-clienteHome = require("./src/mongo/clienteHome");
+// clienteHome = require("./src/mongo/clienteHome");
 usuarioHome = require("./src/mongo/usuarioHome");
 
 mongoConnection.connect(db => {
@@ -16,22 +16,22 @@ mongoConnection.connect(db => {
   transaccionHome = new Home("transacciones", db);
   clienteHome = new ClienteHome("clientes", db);
 
-  transaccion2 = new Transaccion("23/01/2020", "0", "2");
-  cliente = new Cliente(
-    "27826286",
-    "grandi",
-    "valeria",
-    "palacios",
-    "444437",
-    "valeriagrandi@hotmail.com"
-  );
+//   transaccion2 = new Transaccion("23/01/2020", "0", "2");
+//   cliente = new Cliente(
+//     "27826286",
+//     "grandi",
+//     "valeria",
+//     "palacios",
+//     "444437",
+//     "valeriagrandi@hotmail.com"
+//   );
 
-  transaccionHome.insert(transaccion2);
-  clienteHome.insert(cliente);
+//   transaccionHome.insert(transaccion2);
+//   clienteHome.insert(cliente);
 
   server.register(usuarioHome);
   server.register(transaccionHome);
   server.register(clienteHome);
-  //  server.register(clienteHome);
+  
   server.init();
 });

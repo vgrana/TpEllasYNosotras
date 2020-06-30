@@ -10,6 +10,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+var validator = require("email-validator");
 
 const { login } = require("./login");
 
@@ -39,6 +40,7 @@ function register(home) {
 }
 
 function init() {
+  server.set("port", process.env.PORT || 8888);
   server.use(express.static("public"));
   ////ver si hay q instalarlo... y si se usa
   // server.use(express.cookieParser());
@@ -53,8 +55,6 @@ function init() {
       saveUninitialized: false
     })
   );
-
-  server.set("port", process.env.PORT || 8888);
 
   server.use(passport.initialize());
   server.use(passport.session());
@@ -73,26 +73,18 @@ function init() {
   login(server);
   crearPago(server);
 
-  server.post("/clientes/:id", (req, res) => {
-    clienteHome = new ClienteHome(db);
-    clienteId = req.params.id;
-    tx = req.body;
-    clienteHome.agregarTx(clienteId, tx, (result, cliente) => {
-      if (result == "error") {
-        res.status(400).end();
-      } else {
-        res.status(200).send(cliente);
-      }
-    });
-  });
-
-  server.get("/:type", (req, res) => {
-    home = homes[req.params.type];
-    home.all(allObjects => {
-      res.json(allObjects);
-      res.end();
-    });
-  });
+  // server.post("/clientes/:id", (req, res) => {
+  //   clienteHome = new ClienteHome(db);
+  //   clienteId = req.params.id;
+  //   tx = req.body;
+  //   clienteHome.agregarTx(clienteId, tx, (result, cliente) => {
+  //     if (result == "error") {
+  //       res.status(400).end();
+  //     } else {
+  //       res.status(200).send(cliente);
+  //     }
+  //   });
+  // });
 
   ////Asi anda/////////////
 
@@ -101,12 +93,12 @@ function init() {
     req,
     res
   ) {
-    var usuario={
-      email:req.user.email,
+    var usuario = {
+      email: req.user.email,
       dni: req.user.dni,
       rol: req.user.rol,
       _id: req.user._id
-    }
+    };
     console.log("klfkdlfkdlfk adento de post " + req.user._id);
     res.status(200).json(usuario);
   });
@@ -120,6 +112,11 @@ function init() {
     res.sendStatus(200);
   });
 
+  function validateEmail(email) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+
   ///////////////////////////////////ANDA////////////////////////////////////////////////////////
   server.post("/usuarios/signup", (req, res) => {
     console.log(req.body.username + " este es el mail");
@@ -127,38 +124,56 @@ function init() {
     console.log(req.body.rol + " este es el rol");
     console.log(req.body.dni + " este es el dni");
     console.log("Cookies: ", req.cookies);
-    const body = {
-      email: req.body.username,
-      rol: req.body.rol,
-      password: req.body.password,
-      dni:req.body.dni
-    };
-    //antes de registrar debo buscar para ver si ya esta registrado
-    usuarioHome.findEmail(req.body.username, user => {
-      console.log("lo encontre " + req.body.username + req.body.password);
-      // if (err) {
-      //   console.log("a ver el error " + err)
-      //   return done(err);
+    if (
+      (req.body.username !== undefined && 
+      validateEmail(req.body.username)) &&
+      req.body.password !== undefined &&
+      req.body.dni !== undefined
+    ) {
+      console.log(validateEmail(req.body.username));
+
+      // if(req.body.username === undefined ||req.body.password === undefined ||
+      //   req.body.dni === undefined &&
+      //   !validator.validate(req.body.username)){
+      //   res.sendStatus(403)
       // }
-      if (!user) {
-        body.password = bcrypt.hashSync(req.body.password, saltRounds);
-        console.log(body.password + " este es la contraseña");
-        // try {
-        usuarioHome.insert(body);
 
-        return res.json(user);
-      }
-      // catch (error) {
-      //   return res.status(500).json({
-      //     mensaje: "Ocurrio un error",
-      //     error
-      //   });
+      const body = {
+        email: req.body.username,
+        rol: req.body.rol,
+        password: req.body.password,
+        dni: req.body.dni
+      };
+      //  try{
+      //antes de registrar debo buscar para ver si ya esta registrado
+      usuarioHome.findEmail(req.body.username, user => {
+        console.log("lo encontre " + req.body.username + req.body.password);
+        // if (err) {
+        //   console.log("a ver el error " + err)
+        //   return done(err);
+        // }
+        if (!user) {
+          body.password = bcrypt.hashSync(req.body.password, saltRounds);
+          console.log(body.password + " este es la contraseña");
+          // try {
+          usuarioHome.insert(body);
 
-      if (user) {
-        console.log("el user del servidor " + user);
-        res.sendStatus(401);
-      }
-    });
+          return res.json(user);
+        }
+
+        if (user) {
+          console.log("el user del servidor " + user);
+          res.sendStatus(401);
+        }
+      });
+      // }
+      //   catch (error) {
+      //     return res.status(500).json({
+      //   }) ;
+      //   }
+    } else {
+      res.sendStatus(403);
+    }
   });
   ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -179,6 +194,13 @@ function init() {
   server.put("/clientes/:id", (req, res) => {
     clienteId = req.params.id;
     tx = req.body;
+    console.log(
+      "monto cobrado",
+      tx.montoCobrado,
+      "total transaccion",
+      tx.importeTotal
+    );
+
     clienteHome.agregarTx(clienteId, tx, (result, cliente) => {
       if (result == "error") {
         res.status(400).end();
@@ -202,6 +224,14 @@ function init() {
       } else {
         res.status(200);
       }
+    });
+  });
+
+  server.get("/:type", (req, res) => {
+    home = homes[req.params.type];
+    home.all(allObjects => {
+      res.json(allObjects);
+      res.end();
     });
   });
 

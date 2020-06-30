@@ -1,5 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link,
+  Redirect
+} from "react-router-dom";
 import Clientes from "./components/Clientes";
 import Transacciones from "./components/Transacciones";
 import BusquedaCliente from "./components/BusquedaCliente";
@@ -11,8 +17,7 @@ import auth from "./components/Auth";
 import NavEmpresa from "./NavEmpresa";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { UserContext } from "./user-context";
-
-
+import "./App.css";
 class App extends React.Component {
   static contextType = UserContext;
 
@@ -44,8 +49,11 @@ class App extends React.Component {
                       <Link to="/home">Home</Link>
                     </li>
                     <li>
-                      {!auth.isAuthenticated() ?(
-                      <Link to="/signup">Registrarse</Link> ) : ""}
+                      {!auth.isAuthenticated() ? (
+                        <Link to="/signup">Registrarse</Link>
+                      ) : (
+                        ""
+                      )}
                     </li>
                     {auth.isAuthenticated() &&
                     this.state.usuario.rol === "administrador" ? (
@@ -70,6 +78,12 @@ class App extends React.Component {
                 <li>
                   <Link to="/signup">Signup/Registrarse</Link>
                 </li>
+                {auth.isAuthenticated() &&
+                this.state.usuario.rol === "administrador" ? (
+                  <NavEmpresa />
+                ) : (
+                  ""
+                )}
                 <li>
                   {auth.isAuthenticated() ? (
                     <Link to="./salir">Salir</Link>
@@ -80,8 +94,9 @@ class App extends React.Component {
               </ul>
             </header>
             <main>
+              <Redirect from="/" to="/home" />
               <Switch>
-                <Route  exact path="/home" component={Home} />
+                <Route path="/home" component={Home} />
                 <Route
                   exact
                   path="/login"
@@ -91,15 +106,18 @@ class App extends React.Component {
                   exact
                   path="/signup"
                   name="Logout Page"
-                  render={props => <Signup {...props}
-                   />}
+                  render={props => <Signup {...props} />}
                 />
                 <Route
                   exact
                   path="/salir"
                   render={props => <Logout {...props} setUser={this.setUser} />}
                 />
-                <PrivateRoute exact path="/agregarCliente" component={Clientes} />
+                <PrivateRoute
+                  exact
+                  path="/agregarCliente"
+                  component={Clientes}
+                />
 
                 <PrivateRoute
                   exact
@@ -114,13 +132,6 @@ class App extends React.Component {
                     <Transacciones {...props} setUser={this.setUser} />
                   )}
                 />
-                {/* <Route
-                  exact
-                  path="/listadoTransacciones"
-                  component={Transacciones}
-                />  */}
-
-                <Route path="*" component={() => "404 NOT FOUND"} />
               </Switch>
             </main>
           </Router>

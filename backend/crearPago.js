@@ -1,5 +1,4 @@
 const mercadopago = require("mercadopago");
-// console.log(mercadopago.preferences);
 
 function crearPago(server) {
   //agrega credenciales
@@ -13,15 +12,17 @@ function crearPago(server) {
   });
 
   function get_boton_pago(cliente, callback) {
-    var totalCuentaCorriente = 0;
+    var totalCuentaCorriente = 0.01;
     if (cliente.transacciones.length != 0) {
       cliente.transacciones.forEach(transaccion => {
+       
         return (totalCuentaCorriente +=
           parseFloat(transaccion.importeTotal) -
           parseFloat(transaccion.montoCobrado));
       });
     } else {
-      return totalCuentaCorriente;
+      return totalCuentaCorriente
+
     }
 
     let preference = {
@@ -34,16 +35,23 @@ function crearPago(server) {
         }
       ],
       payer: {
-        email: cliente.usermane,
-        nombre: cliente.nombre,
-        apellido: cliente.apellido,
-        telefono: cliente.telefono
+        email: cliente.email,
+        name: cliente.nombre,
+        surname: cliente.apellido,
+
+        identification: {
+          type: "DNI",
+          number: cliente.n_cliente
+        }
       },
       back_urls: {
         success: "http://localhost:3000/login",
         failure: "http://localhost:3000/home"
         // "pending": "http://www.pending.com"
-      }
+      },
+      notification_url: "http://localhost:3000/clientes/pagos"
+      /// para aprobacion de pago instantanea,el pago es aceptado o rechazado
+      // binary_mode: true
     };
 
     mercadopago.preferences.create(preference).then(callback);
@@ -62,12 +70,15 @@ function crearPago(server) {
 
   server.get("/clientes/:ncliente", (req, res) => {
     var nCliente = req.params.ncliente;
-    console.log("desde server" + nCliente);
     clienteHome.getUnCliente(nCliente, cliente => {
-      console.log("a ver si llego aca " + JSON.stringify(cliente));
-      if (cliente && cliente.transacciones.length >=1) {
-        get_boton_pago( cliente, response => {
-          console.log("response del body " + response.body.init_point);
+      if (cliente && cliente.transacciones.length >= 1) {
+        get_boton_pago(cliente, response => {
+          console.log(
+            "response del body " +
+              response.body.init_point +
+              " pago " +
+              response.body.payment
+          );
           cliente["boton_de_pago"] = response.body.init_point;
           console.log(JSON.stringify(cliente));
           res.json(cliente);
@@ -75,10 +86,14 @@ function crearPago(server) {
         });
       } else {
         res.sendStatus(401);
-        // res.json({});
         res.end();
       }
     });
+  });
+
+  server.post("/clientes/pagos", (req, res) => {
+    req.body; /// otra consulta con fetech get. va a consultar url q me trae el pago,
+    console.log("me llamo mercado pago");
   });
 }
 

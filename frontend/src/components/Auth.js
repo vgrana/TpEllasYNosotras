@@ -3,15 +3,13 @@ class Auth {
     this.authenticated = false;
   }
 
-  login() { 
+  login() {
     this.authenticated = true;
-    // cb();
   }
 
   logout() {
     this.authenticated = false;
-   console.log("desde logout sali")
-    // cb();
+    alert("Gracias por su visita");
   }
 
   isAuthenticated() {

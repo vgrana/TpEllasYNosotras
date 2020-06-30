@@ -17,7 +17,7 @@ class Login extends React.Component {
   handleChange = event => {
     console.log("entre al handle..." + event);
     var newUsuario = Object.assign({}, this.state.usuario);
-    newUsuario[event.target.name] = event.target.value;
+    newUsuario[event.target.name] = event.target.value.toUpperCase();
     this.setState({ usuario: newUsuario });
   };
 
@@ -71,7 +71,7 @@ class Login extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="row col s8 m4 offset-m4">
+        <div className="row col .s8 .m8 push-s2 push-m4">
           <div className="card">
             <form onSubmit={this.handleSubmit}>
               <div className="card-action # ffcdd2 red lighten-4 lighten-1 white-text">
@@ -112,7 +112,7 @@ class Login extends React.Component {
                     Ingresar
                   </button>
                   <button
-                    onClick={() => this.props.history.push("./home")}
+                    onClick={() => this.props.history.push("/home")}
                     className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
                     style={{ margin: "2px" }}
                   >

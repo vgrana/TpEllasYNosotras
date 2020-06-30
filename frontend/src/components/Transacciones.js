@@ -13,10 +13,8 @@ class Transacciones extends React.Component {
       clientes: [],
       seleccionado: {},
       n_cliente: "",
-      // elCliente: {},
       mostrarLista: true,
       mostrarBotonPago: false,
-      // cliente: {},
       usuario: {}
     };
   }
@@ -45,7 +43,7 @@ class Transacciones extends React.Component {
         .then(clts => this.setState({ clientes: clts }));
     }
   };
-  //para no bindear
+
   handleSubmit = event => {
     console.log("desde hundler" + event);
     var consulta;
@@ -76,14 +74,9 @@ class Transacciones extends React.Component {
         .then(cliente =>
           this.setState({
             seleccionado: cliente,
-            // mostrarLista: true,
             clienteTransacciones: cliente.transacciones
           })
         )
-
-        ////si me devuelve vacio xq no puedo hacer un if preguntado el estado para q no se me rompa
-        //  console.log("desde fetech " + clts._id),this.sisi(clts))
-
         .catch(function(error) {
           alert(
             "El número de documento ingresado no es correcto,o su cuenta no tiene deuda. Por favor verifique y vuelva a intentarlo"
@@ -125,66 +118,72 @@ class Transacciones extends React.Component {
 
     if (this.context.rol === "usuario") {
       traerCliente = (
-        <div> <span> Si desea ver sus movimientos : <br></br></span>
-        <button
-          type="button"
-          className="btn sm #660066"
-          style={{ margin: "2px" }}
-          onClick={() => this.resultadoBusqueda(this.context.dni)}
-        >
-          Ver Movimientos
-        </button>
+        <div>
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title"> Si desea ver sus movimientos :</span>
+              <br></br>
+              <button
+                type="button"
+                className="btn sm #660066"
+                style={{ margin: "2px" }}
+                onClick={() => this.resultadoBusqueda(this.context.dni)}
+              >
+                Ver Movimientos
+              </button>
+            </div>
+          </div>
         </div>
       );
     }
     if (this.state.clienteTransacciones.length >= 1) {
       datosClientes = (
-        <div className="row col s12">
-          <div className="row card-panel col s10">
-            <div className="card-panel #ffebee red lighten-5 col 10">
-              <div className="input-field col s12">
-                <legend>
-                  Movimientos del usuario:
-                  {this.state.seleccionado.n_cliente} , apellido{" "}
-                  {this.state.seleccionado.apellido} , nombre{" "}
-                  {this.state.seleccionado.nombre}
-                </legend>
-              </div>
+        <div>
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <legend>
+                Movimientos del usuario:
+                {this.state.seleccionado.n_cliente} , apellido{" "}
+                {this.state.seleccionado.apellido} , nombre{" "}
+                {this.state.seleccionado.nombre}
+              </legend>
             </div>
           </div>
         </div>
       );
     }
 
-    if (this.context.rol === "usuario") {
+    if (this.context.rol === "usuario" && this.montoAdeudado() > 0) {
       mostrarBoton = (
-        <a href={mostrarBotonDePago} target="_blank">
-          Realizar pago
-        </a>
+        <div>
+          <a href={mostrarBotonDePago} target="_blank">
+            Realizar pago
+          </a>
+        </div>
       );
     }
-
     if (this.state.clienteTransacciones.length >= 1) {
       lista = (
         <table className="left responsive-table highlight">
-          <thead className="bordered hoverable">
+          <thead className="bordered hoverable white-text">
             {/* <legend>{this.state.seleccionado.nombre}</legend> */}
-            <tr className="border: green 4px solid">
+            <tr className="border: card blue-grey darken-1">
               <th>Fecha operación</th>
               <th>Total operación </th>
               <th>Monto entregado</th>
+              <th></th>
             </tr>
+            <tr></tr>
           </thead>
           <tbody className="bordered hoverable">
             {this.transaccionesRows()}
+            <tr className="border: card blue-grey darken-1">
+              <th>Total Cuenta Corriente</th>
+              <th></th>
+              <th>{this.montoAdeudado()}</th>
+              <th>{mostrarBoton}</th>
+            </tr>
           </tbody>
-          <tr className="border: white 4px solid">
-            <th> Diferencia entre pagos y deudas</th>
-            <th></th>
-            <th>{this.montoAdeudado()}</th>
-            <th></th>
-            <th>{mostrarBoton}</th>
-          </tr>
         </table>
       );
     }
@@ -210,7 +209,7 @@ class Transacciones extends React.Component {
                     <label for="n_cliente">Buscar por DNI</label>
                     <datalist id="clientes">{listaDniCliente}</datalist>
                     <div className="row">
-                      <div class="input-field col s6">
+                      <div class="input-field col s3 m6">
                         <button
                           type="button"
                           className="btn sm #660066"
@@ -221,6 +220,7 @@ class Transacciones extends React.Component {
                         >
                           Consultar
                         </button>
+
                         <button
                           type="button"
                           className="btn #660066"
@@ -241,61 +241,10 @@ class Transacciones extends React.Component {
     }
     return (
       <div className="container">
-      
         {traerCliente}
         {transaccionesClientes}
         {datosClientes}
         {lista}
-        {/* {transaccionesUsuario} */}
-        {/* <div class="row">
-          <div class="col s12">
-            <div class="row">
-              <form onSubmit={this.handleSubmit}>
-                <div class="input-field col s5">
-                  <i class="material-icons prefix">search</i>
-                  <input
-                    type="number"
-                    id="n_cliente"
-                    name="n_cliente"
-                    max="99999999"
-                    required
-                    onChange={this.handleChange}
-                    list="clientes"
-                    autoComplete="off"
-                  ></input>
-                  <label for="n_cliente">Buscar por DNI</label>
-                  {/* <datalist id="clientes">{listaDniCliente}</datalist> */}
-        {/* <div className="row">
-                    <div class="input-field col s6">
-                      <button
-                        type="button"
-                        className="btn sm #660066"
-                        style={{ margin: "2px" }}
-                        onClick={() =>
-                          this.resultadoBusqueda(this.state.n_cliente)
-                        }
-                      >
-                        Consultar
-                      </button>
-                      <button
-                        type="button"
-                        className="btn #660066"
-                        style={{ margin: "1px" }}
-                        onClick={this.limpiezaFormListaClientes}
-                      >
-                        Nueva búsqueda
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      {/* <div className="row">
-          <legend>{this.unCliente()}</legend>
-        </div>  */}
-        {/* <div className="row">{lista}</div>  */}
       </div>
     );
   }
@@ -335,8 +284,14 @@ class Transacciones extends React.Component {
       totalT += parseFloat(transaccion.importeTotal);
       mCobrado += parseFloat(transaccion.montoCobrado);
     });
-
-    return totalT - mCobrado;
+    //muestro 2 decimales
+    // return Math.round((totalT - mCobrado) * 100) / 100;
+    return (totalT - mCobrado).toFixed(2);
+  };
+  error = req => {
+    if (req.status === 400) {
+      alert("email ya");
+    }
   };
 }
 export default Transacciones;

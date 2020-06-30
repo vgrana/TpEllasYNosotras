@@ -19,18 +19,6 @@ class Nav extends React.Component {
   }
 
   render() {
-    //  let mostrarBarraNavegacionAdministrador= this.state.mostrarBarraNavegacionAdministrador
-
-    //  let navAdministrador
-    //  if(mostrarBarraNavegacionAdministrador){
-
-    //  navAdministrador =(
-
-    //     <Link to="./agregarCliente">Agregar cliente</Link>
-
-    //  )
-    //  }
-
     return (
       <UserContext.Provider value={this.state.usuario}>
         <ul>

@@ -7,9 +7,19 @@ class FormularioTransaccion extends React.Component {
       //el cliente seleccionado al q le voy a agregar la transaccion
       clientes: this.props.clientes,
       cliente: this.props.cliente,
+
+      listado: this.props.listado,
+      clienteSeleccionado: this.props.clienteSeleccionado,
       transaccion: {},
-      clienTransacciones: props.clienTransacciones
+      clienTransacciones: this.props.clienTransacciones,
+      montoAdeudado: this.props.montoAdeudado
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.agregarTransaccion = this.agregarTransaccion.bind(this);
+
+    // this.transaccionExitosa=this.transaccionExitosa.bind(this);
+    // this.diferenciaPago=this.diferenciaPago.bind(this);
   }
   componentWillReceiveProps(props) {
     this.setState({ cliente: props.cliente });
@@ -17,28 +27,37 @@ class FormularioTransaccion extends React.Component {
     this.setState({ clientes: props.clientes });
   }
 
-  handleChange = event => {
-    if (this.state.cliente.nombre === " ") {
-      alert("debe seleccionar un cliente");
-      this.estadoInicial();
-    } else {
-      var newTransaccion = Object.assign({}, this.state.transaccion);
-      newTransaccion[event.target.name] = event.target.value;
-      this.setState({ transaccion: newTransaccion });
+  handleChange(event) {
+    var newTransaccion = Object.assign({}, this.state.transaccion);
+    newTransaccion[event.target.name] = event.target.value;
+    // newTransaccion["clienteId"] = this.state.cliente._id;
+    this.setState({ transaccion: newTransaccion });
+  }
+
+  handleSubmit(event) {
+    if(this.state.cliente._id === undefined){
+      alert('debe seleccionar un cliente')
+      this.estadoInicialTransaccion();
     }
-  };
+    else{
+  
+    this.agregarTransaccion();
+    
+  
+  }
+  event.preventDefault(event);
+}
 
-  handleSubmit = event => {
-    this.agregarTransaccion(event);
-    event.preventDefault(event);
-  };
-
-  estadoInicial = () => {
+  estadoInicialCliente = () => {
     this.setState({
       cliente: {
         nombre: " ",
         apellido: " "
-      },
+      }
+    });
+  };
+  estadoInicialTransaccion = () => {
+    this.setState({
       transaccion: {
         fechaTransaccion: " ",
         importeTotal: " ",
@@ -52,15 +71,14 @@ class FormularioTransaccion extends React.Component {
       .then(clts => this.setState({ clientes: clts }));
   };
 
-  agregarTransaccion = event => {
-    // if (
-    //   this.state.transaccion.montoCobrado > this.state.transaccion.importeTotal
-    // ) {
-    //   alert(
-    //     "el monto cobrado no puede ser superior al monto de la transacción"
-    //   );
-    // } else {
-      console.log("acaaaaa" + event);
+  agregarTransaccion() {
+    var cobro = this.state.transaccion.montoCobrado;
+    var deuda = this.montoAdeudado();
+    var total = this.state.transaccion.importeTotal;
+    var diferencia = deuda + (total - cobro);
+
+
+    if (diferencia > 0 || diferencia === 0) {
       fetch(`http://localhost:8888/clientes/` + this.state.cliente._id, {
         method: "PUT",
         body: JSON.stringify(this.state.transaccion),
@@ -69,12 +87,17 @@ class FormularioTransaccion extends React.Component {
           "Content-Type": "application/json"
         }
       })
-        .then(this.transaccionExitosa())
-
-        .then(this.props.listado());
-    // }
-  };
-
+        .then(this.props.listado())
+        .then(res => this.error(res))
+        .then(this.estadoInicialCliente(), this.estadoInicialTransaccion());
+    }
+    if (diferencia < 0) {
+      alert(" el cliente no puede tener saldo a favor");
+    }
+  
+    this.estadoInicialCliente();
+    this.estadoInicialTransaccion();
+  }
   render() {
     return (
       <div className="container">
@@ -112,18 +135,19 @@ class FormularioTransaccion extends React.Component {
                     id="importeTotal"
                     maxlength="8"
                     size="4"
-                    type="float"
+                    type="Number"
                     required
                     name="importeTotal"
                     title="Ingrese el importe de la opeación"
                     onChange={this.handleChange}
                     value={this.state.transaccion.importeTotal}
+                    
                   />
                   <a>Importe transacción</a>
                 </div>
                 <div className="input-field col s2">
                   <input
-                    type="float"
+                    type="Number"
                     maxlength="8"
                     size="4"
                     name="montoCobrado"
@@ -135,6 +159,7 @@ class FormularioTransaccion extends React.Component {
                   />
                   <a> Entrega</a>
                 </div>
+                {/* {boton} */}
                 <button
                   type="submit"
                   className="btn #660066"
@@ -149,9 +174,23 @@ class FormularioTransaccion extends React.Component {
       </div>
     );
   }
-  transaccionExitosa = () => {
-    this.estadoInicial();
-    alert("se ha agregado un movimiento a la cuenta corriente");
+  error = res => {
+    if (res.status === 500) {
+      alert("Debe seleccionar un cliente");
+    } else {
+      alert("su pago ha sido registrado en su cuenta corriente");
+    }
+  };
+
+  montoAdeudado = () => {
+    var totalT = 0;
+    var mCobrado = 0;
+    this.state.clienTransacciones.forEach(transaccion => {
+      totalT += parseFloat(transaccion.importeTotal);
+      mCobrado += parseFloat(transaccion.montoCobrado);
+    });
+
+    return totalT - mCobrado;
   };
 }
 export default FormularioTransaccion;

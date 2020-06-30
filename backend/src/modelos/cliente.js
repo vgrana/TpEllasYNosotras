@@ -1,4 +1,4 @@
-var transaccion = require('./transaccion');
+
 class Cliente{
     constructor(n_cliente,_apellido,_nombre,_direccion,_telefono,_email){
         
