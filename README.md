@@ -44,6 +44,40 @@ Damos de alta un:
 [ middleware de autenticación para Node.js ](http://www.passportjs.org/)
 
 
+Merecado pago
+Qué es el Checkout de Mercado Pago?
+Checkout de Mercado Pago es la integración que nos permite pagar a través de un formulario web provisto por mercado pago, desde cualquier dispositivo de manera simple, rápida y segura.
+
+![image](./fotos/formularioPago.jpg)
+
+
+Para instalar el SDK de mercado pago para nodejs
+$ npm install mercadopago
+
+Obtén tu Access token
+Las credenciales son las claves únicas con las que identificamos una integración en tu cuenta. Sirven para capturar cobros en tiendas online y otras aplicaciones.
+
+Para configurar el SDK debes usar el método cofigure.Este método recibe un objeto JSON. Las configuraciones válidas son:
+
+client_id - String
+client_secret - String
+access_token - String
+sandbox (default: false) - Boolean
+show_promise_error (default: true) - Boolean
+
+
+Modo Sandbox
+Si vas a utilizar nuestra aplicación en modo Sandbox, debes proporcionar el access_token.
+
+Ten en cuenta que si proporcionas el client_id y client_secret, la SDK generará un access_token productivo.
+
+
+mercadopago.configure({
+  sandbox: true,
+  access_token: "ACCESS_TOKEN"
+});
+
+
 
 
 

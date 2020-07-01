@@ -4,11 +4,13 @@ function crearPago(server) {
   //agrega credenciales
   mercadopago.configure({
     sandbox: true,
-    //  client_id: config.client_id,
-    // client_secret: config.client_secret
-    // access_token: 'PROD_ACCESS_TOKEN'
+    // client_id: 3506986301688232,
+    // client_secret:"eaZltUJmG7uGZaekjoo1bZs0CYvQIOZf",
+    // access_token: APP_USR-e4d78196-4906-4b59-8075-c49aab9bd97f
+    
     access_token:
       "TEST-8310985270543526-051822-d1831b295f338486e98b554e2e44ee8a-569345333"
+      // APP_USR-3506986301688232-051622-1e71acf2967364acfae8704f89337587-569331718
   });
 
   function get_boton_pago(cliente, callback) {
@@ -92,9 +94,13 @@ function crearPago(server) {
   });
 
   server.post("/clientes/pagos", (req, res) => {
-    req.body; /// otra consulta con fetech get. va a consultar url q me trae el pago,
+    req.body;
+    var idRecurso=req.body.id /// otra consulta con fetech get. va a consultar url q me trae el pago,
+    var payment= req.body.topic
+    res.sendStatus(200) //ok o 201 created
     console.log("me llamo mercado pago");
   });
 }
+https://api.mercadopago.com//v1/payments/[ID]?access_token=[ACCESS_TOKEN]
 
 module.exports = { crearPago };
