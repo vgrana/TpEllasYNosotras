@@ -48,7 +48,7 @@ Merecado pago
 Qué es el Checkout de Mercado Pago?
 Checkout de Mercado Pago es la integración que nos permite pagar a través de un formulario web provisto por mercado pago, desde cualquier dispositivo de manera simple, rápida y segura.
 
-![image](./frontend/fotos/formularioPago.jpg)
+![image](frontend/fotos/formularioPago.jpeg)
 
 
 Para instalar el SDK de mercado pago para nodejs
