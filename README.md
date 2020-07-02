@@ -44,15 +44,102 @@ Damos de alta un:
 [ middleware de autenticación para Node.js ](http://www.passportjs.org/)
 
 
-Merecado pago
-Qué es el Checkout de Mercado Pago?
+
+Para que los clientes puedan hacer el pago de su correpondiente cuenta corriente, se llevó a cabo la integracion de la aplicación con el sistema de cobros online de mercado paga llamado ckeckout.
+
 Checkout de Mercado Pago es la integración que nos permite pagar a través de un formulario web provisto por mercado pago, desde cualquier dispositivo de manera simple, rápida y segura.
+
+
+
+Se puede pagar con los principales medios de pago del país.
+No es necesario crear una cuenta de Mercado Pago para poder realizar el pago.
+
+
+Para llevar a cabo la integracion debemos crear:
+
+
+
+Preferencia (preference):
+Es la información del producto que vamos a ofrecer. Entre los atributos más importantes de una preferencia se definen: la descripción, el monto y los items. 
+
+let preference = {
+      items: [
+        {
+          title: "Saldo ropa",
+          quantity: 1,
+          currency_id: "ARS",
+          unit_price: totalCuentaCorriente
+        }
+      ]
+}
+ Creamos la preferencia con:
+  mercadopago.preferences.create(preference).then(callback);
+
+
+Al crear la preferencia lo que se obtiene es el
+Punto de inicio (init_point) que es
+la URL que da inicio al flujo de pago del Checkout de Mercado Pago
+
+Dicha URL nos redirecciona al formulario de MP para que se lleve a cabo dicho pago.
 
 ![image](frontend/fotos/formularioPago.jpeg)
 
 
-Para instalar el SDK de mercado pago para nodejs
+Credenciales (credentials)
+Public key. Clave pública de la aplicación para conocer, por ejemplo, los medios de pago y cifrar datos de tarjeta. Debes usarla solo para tus integraciones.
+Access token. Clave privada de la aplicación para generar pagos. Debes usarla solo para tus integraciones.
+
+Punto de inicio (init_point)
+Es la URL que se obtiene al momento de generar la preferencia y que da inicio al flujo de pago del Checkout de Mercado Pago
+
+Item (ítem)
+Hace referencia al producto o servicio que se quiere ofrecer. Puede ser uno o una lista
+
+
+Para instalar el SDK de mercado pago para nodejs,para simplificar la interacción con la APIs de Mercado Pago.
+
 $ npm install mercadopago
+
+
+Cómo me integro?
+1.Genera tu preferencia
+
+1.1 Suma la SDK descargada de Mercado Pago en tu proyecto.
+
+const mercadopago = require ('mercadopago');
+
+1.2 Agrega las credenciales para habilitar el uso de la SDK de Mercado Pago.
+// Agrega credenciales
+mercadopago.configure({
+  access_token: 'PROD_ACCESS_TOKEN'
+});
+1.3 Configura la preferencia según tu producto o servicio.
+// Crea un objeto de preferencia
+let preference = {
+  items: [
+    {
+      title: 'Mi producto',
+      unit_price: 100,
+      quantity: 1,
+    }
+  ]
+};
+
+2 Suma el checkout a tu sitio
+mercadopago.preferences.create(preference).then(function(response));
+
+  <div>
+    <a href={mostrarBotonDePago} target="_blank">
+      Realizar pago
+    </a>
+  </div>
+mostrarBotonDePago= tiene la siguiente forma
+https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=569345333-196ca275-3f93-4f07-8e0d-48df7fbfaf08
+
+
+
+
+
 
 Obtén tu Access token
 Las credenciales son las claves únicas con las que identificamos una integración en tu cuenta. Sirven para capturar cobros en tiendas online y otras aplicaciones.
@@ -77,6 +164,9 @@ mercadopago.configure({
   access_token: "ACCESS_TOKEN"
 });
 
+
+
+Para poder comenzar a recibir pagos, es necesario que la aplicación esté en etapa de producción. Una vez que nos encontramos ahi debemos llenar una solicitud para obtener las credenciales de producción.
 
 
 
