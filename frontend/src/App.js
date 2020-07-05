@@ -94,7 +94,7 @@ class App extends React.Component {
               </ul>
             </header>
             <main>
-              <Redirect from="/" to="/home" />
+              {/* <Redirect from="/" to="/home" /> */}
               <Switch>
                 <Route path="/home" component={Home} />
                 <Route

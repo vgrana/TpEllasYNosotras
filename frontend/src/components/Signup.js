@@ -1,5 +1,5 @@
 import React from "react";
-import swal from '@sweetalert/with-react'
+import swal from "@sweetalert/with-react";
 
 class Signup extends React.Component {
   constructor(props) {
@@ -125,9 +125,6 @@ class Signup extends React.Component {
                     >
                       Cancelar
                     </button>
-                    <div>
-                      <a href="#!"> Desbloquear usuario</a>
-                    </div>
                   </div>
                 </div>
               </form>

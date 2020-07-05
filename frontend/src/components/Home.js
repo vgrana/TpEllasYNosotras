@@ -7,7 +7,9 @@ import portada1 from "./image/portada2.jpg";
 import "../App.css";
 class Home extends React.Component {
   render() {
+    console.log("estoy en home");
     return (
+      
       <div className="container responsive-img">
         <div className="row">
           <div className="col s8 m12 push-s3 push-m0">

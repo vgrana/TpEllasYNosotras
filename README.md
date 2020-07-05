@@ -60,7 +60,8 @@ Para llevar a cabo la integracion debemos crear:
 
 
 Preferencia (preference):
-Es la información del producto que vamos a ofrecer. Entre los atributos más importantes de una preferencia se definen: la descripción, el monto y los items. 
+Se puede configurar con diferente información del item a pagar y del comprador, también podemos definir medios de pago que no aceptados, URL de retorno a tu sitio después de efectuado el pago, métodos de envío y demas.
+Aqui se muestra la definición  de la preferencia con el item a pagar:
 
 let preference = {
       items: [
@@ -72,28 +73,26 @@ let preference = {
         }
       ]
 }
- Creamos la preferencia con:
+una vez definida nuestra preference la creamos:
+  
   mercadopago.preferences.create(preference).then(callback);
 
-
-Al crear la preferencia lo que se obtiene es el
-Punto de inicio (init_point) que es
-la URL que da inicio al flujo de pago del Checkout de Mercado Pago
-
-Dicha URL nos redirecciona al formulario de MP para que se lleve a cabo dicho pago.
+Al crear la preferencia lo que se obtiene es el Punto de inicio (init_point) que es la URL que da inicio al flujo de pago del Checkout de Mercado Pago
+Dicha URL nos redirecciona al formulario de MP para que se lleve a cabo dicho pago. Este init_point contiene toda la información con la que creamos nuestra preference.
 
 ![image](frontend/fotos/formularioPago.jpeg)
+
+Una vez que se efectua el pago, Mercado pago, según como haya resultado dicho pago, ya sea aprobado, rechazado o pendiente, puede redigir a quien está realizando el pago a una back_url que hayamos predefinido en nuestra preference. Esta configuracion no es obligatoria.
+......
+back_url: "http://localhost/3000/home"
+.......
 
 
 Credenciales (credentials)
 Public key. Clave pública de la aplicación para conocer, por ejemplo, los medios de pago y cifrar datos de tarjeta. Debes usarla solo para tus integraciones.
 Access token. Clave privada de la aplicación para generar pagos. Debes usarla solo para tus integraciones.
 
-Punto de inicio (init_point)
-Es la URL que se obtiene al momento de generar la preferencia y que da inicio al flujo de pago del Checkout de Mercado Pago
 
-Item (ítem)
-Hace referencia al producto o servicio que se quiere ofrecer. Puede ser uno o una lista
 
 
 Para instalar el SDK de mercado pago para nodejs,para simplificar la interacción con la APIs de Mercado Pago.
