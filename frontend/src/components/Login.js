@@ -131,25 +131,25 @@ class Login extends React.Component {
     );
   }
 
-  error = error => {
-    if (error.status === 401) {
-      swal("email o contraseña incorrecta, por favor reingrese los datos");
-      this.estadoInicial();
-    }
+  // error = error => {
+  //   if (error.status === 401) {
+  //     swal("email o contraseña incorrecta, por favor reingrese los datos");
+  //     this.estadoInicial();
+  //   }
 
-    if (error.status === 200) {
-      swal("logueado satisfactoriamente");
-      this.estadoInicial();
-    }
-  };
-  login = error => {
-    //  this.estadoInicial()
-    if (error === 200) {
-      swal("ingreso satisfactorio");
-      this.estadoInicial();
-    } else {
-      swal("El usuario y/o la contraseña son incorrectas");
-    }
-  };
+  //   if (error.status === 200) {
+  //     swal("logueado satisfactoriamente");
+  //     this.estadoInicial();
+  //   }
+  // };
+  // login = error => {
+  //   //  this.estadoInicial()
+  //   if (error === 200) {
+  //     swal("ingreso satisfactorio");
+  //     this.estadoInicial();
+  //   } else {
+  //     swal("El usuario y/o la contraseña son incorrectas");
+  //   }
+  // };
 }
 export default Login;

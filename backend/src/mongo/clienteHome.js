@@ -18,7 +18,7 @@ class ClienteHome {
 
   agregarTx(clienteId, transaccion, callback) {
     var objectId = mongoDriver.ObjectID(clienteId);
-   
+
     this.clientes.findOne({ _id: objectId }, (error, cliente) => {
       if (error) callback("error");
       else {
@@ -36,9 +36,34 @@ class ClienteHome {
           }
         );
       }
-    
     });
+  }
 
+  agregarPago(dniUsuario, pago, callback) {
+    this.clientes.findOne({ n_cliente: dniUsuario }, (error, cliente) => {
+      console.log(
+        "ese el dni adentro de clientes",
+        dniUsuario,
+        "el el pago",
+        pago
+      );
+      if (error) callback("error");
+      else {
+        console.log("el pago essssssssssssss", pago);
+        cliente.pagos.push(pago);
+        this.clientes.replaceOne(
+          { n_cliente: dniUsuario },
+          cliente,
+          (error, result) => {
+            if (error) callback("error");
+            else {
+              console.log(`Resultado de actualizar: ${JSON.stringify(result)}`);
+              callback("ok", cliente);
+            }
+          }
+        );
+      }
+    });
   }
 
   borrarCliente(elementId, callback) {

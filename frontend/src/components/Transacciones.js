@@ -2,7 +2,8 @@ import React from "react";
 import Transaccion from "./Transaccion";
 import Cliente from "./Cliente";
 import { UserContext } from "../user-context";
-import swal from '@sweetalert/with-react'
+import swal from "@sweetalert/with-react";
+import Pago from "./Pago";
 
 class Transacciones extends React.Component {
   static contextType = UserContext;
@@ -16,7 +17,8 @@ class Transacciones extends React.Component {
       n_cliente: "",
       mostrarLista: true,
       mostrarBotonPago: false,
-      usuario: {}
+      usuario: {},
+      clientePagos: []
     };
   }
 
@@ -75,7 +77,8 @@ class Transacciones extends React.Component {
         .then(cliente =>
           this.setState({
             seleccionado: cliente,
-            clienteTransacciones: cliente.transacciones
+            clienteTransacciones: cliente.transacciones,
+            clientePagos: cliente.pagos
           })
         )
         .catch(function(error) {
@@ -165,86 +168,97 @@ class Transacciones extends React.Component {
     }
     if (this.state.clienteTransacciones.length >= 1) {
       lista = (
+        <div>
         <div className="contenedor">
-        <table className="left responsive-table highlight">
-          <thead className="bordered hoverable white-text">
-            {/* <legend>{this.state.seleccionado.nombre}</legend> */}
-            <tr className="border: card blue-grey darken-1">
-              <th>Fecha operación</th>
-              <th>Total operación </th>
-              <th>Monto entregado</th>
-              <th></th>
-            </tr>
-            <tr></tr>
-          </thead>
-          <tbody className="bordered hoverable">
-            
-            {this.transaccionesRows()}
-          
-            <tr className="border: card blue-grey darken-1">
-              <th>Total Cuenta Corriente</th>
-              <th></th>
-              <th>{this.montoAdeudado()}</th>
-              <th>{mostrarBoton}</th>
-            </tr>
-          </tbody>
-        </table>
+
+          <table className="left responsive-table highlight">
+            <thead className="bordered hoverable white-text">
+              {/* <legend>{this.state.seleccionado.nombre}</legend> */}
+              <tr className="border: card blue-grey darken-1">
+                <th>Fecha operación</th>
+                <th>Total operación </th>
+                <th>Monto entregado</th>
+                <th>Pago Mercado pago</th>
+                <th>Transacción N°</th>
+                <th></th>
+              </tr>
+              <tr></tr>
+            </thead>
+            <tbody className="bordered hoverable responsive-table ">
+              
+              {this.transaccionesRows()}
+              
+             
+             {this.pagosRows()}
+             
+              <tr className="border: card blue-grey darken-1">
+                <th>Total Cuenta Corriente</th>
+                <th></th><th></th>
+                <th>{this.totalAdeudado()}</th>
+                {/* <th>{this.montoAdeudado()}</th>
+                <th>{this.pagoPorMercadoPago()}</th> */}
+                <th>{mostrarBoton}</th>
+                <th></th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         </div>
       );
     }
     if (this.context.rol === "administrador") {
       transaccionesClientes = (
-      
-           
-            <div className="row input-field col s12">
-              {/* <div class="row"> */}
-                <form onSubmit={this.handleSubmit} className= "input-field col s10 responsive-form">
-                  
-                   <div className="row">
+        <div className="row input-field col s12">
+          {/* <div class="row"> */}
+          <form
+            onSubmit={this.handleSubmit}
+            className="input-field col s10 responsive-form"
+          >
+            <div className="row">
               <div className="input-field col s5 m4">
-              <div>
-                    <input
-                      type="number"
-                      id="n_cliente"
-                      name="n_cliente"
-                      max="99999999"
-                      required
-                      onChange={this.handleChange}
-                      list="clientes"
-                      autoComplete="off"
-                    ></input>
-                    <label for="n_cliente">Buscar por DNI</label>
-                    <datalist id="clientes">{listaDniCliente}</datalist>
-                    </div>
-                    <div className="row">
-                      <div class="input-field col s12 m12 ">
-                        <button
-                          type="button"
-                          className="btn sm #660066 waves-light btn"
-                          style={{ margin: "2px" }}
-                          onClick={() =>
-                            this.resultadoBusqueda(this.state.n_cliente)
-                          }
-                        >
-                          Consultar
-                        </button>
+                <div>
+                  <input
+                    type="number"
+                    id="n_cliente"
+                    name="n_cliente"
+                    max="99999999"
+                    required
+                    onChange={this.handleChange}
+                    list="clientes"
+                    autoComplete="off"
+                  ></input>
+                  <label for="n_cliente">Buscar por DNI</label>
+                  <datalist id="clientes">{listaDniCliente}</datalist>
+                </div>
+                <div className="row">
+                  <div class="input-field col s12 m12 ">
+                    <button
+                      type="button"
+                      className="btn sm #660066 waves-light btn"
+                      style={{ margin: "2px" }}
+                      onClick={() =>
+                        this.resultadoBusqueda(this.state.n_cliente)
+                      }
+                    >
+                      Consultar
+                    </button>
 
-                        <button
-                          type="button"
-                          className="btn #660066 waves-light btn"
-                          style={{ margin: "2px" }}
-                          onClick={this.limpiezaFormListaClientes}
-                        >
-                          Nueva búsqueda
-                        </button>
-                      </div>
-                    </div>
+                    <button
+                      type="button"
+                      className="btn #660066 waves-light btn"
+                      style={{ margin: "2px" }}
+                      onClick={this.limpiezaFormListaClientes}
+                    >
+                      Nueva búsqueda
+                    </button>
                   </div>
-                  </div>
-                  {/* </div> */}
-                </form>
+                </div>
               </div>
-            //  </div>
+            </div>
+            {/* </div> */}
+          </form>
+        </div>
+        //  </div>
         //   </div>
         // </div>
       );
@@ -281,11 +295,28 @@ class Transacciones extends React.Component {
     );
   };
 
+  totalAdeudado = () => {
+    var total = this.montoAdeudado() - this.pagoPorMercadoPago();
+    // if(total === 0){
+    //   this.setState({clientePagos:[]})
+    // }
+    // else{
+    return total;
+  };
+
   transaccionesRows = () => {
     return this.state.clienteTransacciones.map(unaTransaccion => {
       return <Transaccion transaccion={unaTransaccion} />;
+     
+    });
+    
+  };
+  pagosRows = () => {
+    return this.state.clientePagos.map(unPago => {
+      return <Pago pago={unPago} />;
     });
   };
+  
 
   montoAdeudado = () => {
     var totalT = 0;
@@ -298,10 +329,25 @@ class Transacciones extends React.Component {
     // return Math.round((totalT - mCobrado) * 100) / 100;
     return (totalT - mCobrado).toFixed(2);
   };
-  // error = req => {
-  //   if (req.status === 400) {
-  //     alert("email ya");
-  //   }
-  // };
+  pagoPorMercadoPago = () => {
+    var total = 0;
+    this.state.clientePagos.forEach(pago => {
+      total += parseFloat(pago.importePago);
+    });
+
+    //muestro 2 decimales
+    return total.toFixed(2);
+  };
+
+  error = req => {
+    if (req.status === 401) {
+      swal(
+        "El número de documento ingresado no es correcto. Por favor verifique y vuelva a intentarlo"
+      );
+    }
+    if (req.status === 402) {
+      swal("Su cuenta no tiene deuda. Ellas y nosotras Agradece s visita");
+    }
+  };
 }
 export default Transacciones;

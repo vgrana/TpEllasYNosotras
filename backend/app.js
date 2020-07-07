@@ -2,6 +2,7 @@ server = require("./server");
 Cliente = require("./src/modelos/cliente");
 Usuario = require("./src/modelos/usuario");
 Transaccion = require("./src/modelos/transaccion");
+Pago = require("./src/modelos/pago");
 
 mongoConnection = require("./src/mongo/mongoConnection");
 Home = require("./src/mongo/mongoHome");
@@ -15,6 +16,7 @@ mongoConnection.connect(db => {
   usuarioHome = new UsuarioHome("usuarios", db);
   transaccionHome = new Home("transacciones", db);
   clienteHome = new ClienteHome("clientes", db);
+  pagoHome= new Home("pagos", db);
 
 //   transaccion2 = new Transaccion("23/01/2020", "0", "2");
 //   cliente = new Cliente(
@@ -32,6 +34,7 @@ mongoConnection.connect(db => {
   server.register(usuarioHome);
   server.register(transaccionHome);
   server.register(clienteHome);
+  server.register(pagoHome);
   
   server.init();
 });

@@ -9,6 +9,7 @@ class Cliente{
         this.telefono=_telefono;
         this.email=_email;
         this.transacciones=[];
+        this.pagos=[];
      }
 
 }

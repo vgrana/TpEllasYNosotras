@@ -4,7 +4,7 @@ const saltRounds = 10;
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
-function login(server) {
+function controllerLogin(server) {
   passport.use(
     "login",
     new LocalStrategy(async function(username, password, done) {
@@ -86,4 +86,4 @@ function login(server) {
     });
   });
 }
-module.exports = { login };
+module.exports = { controllerLogin };

@@ -3,7 +3,7 @@ bodyParser = require("body-parser");
 var cors = require("cors");
 var server = express();
 morgan = require("morgan");
-const { crearPago } = require("./crearPago");
+const { controllerMercadoPago } = require("./controllerMercadoPago");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const passport = require("passport");
@@ -12,27 +12,13 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 var validator = require("email-validator");
 
-const { login } = require("./login");
+const { controllerLogin } = require("./controllerLogin");
 
 ClienteHome = require("./src/mongo/clienteHome");
 UsuarioHome = require("./src/mongo/usuarioHome");
 var homes = {};
 
 server.use(morgan("dev"));
-// server.use(express.static("public"));
-// ////ver si hay q instalarlo... y si se usa
-// // server.use(express.cookieParser());
-// server.use(cookieParser())
-// ///////////////////
-// server.use(
-//   session({
-//     secret: "cats",
-//     //en cada peticion aunque la sesion no haya sido modificada se va a guardar
-//     resave: true,
-//     //aunque no hayamos guardado nada igual la sesion se guarda
-//     saveUninitialized: true
-//   })
-// );
 
 function register(home) {
   console.log(`registering handlers for ${home.type}`);
@@ -42,10 +28,7 @@ function register(home) {
 function init() {
   server.set("port", process.env.PORT || 8888);
   server.use(express.static("public"));
-  ////ver si hay q instalarlo... y si se usa
-  // server.use(express.cookieParser());
   server.use(cookieParser());
-  ///////////////////
   server.use(
     session({
       secret: "cats",
@@ -70,8 +53,8 @@ function init() {
   });
 
   server.use(cors());
-  login(server);
-  crearPago(server);
+  controllerLogin(server);
+  controllerMercadoPago(server);
 
   // server.post("/clientes/:id", (req, res) => {
   //   clienteHome = new ClienteHome(db);
@@ -86,9 +69,6 @@ function init() {
   //   });
   // });
 
-  ////Asi anda/////////////
-
-  ///////////////////////
   server.post("/usuarios/login", passport.authenticate("login"), function(
     req,
     res
@@ -99,7 +79,6 @@ function init() {
       rol: req.user.rol,
       _id: req.user._id
     };
-    console.log("klfkdlfkdlfk adento de post " + req.user._id);
     res.status(200).json(usuario);
   });
 
@@ -117,7 +96,7 @@ function init() {
     return re.test(email);
   }
 
-  ///////////////////////////////////ANDA////////////////////////////////////////////////////////
+  
   server.post("/usuarios/signup", (req, res) => {
     console.log(req.body.username + " este es el mail");
     console.log(req.body.password + " este es la contraseña");
@@ -125,18 +104,12 @@ function init() {
     console.log(req.body.dni + " este es el dni");
     console.log("Cookies: ", req.cookies);
     if (
-      (req.body.username !== undefined && 
-      validateEmail(req.body.username)) &&
+      req.body.username !== undefined &&
+      validateEmail(req.body.username) &&
       req.body.password !== undefined &&
       req.body.dni !== undefined
     ) {
       console.log(validateEmail(req.body.username));
-
-      // if(req.body.username === undefined ||req.body.password === undefined ||
-      //   req.body.dni === undefined &&
-      //   !validator.validate(req.body.username)){
-      //   res.sendStatus(403)
-      // }
 
       const body = {
         email: req.body.username,

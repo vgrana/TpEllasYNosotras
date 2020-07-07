@@ -25,6 +25,7 @@ class FormularioCliente extends React.Component {
   handleChange = event => {
     console.log("entre al handle..." + event);
     var newCliente = Object.assign({}, this.state.cliente);
+    newCliente["pagos"]=[];
     newCliente[event.target.name] = event.target.value.toUpperCase();
     this.setState({ cliente: newCliente });
   };

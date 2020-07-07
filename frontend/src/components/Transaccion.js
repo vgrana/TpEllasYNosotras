@@ -15,6 +15,7 @@ class Transaccion extends React.Component {
         <td>{this.props.transaccion.fechaTransaccion}</td>
         <td>{this.props.transaccion.importeTotal}</td>
         <td>{this.props.transaccion.montoCobrado}</td>
+        <td></td><td></td>
       </tr>
     );
   }

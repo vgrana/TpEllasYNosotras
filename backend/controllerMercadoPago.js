@@ -1,7 +1,9 @@
 const mercadopago = require("mercadopago");
 var fetch = require("cross-fetch");
+var moment = require('moment');
 
-function crearPago(server) {
+
+function controllerMercadoPago(server) {
   //agrega credenciales
   mercadopago.configure({
     // sandbox: true,
@@ -17,9 +19,7 @@ function crearPago(server) {
   });
 
   function get_boton_pago(cliente, callback) {
-    var reference = { cliente };
-
-    var totalCuentaCorriente = 0.01;
+    var totalCuentaCorriente = 0.0;
     if (cliente.transacciones.length != 0) {
       cliente.transacciones.forEach(transaccion => {
         return (totalCuentaCorriente +=
@@ -54,11 +54,11 @@ function crearPago(server) {
         failure: "http://localhost:3000/home",
         pending: "http://localhost:3000/home"
       },
-      notification_url: "http://887c0900ac05.ngrok.io/clientes/notifications",
+      notification_url: "http://410450aa1088.ngrok.io/clientes/notifications",
       //
       /// para aprobacion de pago instantanea,el pago es aceptado o rechazado
 
-      external_reference: `${reference}`,
+      // external_reference: `${reference}`,
       auto_return: "approved"
     };
 
@@ -70,31 +70,76 @@ function crearPago(server) {
 
   server.post("/clientes/notifications", (req, res, next) => {
     res.status(200);
+    var id = req.query.id;
     if (req.query.topic == "payment") {
-      var id = req.query.id;
       console.log("soy el payment,", id);
-
+// https://api.mercadopago.com/users/${userId}/stores?access_token=${process.env.ACCESS_KEY_MP}`,
       fetch(
         `https://api.mercadopago.com/v1/payments/` +
           id +
           "?access_token=" +
           "APP_USR-8310985270543526-051822-7dfe02256bc91e8a9696c0f4df98fe5d-569345333"
       );
+      // fetch(
+      //   `https://api.mercadopago.com/v1/payments/${id}/?access_token=` +
+      //     "APP_USR-8310985270543526-051822-7dfe02256bc91e8a9696c0f4df98fe5d-569345333"
+      // );
       mercadopago.ipn
         .manage(req)
         .then(function(res) {
-          console.log(
-            "lo que pague",
-            res.body.payer.email,
-            res.body.transaction_details.total_paid_amount
-          // buscar el mail del q paga, y en usuario monto entregado setaer el del paid amount
-          );
+          console.log("recibiendo notificacionesssss");
+          // recibirPago(res, id);
+          registrarPagoUsuario(res, id);
         })
         .then(function(error) {
           console.log(error);
         });
     }
   });
+
+  // function recibirPago(pago, idPago) {
+  //   const pagoRecibido = {
+  //     fechaPago: pago.body.date_created,
+  //     importePago: pago.body.transaction_details.total_paid_amount,
+  //     tipoDePago: pago.body.payment_method_id,
+  //     referenciaPago: pago.body.transaction_details.payment_method_reference_id,
+  //     dni: pago.body.payer.identification.number,
+  //     idPago: idPago
+  //   };
+
+  //   registrarPagoUsuario(pagoRecibido);
+  //   // console.log("este es el mail de pago", pagoRecibido)
+  // };
+
+  function registrarPagoUsuario(pago, idPago) {
+    const pagoRecibido = {
+      fechaPago: moment(pago.body.date_created).format('DD-MM-YYYY'),
+      importePago: pago.body.transaction_details.total_paid_amount,
+      tipoDePago: pago.body.payment_method_id,
+      referenciaPago: pago.body.transaction_details.payment_method_reference_id,
+      dni: pago.body.payer.identification.number,
+      idPago: idPago,
+      email:pago.body.payer.email
+    };
+    
+    // var dni = pago.dni;
+    // console.log(dni, "sofdsfkdjfdklfjl");
+    // console.log("entre a registrar pago")
+    
+    if (pago !== {} && pago.body.status == "approved") {
+      // setTimeout(
+      clienteHome.agregarPago(pagoRecibido.dni, pagoRecibido, result => {
+        // cliente["pagos"] = pago;
+        // if (result == "error") {
+        //   res.status(400).end();
+        // } else {
+        //   res.status(200).send(cliente);
+        // }
+      })
+      // , 2500);
+
+    }
+  }
 
   server.get("/clientes/buscar/:ncliente", (req, res) => {
     var clienteId = req.params.ncliente;
@@ -112,51 +157,34 @@ function crearPago(server) {
     var nCliente = req.params.ncliente;
     clienteHome.getUnCliente(nCliente, cliente => {
       if (cliente && cliente.transacciones.length >= 1) {
-        get_boton_pago(cliente, response => {
-          console.log(
-            "response del body " +
-              response.body.init_point +
-              " pago " +
-              response.body.notification
-          );
-          cliente["boton_de_pago"] = response.body.init_point;
-          console.log(JSON.stringify(cliente));
-          res.json(cliente);
-          res.end();
+        var totalCuentaCorriente = 0;
+        cliente.transacciones.forEach(transaccion => {
+          totalCuentaCorriente +=
+            parseFloat(transaccion.importeTotal) -
+            parseFloat(transaccion.montoCobrado);
         });
-      } else {
-        res.sendStatus(401);
-        res.end();
+
+        if (totalCuentaCorriente > 0) {
+          get_boton_pago(cliente, response => {
+            cliente["boton_de_pago"] = response.body.init_point;
+            console.log(JSON.stringify(cliente));
+            res.json(cliente);
+            res.end();
+          });
+        } else {
+          res.json(cliente);
+          // res.sendStatus(401);
+          res.end();
+        }
       }
     });
+    // else{
+    //   res.sendStatus(402)
+    //   res.json(cliente);
+    //   res.end();
+    // }
+    // });
   });
-
-  // server.post("/clientes/notificaciones", (req, res) => {
-  //   req.body;
-  //   var idRecurso=req.body.id /// otra consulta con fetech get. va a consultar url q me trae el pago,
-  //   var payment= req.body.topic
-  //   res.sendStatus(200) //ok o 201 created
-  //   console.log("me llamo mercado pago" ,idRecurso);
-  //    server.get('https://api.mercadopago.com/v1/payments/'+req.query.id+'?access_token=ACCESS_TOKEN_ENV')
-  //   //  'https://api.mercadopago.com/v1/payments/:id?access_token=ACCESS_TOKEN_ENV'
-  // });
-
-  //https://api.mercadopago.com//v1/payments/[ID]?access_token=[ACCESS_TOKEN]
-
-  // server.post("/clientes/notificaciones", (req, res) => {
-  //   res.status(200)
-  // server.get('https://api.mercadopago.com/v1/payments/'+req.query.id +'?access_token=ACCESS_TOKEN_ENV')
-  //   console.log("adenteo eaplñsdlsñ")
-  //   console.log("soy enl id", req.query.id)
-  // .then((res)=>{
-  //   if(res.data.status === 'aproved'){
-  //     var notificacion=(parseStrindData(res.data.external_reference))
-  //       var cliente= notificacion._id
-
-  // }
-  // });
-  // })
-  // });
 }
 
-module.exports = { crearPago };
+module.exports = { controllerMercadoPago };
