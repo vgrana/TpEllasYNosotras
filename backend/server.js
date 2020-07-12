@@ -12,7 +12,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 var validator = require("email-validator");
 
-const { controllerLogin } = require("./controllerLogin");
+const { controllerPassport } = require("./controllerPassport");
 
 ClienteHome = require("./src/mongo/clienteHome");
 UsuarioHome = require("./src/mongo/usuarioHome");
@@ -53,21 +53,21 @@ function init() {
   });
 
   server.use(cors());
-  controllerLogin(server);
+  controllerPassport(server);
   controllerMercadoPago(server);
 
-  // server.post("/clientes/:id", (req, res) => {
-  //   clienteHome = new ClienteHome(db);
-  //   clienteId = req.params.id;
-  //   tx = req.body;
-  //   clienteHome.agregarTx(clienteId, tx, (result, cliente) => {
-  //     if (result == "error") {
-  //       res.status(400).end();
-  //     } else {
-  //       res.status(200).send(cliente);
-  //     }
-  //   });
-  // });
+  server.post("/clientes/:id", (req, res) => {
+    clienteHome = new ClienteHome(db);
+    clienteId = req.params.id;
+    tx = req.body;
+    clienteHome.agregarTx(clienteId, tx, (result, cliente) => {
+      if (result == "error") {
+        res.status(400).end();
+      } else {
+        res.status(200).send(cliente);
+      }
+    });
+  });
 
   server.post("/usuarios/login", passport.authenticate("login"), function(
     req,

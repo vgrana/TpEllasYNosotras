@@ -137,15 +137,15 @@ class Signup extends React.Component {
 
   error = res => {
     if (res.status === 401) {
-      swal("email ya se encuentra registrado");
+      swal("El email ya se encuentra registrado");
     }
 
     if (res.status === 200) {
-      swal("logueado satisfactoriamente");
+      swal("Su cuenta se ha creado satisfactoriamente");
     }
     if (res.status === 403) {
       swal(
-        "Su cuenta no se pudo crear. Por favor vuela a registrarse y complete todos los campos"
+        "Su cuenta no se pudo crear. Por favor vuelva a registrarse y complete todos los campos"
       );
       this.estadoInicial();
       this.props.history.push("./signup");

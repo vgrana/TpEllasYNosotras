@@ -11,7 +11,8 @@ class BusquedaCliente extends React.Component {
       // seleccionado: {},
       cliente: " ",
       apellido: "",
-      clienTransacciones: []
+      clienTransacciones: [],
+      clientePagos: []
     };
   }
 
@@ -44,7 +45,8 @@ class BusquedaCliente extends React.Component {
         this.setState({
           clientes: clts,
           clienTransacciones: clts.transacciones,
-          cliente: {}
+          cliente: {},
+          clientePagos: clts.pagos
         })
       );
   };
@@ -64,6 +66,7 @@ class BusquedaCliente extends React.Component {
   clienteSeleccionado = unCliente => {
     this.setState({ cliente: unCliente });
     this.setState({ clienTransacciones: unCliente.transacciones });
+    this.setState({ clientePagos: unCliente.pagos });
   };
 
   handleSubmit = event => {
@@ -91,6 +94,20 @@ class BusquedaCliente extends React.Component {
 
   eliminarCliente = unCliente => {};
 
+  // totalPagosMP(){
+  //   var totalPagos= 0;
+  //    if(this.state.clientePagos.lenght >1){
+
+  //   this.state.cliente.pagos.forEach(pago => {
+  //   totalPagos += parseFloat(pago.importePago);
+  //   })
+  //   console.log(totalPagos, "soy el mpagospdodpd")
+  //   this.setState({clientePagos:totalPagos});
+  // //  console.log(totalPagos, "soy el mpagospdodpd")
+
+  // }
+
+  // }
   render() {
     var listaApellidoCliente = this.state.clientes.map(cliente => {
       return (
@@ -133,7 +150,7 @@ class BusquedaCliente extends React.Component {
                   </button>
                   {/* </div>
                   <div className="input-field col s6 "> */}
-                  
+
                   <button
                     type="button"
                     className="btn #660066 waves-light btn"
@@ -166,8 +183,9 @@ class BusquedaCliente extends React.Component {
           <FormularioTransaccion
             cliente={this.state.cliente}
             clienTransacciones={this.state.clienTransacciones}
-            clienteSeleccionado={this.state.clienteSeleccionado}
+            // clienteSeleccionado={this.state.clienteSeleccionado}
             listado={this.listado}
+            clientePagos={this.state.clientePagos}
           ></FormularioTransaccion>
         </div>
       </div>
@@ -180,7 +198,7 @@ class BusquedaCliente extends React.Component {
         <Cliente
           cliente={unCliente}
           clienteSeleccionado={this.clienteSeleccionado}
-          // seleccionado={this.state.seleccionado}
+          seleccionado={this.state.seleccionado}
           editarCliente={this.editarCliente}
           eliminarCliente={this.eliminarCliente}
           estaActivado={true}

@@ -69,6 +69,7 @@ class Transacciones extends React.Component {
   };
 
   resultadoBusqueda = elCliente => {
+    console.log("soy el cliente", elCliente);
     if (elCliente === "") {
       swal("debe ingresar un N° de cliente");
     } else {
@@ -82,9 +83,10 @@ class Transacciones extends React.Component {
           })
         )
         .catch(function(error) {
-          swal(
-            "El número de documento ingresado no es correcto,o su cuenta no tiene deuda. Por favor verifique y vuelva a intentarlo"
-          );
+          console.log(error, "soy el error de resultado busqueda ");
+          // swal(
+          //   "No hay movimientos en esta cuenta "
+          // );
         });
     }
   };
@@ -157,7 +159,7 @@ class Transacciones extends React.Component {
       );
     }
 
-    if (this.context.rol === "usuario" && this.montoAdeudado() > 0) {
+    if (this.context.rol === "usuario") {
       mostrarBoton = (
         <div>
           <a href={mostrarBotonDePago} target="_blank">
@@ -169,40 +171,44 @@ class Transacciones extends React.Component {
     if (this.state.clienteTransacciones.length >= 1) {
       lista = (
         <div>
-        <div className="contenedor">
+          <div className="contenedor">
+            <table className="left responsive-table highlight">
+              <thead className="bordered hoverable white-text">
+                {/* <legend>{this.state.seleccionado.nombre}</legend> */}
+                <tr className="border: card blue-grey darken-1">
+                  <th>Fecha operación</th>
+                  <th>Total operación </th>
+                  <th>Monto entregado</th>
+                  <th>Pago Mercado pago</th>
+                  <th>Transacción N°</th>
+                  <th></th>
+                </tr>
+                <tr></tr>
+              </thead>
+              <tbody className="bordered hoverable responsive-table ">
+                {this.transaccionesRows()}
 
-          <table className="left responsive-table highlight">
-            <thead className="bordered hoverable white-text">
-              {/* <legend>{this.state.seleccionado.nombre}</legend> */}
-              <tr className="border: card blue-grey darken-1">
-                <th>Fecha operación</th>
-                <th>Total operación </th>
-                <th>Monto entregado</th>
-                <th>Pago Mercado pago</th>
-                <th>Transacción N°</th>
-                <th></th>
-              </tr>
-              <tr></tr>
-            </thead>
-            <tbody className="bordered hoverable responsive-table ">
-              
-              {this.transaccionesRows()}
-              
-             
-             {this.pagosRows()}
-             
-              <tr className="border: card blue-grey darken-1">
-                <th>Total Cuenta Corriente</th>
-                <th></th><th></th>
-                <th>{this.totalAdeudado()}</th>
-                {/* <th>{this.montoAdeudado()}</th>
-                <th>{this.pagoPorMercadoPago()}</th> */}
-                <th>{mostrarBoton}</th>
-                <th></th>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                {this.pagosRows()}
+
+                <tr className="border: card blue-grey darken-1">
+                  <th>Total Cuenta Corriente</th>
+                  <th></th>
+                  <th></th>
+                  <th>{this.totalAdeudado()}</th>
+
+                  {/* <th>{this.pagoPorMercadoPago()}</th>  */}
+                  {this.totalAdeudado() != 0 ? (
+                    <th>{mostrarBoton}</th>
+                  ) : (
+                    <th>
+                      <span>Sin Deuda</span>
+                    </th>
+                  )}
+                  <th></th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       );
     }
@@ -297,42 +303,39 @@ class Transacciones extends React.Component {
 
   totalAdeudado = () => {
     var total = this.montoAdeudado() - this.pagoPorMercadoPago();
-    // if(total === 0){
-    //   this.setState({clientePagos:[]})
-    // }
-    // else{
-    return total;
+    console.log(total, "kdslfjldsjdgljl");
+
+    return total.toFixed(2);
   };
 
   transaccionesRows = () => {
     return this.state.clienteTransacciones.map(unaTransaccion => {
       return <Transaccion transaccion={unaTransaccion} />;
-     
     });
-    
   };
   pagosRows = () => {
     return this.state.clientePagos.map(unPago => {
       return <Pago pago={unPago} />;
     });
   };
-  
 
-  montoAdeudado = () => {
+  montoAdeudado() {
     var totalT = 0;
     var mCobrado = 0;
     this.state.clienteTransacciones.forEach(transaccion => {
       totalT += parseFloat(transaccion.importeTotal);
       mCobrado += parseFloat(transaccion.montoCobrado);
     });
+    // console.log("totoa ", totalT, "m cobrado", mCobrado)
     //muestro 2 decimales
     // return Math.round((totalT - mCobrado) * 100) / 100;
     return (totalT - mCobrado).toFixed(2);
-  };
+  }
   pagoPorMercadoPago = () => {
     var total = 0;
     this.state.clientePagos.forEach(pago => {
       total += parseFloat(pago.importePago);
+      console.log("pago mercado pago", total);
     });
 
     //muestro 2 decimales
