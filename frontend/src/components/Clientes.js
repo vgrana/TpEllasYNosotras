@@ -1,15 +1,16 @@
 import React from "react";
 import Cliente from "./Cliente";
 import FormularioCliente from "./FormularioCliente";
-import swal from '@sweetalert/with-react'
+import swal from "@sweetalert/with-react";
 
 class Clientes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       clientes: [],
-      clientTransacciones: props.clientTransacciones,
-      cliente: {}
+      // clientTransacciones: props.clientTransacciones,
+      cliente: {},
+      pagosCliente: []
     };
     // this.listadoDeClientes = this.listadoDeClientes.bind(this);
     // this.listadoClientes = this.listadoClientes.bind(this);
@@ -23,7 +24,7 @@ class Clientes extends React.Component {
 
   componentWillMount = () => {
     this.listadoDeClientes();
-  }
+  };
 
   estadoInicial = () => {
     this.setState({
@@ -36,14 +37,14 @@ class Clientes extends React.Component {
         telefono: " "
       }
     });
-  }
+  };
 
   editarCliente = unCliente => {
-    console.log("en editar " + unCliente);
-    this.setState({ cliente: unCliente });
-  }
+    console.log("en editar " + unCliente, "son los pagos", unCliente.pagos);
+    this.setState({ cliente: unCliente, pagosCliente: unCliente.pagos });
+  };
 
-  clienteSeleccionado = unCliente => {}
+  clienteSeleccionado = unCliente => {};
 
   eliminarCliente = unCliente => {
     this.setState({ eliminarCliente: unCliente });
@@ -52,17 +53,18 @@ class Clientes extends React.Component {
       this.actualizacionDeClientes(unCliente);
     } else {
       swal({
-        text: "el cliente no puede ser eliminado porque tiene transacciones en su cuenta",
+        text:
+          "el cliente no puede ser eliminado porque tiene transacciones en su cuenta",
         buttons: {
-        cancel: "volver",
+          cancel: "volver"
         }
-      })
+      });
     }
-  }
+  };
 
   eliminandoCliente = (_id, unCliente) => {
-     swal(`Ud. eliminó el cliente : ${unCliente.apellido},${unCliente.nombre}`);
-            
+    swal(`Ud. eliminó el cliente : ${unCliente.apellido},${unCliente.nombre}`);
+
     fetch("http://localhost:8888/clientes/" + _id, {
       method: "delete",
       headers: {
@@ -70,22 +72,22 @@ class Clientes extends React.Component {
         "Content-Type": "application/json"
       }
     }).then(this.actualizacionDeClientes());
-  }
+  };
 
   listadoClientes = () => {
     fetch(`http://localhost:8888/clientes`)
       .then(res => res.json())
       .then(ctes => this.setState({ clientes: ctes, cliente: {} }));
-  }
+  };
   listadoDeClientes = () => {
     this.listadoClientes();
-  }
+  };
   actualizacionDeClientes = unCliente => {
     var clienteActualizado = this.state.clientes.filter(
       item => unCliente !== item
     );
     this.setState({ clientes: clienteActualizado, cliente: {} });
-  }
+  };
 
   render() {
     return (
@@ -93,10 +95,11 @@ class Clientes extends React.Component {
         <FormularioCliente
           eliminarCliente={this.state.eliminarCliente}
           cliente={this.state.cliente}
-          clientTransacciones={this.state.clientTransacciones}
+          // clientTransacciones={this.state.clientTransacciones}
           actualizacionDeClientes={this.actualizacionDeClientes}
           listadoDeClientes={this.listadoDeClientes}
           clientes={this.state.clientes}
+          pagosCliente={this.state.pagosCliente}
         ></FormularioCliente>
 
         <div className="row">
@@ -134,6 +137,6 @@ class Clientes extends React.Component {
         />
       );
     });
-  }
+  };
 }
 export default Clientes;

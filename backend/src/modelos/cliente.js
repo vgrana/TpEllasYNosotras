@@ -8,8 +8,8 @@ class Cliente{
         this.direccion=_direccion;
         this.telefono=_telefono;
         this.email=_email;
-        this.transacciones=[];
-        this.pagos=[];
+        // this.transacciones=[];
+        // this.pagos=[];
      }
 
 }

@@ -26,9 +26,9 @@ function register(home) {
 }
 
 function init() {
-  server.set("port", process.env.PORT || 8888);
+  // server.set("port", process.env.PORT || 8888);
   server.use(express.static("public"));
-  server.use(cookieParser());
+  // server.use(cookieParser());
   server.use(
     session({
       secret: "cats",
@@ -56,98 +56,89 @@ function init() {
   controllerPassport(server);
   controllerMercadoPago(server);
 
-  server.post("/clientes/:id", (req, res) => {
-    clienteHome = new ClienteHome(db);
-    clienteId = req.params.id;
-    tx = req.body;
-    clienteHome.agregarTx(clienteId, tx, (result, cliente) => {
-      if (result == "error") {
-        res.status(400).end();
-      } else {
-        res.status(200).send(cliente);
-      }
-    });
-  });
+  // server.post("/clientes/:id", (req, res) => {
+  //   clienteHome = new ClienteHome(db);
+  //   clienteId = req.params.id;
+  //   tx = req.body;
+  //   clienteHome.agregarTx(clienteId, tx, (result, cliente) => {
+  //     if (result == "error") {
+  //       res.status(400).end();
+  //     } else {
+  //       res.status(200).send(cliente);
+  //     }
+  //   });
+  // });
 
-  server.post("/usuarios/login", passport.authenticate("login"), function(
-    req,
-    res
-  ) {
-    var usuario = {
-      email: req.user.email,
-      dni: req.user.dni,
-      rol: req.user.rol,
-      _id: req.user._id
-    };
-    res.status(200).json(usuario);
-  });
+  // server.post("/usuarios/login", passport.authenticate("login"), function(
+  //   req,
+  //   res
+  // ) {
+  //   var usuario = {
+  //     email: req.user.email,
+  //     dni: req.user.dni,
+  //     rol: req.user.rol,
+  //     _id: req.user._id
+  //   };
+  //   res.status(200).json(usuario);
+  // });
 
-  // server.post("/usuarios/signup", passport.authenticate("signup"));
-  server.get("/usuarios/logout", (req, res) => {
-    console.log("alguine ma llla");
+  // server.get("/usuarios/logout", (req, res) => {
+  //   console.log("alguine ma llla");
 
-    req.logOut();
-    req.session.destroy();
-    res.sendStatus(200);
-  });
+  //   req.logOut();
+  //   req.session.destroy();
+  //   res.sendStatus(200);
+  // });
 
-  function validateEmail(email) {
-    var re = /\S+@\S+\.\S+/;
-    return re.test(email);
-  }
+  // function validateEmail(email) {
+  //   var re = /\S+@\S+\.\S+/;
+  //   return re.test(email);
+  // }
 
-  
-  server.post("/usuarios/signup", (req, res) => {
-    console.log(req.body.username + " este es el mail");
-    console.log(req.body.password + " este es la contraseña");
-    console.log(req.body.rol + " este es el rol");
-    console.log(req.body.dni + " este es el dni");
-    console.log("Cookies: ", req.cookies);
-    if (
-      req.body.username !== undefined &&
-      validateEmail(req.body.username) &&
-      req.body.password !== undefined &&
-      req.body.dni !== undefined
-    ) {
-      console.log(validateEmail(req.body.username));
+  // server.post("/usuarios/signup", (req, res) => {
+  //   console.log(req.body.username + " este es el mail");
+  //   console.log(req.body.password + " este es la contraseña");
+  //   console.log(req.body.rol + " este es el rol");
+  //   console.log(req.body.dni + " este es el dni");
+  //   console.log("Cookies: ", req.cookies);
+  //   if (
+  //     req.body.username !== undefined &&
+  //     validateEmail(req.body.username) &&
+  //     req.body.password !== undefined &&
+  //     req.body.dni !== undefined
+  //   ) {
+  //     console.log(validateEmail(req.body.username));
 
-      const body = {
-        email: req.body.username,
-        rol: req.body.rol,
-        password: req.body.password,
-        dni: req.body.dni
-      };
-      //  try{
-      //antes de registrar debo buscar para ver si ya esta registrado
-      usuarioHome.findEmail(req.body.username, user => {
-        console.log("lo encontre " + req.body.username + req.body.password);
-        // if (err) {
-        //   console.log("a ver el error " + err)
-        //   return done(err);
-        // }
-        if (!user) {
-          body.password = bcrypt.hashSync(req.body.password, saltRounds);
-          console.log(body.password + " este es la contraseña");
-          // try {
-          usuarioHome.insert(body);
+  //     const body = {
+  //       email: req.body.username,
+  //       rol: req.body.rol,
+  //       password: req.body.password,
+  //       dni: req.body.dni
+  //     };
 
-          return res.json(user);
-        }
+  //     //antes de registrar debo buscar para ver si ya esta registrado
+  //     usuarioHome.findEmail(req.body.username, user => {
+  //       console.log("lo encontre " + req.body.username + req.body.password);
 
-        if (user) {
-          console.log("el user del servidor " + user);
-          res.sendStatus(401);
-        }
-      });
-      // }
-      //   catch (error) {
-      //     return res.status(500).json({
-      //   }) ;
-      //   }
-    } else {
-      res.sendStatus(403);
-    }
-  });
+  //       if (!user) {
+  //         body.password = bcrypt.hashSync(req.body.password, saltRounds);
+  //         console.log(body.password + " este es la contraseña");
+  //         // try {
+  //         usuarioHome.insert(body);
+
+  //         return res.json(user);
+  //       }
+
+  //       if (user) {
+  //         console.log("el user del servidor " + user);
+  //         res.sendStatus(401);
+  //       }
+  //     });
+
+  //   } else {
+  //     res.sendStatus(403);
+  //   }
+  // });
   ///////////////////////////////////////////////////////////////////////////////////////
 
   // server.get("/:type/:id", (req, res) => {
@@ -160,6 +151,7 @@ function init() {
 
   server.put("/:type", (req, res) => {
     home = homes[req.params.type];
+    console.log(req.body, "soy el body editado");
     home.update(req.body);
     res.status(204).end();
   });
@@ -173,7 +165,6 @@ function init() {
       "total transaccion",
       tx.importeTotal
     );
-
     clienteHome.agregarTx(clienteId, tx, (result, cliente) => {
       if (result == "error") {
         res.status(400).end();
@@ -183,9 +174,8 @@ function init() {
     });
   });
 
-  server.post("/:type/", (req, res) => {
-    home = homes[req.params.type];
-    home.insert(req.body);
+  server.post("/clientes", (req, res) => {
+    clienteHome.insertCliente(req.body);
     res.status(204).end();
   });
 
@@ -197,6 +187,20 @@ function init() {
       } else {
         res.status(200);
       }
+    });
+  });
+  server.get("/clientes/buscar/:ncliente", (req, res) => {
+    var clienteId = req.params.ncliente;
+    clienteHome.getUnCliente(clienteId, cliente => {
+      clienteHome.find({ n_cliente: clienteId }, cliente => {
+        if (cliente) {
+          res.json(cliente);
+          res.end();
+        } else {
+          console.log("adenteor del q no esta");
+          res.sendStatus(401);
+        }
+      });
     });
   });
 
@@ -222,9 +226,12 @@ function init() {
   //   });
   // });
 
-  server.listen(server.get("port"), () => {
-    console.log("Server running on port ", server.get("port"));
+  server.listen(8888, () => {
+    console.log("Server running on port 8888");
   });
+  // server.listen(server.get("port"), () => {
+  //   console.log("Server running on port ", server.get("port"));
+  // });
 }
 
 exports.init = init;

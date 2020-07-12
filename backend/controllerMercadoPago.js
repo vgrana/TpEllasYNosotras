@@ -57,10 +57,11 @@ function controllerMercadoPago(server) {
           }
         },
         back_urls: {
-          success: "http://localhost:3000/login",
-          failure: "http://localhost:3000/home"
+          success: "http://localhost:3000/home",
+          failure: "http://localhost:3000/home",
+         
         },
-        notification_url: "http://3c0208b146cf.ngrok.io/clientes/notifications",
+        notification_url: "http://007bb3714144.ngrok.io/clientes/notifications",
         //
         /// para aprobacion de pago instantanea,el pago es aceptado o rechazado
 
@@ -143,15 +144,15 @@ function controllerMercadoPago(server) {
     }
   }
 
-  server.get("/clientes/buscar/:ncliente", (req, res) => {
-    var clienteId = req.params.ncliente;
-    clienteHome.getUnCliente(clienteId, cliente => {
-      clienteHome.find({ n_cliente: clienteId }, cliente => {
-        res.json(cliente);
-        res.end();
-      });
-    });
-  });
+  // server.get("/clientes/buscar/:ncliente", (req, res) => {
+  //   var clienteId = req.params.ncliente;
+  //   clienteHome.getUnCliente(clienteId, cliente => {
+  //     clienteHome.find({ n_cliente: clienteId }, cliente => {
+  //       res.json(cliente);
+  //       res.end();
+  //     });
+  //   });
+  // });
 
   server.get("/clientes/:ncliente", (req, res) => {
     var nCliente = req.params.ncliente;

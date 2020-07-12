@@ -6,15 +6,23 @@ class ClienteHome {
     this.clientes = db.collection("clientes");
   }
 
-  insert(elemento) {
+  insertCliente(elemento) {
     elemento.transacciones = [];
+    elemento.pagos=[];
     this.clientes.insertOne(elemento, (error, result) => {
       if (error) throw error;
       console.log(
-        `Resultado de insertar el elemento: ${JSON.stringify(result)}`
+        `Resultado de insertar el elemento jfkdjdkfjdk: ${JSON.stringify(result)}`
       );
     });
   }
+  // insertPagos(elemento) {
+  //   elemento.pagos=[]
+   
+  // }
+ 
+ 
+ 
   // findPago(query, callback) {
   //   this.clientes.find(query).toArray((error, result) => {
   //     if (error) throw error;
@@ -54,6 +62,7 @@ class ClienteHome {
           console.log("el pago essssssssssssss", pago);
           // unPago(dniUsuario,pago)
           ///antes de insertar el pago debo hacer un filter
+          
           cliente.pagos.push(pago);
           this.clientes.replaceOne(
             { n_cliente: dniUsuario },

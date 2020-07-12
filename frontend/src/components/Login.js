@@ -57,6 +57,7 @@ class Login extends React.Component {
         Accept: "application/json",
         "Content-Type": "application/json"
       }
+      
     })
       .then(res => res.json())
       .then(usuario => this.loginExitoso(usuario))

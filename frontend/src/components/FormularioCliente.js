@@ -7,7 +7,9 @@ class FormularioCliente extends React.Component {
       cliente: this.props.cliente,
       clientTransacciones: props.clientTransacciones,
       clientes: this.props.clientes,
-      elCliente: []
+      elCliente: [],
+      // pagosCliente:props.cliente.pagos,
+      
     };
   }
 
@@ -16,16 +18,17 @@ class FormularioCliente extends React.Component {
     this.setState({ clientTransacciones: props.clientTransacciones });
     this.setState({ clientes: props.clientes });
     this.setState({ eliminarCliente: props.eliminarCliente });
+    this.setState({pagosCliente:props.cliente.pagos});
   }
 
-  componentWillMount = () => {
+  componentWillMount() {
     this.props.listadoDeClientes();
   };
 
   handleChange = event => {
-    console.log("entre al handle..." + event);
+    console.log("entre al handle..." + event.target.name);
     var newCliente = Object.assign({}, this.state.cliente);
-    newCliente["pagos"]=[];
+    // newCliente["pagos"]=[];
     newCliente[event.target.name] = event.target.value.toUpperCase();
     this.setState({ cliente: newCliente });
   };
@@ -88,10 +91,10 @@ class FormularioCliente extends React.Component {
         "Content-Type": "application/json"
       }
     })
-      .then(this.props.listadoDeClientes())
+      .then(this.props.listadoDeClientes)
       .then(this.estadoInicial());
   };
-
+ 
   render() {
     return (
       <div className="container">
