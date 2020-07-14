@@ -130,13 +130,13 @@ class ClienteHome {
     });
   }
 
-  getUnCliente2(elementId) {
-    var objectId = elementId;
-    return this.clientes.findOne({ n_cliente: objectId }, (error, result) => {
-      if (error) throw error;
-      return result;
-    });
-  }
+  // getUnCliente2(elementId) {
+  //   var objectId = elementId;
+  //   return this.clientes.findOne({ n_cliente: objectId }, (error, result) => {
+  //     if (error) throw error;
+  //     return result;
+  //   });
+  // }
 
   update(element) {
     var objectId = mongoDriver.ObjectID(element._id);

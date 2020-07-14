@@ -191,7 +191,7 @@ class FormularioTransaccion extends React.Component {
     if (res.status === 500) {
       swal("Debe seleccionar un cliente");
     } else {
-      swal("su pago ha sido registrado en su cuenta corriente");
+      swal("Su pago ha sido registrado en su cuenta corriente");
     }
     // if (res.status === 402) {
     //   swal("Debe seleccionar un cliente");

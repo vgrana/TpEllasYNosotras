@@ -156,6 +156,8 @@ function init() {
     home.update(req.body);
     res.status(204).end();
   });
+  
+
 
   server.put("/clientes/:id", (req, res) => {
     clienteId = req.params.id;
@@ -192,7 +194,7 @@ function init() {
   });
   server.get("/clientes/buscar/:ncliente", (req, res) => {
     var clienteId = req.params.ncliente;
-    clienteHome.getUnCliente(clienteId, cliente => {
+    // clienteHome.getUnCliente(clienteId, cliente => {
       clienteHome.find({ n_cliente: clienteId }, cliente => {
         if (cliente) {
           res.json(cliente);
@@ -201,7 +203,7 @@ function init() {
           console.log("adenteor del q no esta");
           res.sendStatus(401);
         }
-      });
+      // });
     });
   });
 

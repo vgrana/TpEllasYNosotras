@@ -60,7 +60,7 @@ function controllerMercadoPago(server) {
           success: "http://localhost:3000/home",
           failure: "http://localhost:3000/home"
         },
-        notification_url: "http://1ca02871b93a.ngrok.io/clientes/notifications",
+        notification_url: "http://0057e6fe90ad.ngrok.io/clientes/notifications",
         auto_return: "approved",
         payment_methods: {
           excluded_payment_types: [
@@ -163,7 +163,8 @@ function controllerMercadoPago(server) {
       }
 
       if (totalCuentaCorriente > 0) {
-        console.log("adentro del cuetna corriente", totalCuentaCorriente);
+   
+     
         get_boton_pago(cliente, response => {
           cliente["boton_de_pago"] = response.body.init_point;
           console.log(JSON.stringify(cliente), "adentro del boton");

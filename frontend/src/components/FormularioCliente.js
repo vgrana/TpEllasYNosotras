@@ -7,7 +7,7 @@ class FormularioCliente extends React.Component {
       cliente: this.props.cliente,
       clientTransacciones: props.clientTransacciones,
       clientes: this.props.clientes,
-      elCliente: []
+      elCliente: {}
     };
   }
 
