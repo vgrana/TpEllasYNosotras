@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Link,
-  Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Clientes from "./components/Clientes";
 import Transacciones from "./components/Transacciones";
 import BusquedaCliente from "./components/BusquedaCliente";
@@ -39,7 +33,7 @@ class App extends React.Component {
         <div className="contenedor">
           <Router>
             <header>
-              <nav className="#ff80ab pink accent-1">
+              <nav className="#1b5e20 green darken-4">
                 <div class="nav-wrapper container">
                   <a href="#" data-target="mobile-demo" class="sidenav-trigger">
                     <i class="material-icons">menu</i>

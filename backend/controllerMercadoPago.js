@@ -30,7 +30,7 @@ function controllerMercadoPago(server) {
       if (cliente.pagos.length !== 0) {
         var totalPagos = 0;
         cliente.pagos.forEach(pago => {
-          return (totalPagos += parseFloat(pago.importePago));
+          return (totalPagos += parseFloat(pago.importePago)).toFixed(2);
         });
         totalCuentaCorriente -= totalPagos;
       }
@@ -58,13 +58,9 @@ function controllerMercadoPago(server) {
         },
         back_urls: {
           success: "http://localhost:3000/home",
-          failure: "http://localhost:3000/home",
-         
+          failure: "http://localhost:3000/home"
         },
-        notification_url: "http://007bb3714144.ngrok.io/clientes/notifications",
-        //
-        /// para aprobacion de pago instantanea,el pago es aceptado o rechazado
-
+        notification_url: "http://1ca02871b93a.ngrok.io/clientes/notifications",
         auto_return: "approved",
         payment_methods: {
           excluded_payment_types: [
@@ -93,17 +89,15 @@ function controllerMercadoPago(server) {
       mercadopago.preferences
         .create(preference)
         .then(callback, console.log(callback));
-      // mercadopago.preferences.create(preference).then(function (data));
     } else {
       callback(cliente);
     }
   }
+
   server.post("/clientes/notifications", (req, res) => {
     res.sendStatus(200);
     var id = req.query.id;
     if (req.query.topic == "payment") {
-      console.log("soy el payment,", id);
-
       fetch(
         `https://api.mercadopago.com/v1/payments/` +
           id +
@@ -115,7 +109,6 @@ function controllerMercadoPago(server) {
         .manage(req)
         .then(function(res) {
           console.log("recibiendo notificacionesssss", res);
-
           registrarPagoUsuario(res, id);
         })
         .then(function(error) {
@@ -144,16 +137,6 @@ function controllerMercadoPago(server) {
     }
   }
 
-  // server.get("/clientes/buscar/:ncliente", (req, res) => {
-  //   var clienteId = req.params.ncliente;
-  //   clienteHome.getUnCliente(clienteId, cliente => {
-  //     clienteHome.find({ n_cliente: clienteId }, cliente => {
-  //       res.json(cliente);
-  //       res.end();
-  //     });
-  //   });
-  // });
-
   server.get("/clientes/:ncliente", (req, res) => {
     var nCliente = req.params.ncliente;
     clienteHome.getUnCliente(nCliente, cliente => {
@@ -170,7 +153,7 @@ function controllerMercadoPago(server) {
         cliente.pagos.forEach(pago => {
           return (totalPagos += parseFloat(pago.importePago));
         });
-        totalCuentaCorriente -= totalPagos;
+        totalCuentaCorriente -= parseFloat(totalPagos);
         console.log(
           "adentro de la preference",
           totalCuentaCorriente,
@@ -185,7 +168,6 @@ function controllerMercadoPago(server) {
           cliente["boton_de_pago"] = response.body.init_point;
           console.log(JSON.stringify(cliente), "adentro del boton");
           res.json(cliente);
-          //   res.end();
         });
       } else {
         res.json(cliente);

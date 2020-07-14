@@ -4,13 +4,13 @@ var cors = require("cors");
 var server = express();
 morgan = require("morgan");
 const { controllerMercadoPago } = require("./controllerMercadoPago");
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
+// const bcrypt = require("bcrypt");
+// const saltRounds = 10;
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const cookieParser = require("cookie-parser");
+// const LocalStrategy = require("passport-local").Strategy;
+// const cookieParser = require("cookie-parser");
 const session = require("express-session");
-var validator = require("email-validator");
+// var validator = require("email-validator");
 
 const { controllerPassport } = require("./controllerPassport");
 
@@ -28,7 +28,7 @@ function register(home) {
 function init() {
   // server.set("port", process.env.PORT || 8888);
   server.use(express.static("public"));
-  // server.use(cookieParser());
+  server.use(bodyParser.json());
   server.use(
     session({
       secret: "cats",
@@ -55,6 +55,7 @@ function init() {
   server.use(cors());
   controllerPassport(server);
   controllerMercadoPago(server);
+  // server.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
   // server.post("/clientes/:id", (req, res) => {
   //   clienteHome = new ClienteHome(db);
@@ -211,20 +212,6 @@ function init() {
       res.end();
     });
   });
-
-  // server.get("/:type", (req, res) => {
-  //   var query = {};
-  //   if (req.query.consulta) {
-  //     console.log("Query:" + req.query.consulta);
-  //     var Consulta = req.query.consulta;
-  //     query = rsqlMongoDB(Consulta);
-  //   }
-  //   home = homes[req.params.type];
-  //   home.find(query, allObjects => {
-  //     res.json(allObjects);
-  //     res.end();
-  //   });
-  // });
 
   server.listen(8888, () => {
     console.log("Server running on port 8888");

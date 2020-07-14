@@ -1,7 +1,7 @@
 import React from "react";
 import auth from "./Auth";
 import { UserContext } from "../user-context";
-import swal from '@sweetalert/with-react'
+import swal from "@sweetalert/with-react";
 
 class Login extends React.Component {
   static contextType = UserContext;
@@ -57,7 +57,6 @@ class Login extends React.Component {
         Accept: "application/json",
         "Content-Type": "application/json"
       }
-      
     })
       .then(res => res.json())
       .then(usuario => this.loginExitoso(usuario))
@@ -76,7 +75,7 @@ class Login extends React.Component {
         <div className="row col .s8 .m8 push-s2 push-m4">
           <div className="card">
             <form onSubmit={this.handleSubmit}>
-              <div className="card-action # ffcdd2 red lighten-4 lighten-1 white-text">
+              <div className="card-action #558b2f light-green darken-3 white-text">
                 <h5>Ingresar</h5>
               </div>
               <div className="card-content">
@@ -108,7 +107,7 @@ class Login extends React.Component {
                 <div className="form-field">
                   <button
                     onClick={() => this.loginUsuario()}
-                    className="btn-large waves-effect waves-dark #fce4ec pink lighten-1"
+                    className="btn-large waves-effect waves-dark #4caf50 green"
                     style={{ margin: "2px" }}
                   >
                     Ingresar
@@ -120,9 +119,6 @@ class Login extends React.Component {
                   >
                     Cancelar
                   </button>
-                  <div>
-                    {/* <button onClick={this.props.history.push("/signup")}> Sino tiene cuenta</button> */}
-                  </div>
                 </div>
               </div>
             </form>
@@ -131,26 +127,5 @@ class Login extends React.Component {
       </div>
     );
   }
-
-  // error = error => {
-  //   if (error.status === 401) {
-  //     swal("email o contraseña incorrecta, por favor reingrese los datos");
-  //     this.estadoInicial();
-  //   }
-
-  //   if (error.status === 200) {
-  //     swal("logueado satisfactoriamente");
-  //     this.estadoInicial();
-  //   }
-  // };
-  // login = error => {
-  //   //  this.estadoInicial()
-  //   if (error === 200) {
-  //     swal("ingreso satisfactorio");
-  //     this.estadoInicial();
-  //   } else {
-  //     swal("El usuario y/o la contraseña son incorrectas");
-  //   }
-  // };
 }
 export default Login;

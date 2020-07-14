@@ -8,21 +8,21 @@ class ClienteHome {
 
   insertCliente(elemento) {
     elemento.transacciones = [];
-    elemento.pagos=[];
+    elemento.pagos = [];
     this.clientes.insertOne(elemento, (error, result) => {
       if (error) throw error;
       console.log(
-        `Resultado de insertar el elemento jfkdjdkfjdk: ${JSON.stringify(result)}`
+        `Resultado de insertar el elemento jfkdjdkfjdk: ${JSON.stringify(
+          result
+        )}`
       );
     });
   }
   // insertPagos(elemento) {
   //   elemento.pagos=[]
-   
+
   // }
- 
- 
- 
+
   // findPago(query, callback) {
   //   this.clientes.find(query).toArray((error, result) => {
   //     if (error) throw error;
@@ -59,10 +59,10 @@ class ClienteHome {
       else {
         if (pago !== null) {
           // else {
-          console.log("el pago essssssssssssss", pago);
+
           // unPago(dniUsuario,pago)
           ///antes de insertar el pago debo hacer un filter
-          
+
           cliente.pagos.push(pago);
           this.clientes.replaceOne(
             { n_cliente: dniUsuario },
@@ -97,12 +97,9 @@ class ClienteHome {
     this.clientes.findOne({ _id: objectId }, (error, cliente) => {
       if (error) callback("error");
       else {
-        console.log("el cliente es" + objectId);
-
         this.clientes.deleteOne({ _id: objectId }, cliente, (error, result) => {
           if (error) callback("error");
           else {
-            console.log(`Resultado de borrar: ${JSON.stringify(result)}`);
             callback("ok", cliente);
           }
         });

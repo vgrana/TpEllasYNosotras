@@ -1,5 +1,5 @@
 import React from "react";
-import swal from '@sweetalert/with-react'
+import swal from "@sweetalert/with-react";
 class FormularioCliente extends React.Component {
   constructor(props) {
     super(props);
@@ -7,9 +7,7 @@ class FormularioCliente extends React.Component {
       cliente: this.props.cliente,
       clientTransacciones: props.clientTransacciones,
       clientes: this.props.clientes,
-      elCliente: [],
-      // pagosCliente:props.cliente.pagos,
-      
+      elCliente: []
     };
   }
 
@@ -18,17 +16,15 @@ class FormularioCliente extends React.Component {
     this.setState({ clientTransacciones: props.clientTransacciones });
     this.setState({ clientes: props.clientes });
     this.setState({ eliminarCliente: props.eliminarCliente });
-    this.setState({pagosCliente:props.cliente.pagos});
+    this.setState({ pagosCliente: props.cliente.pagos });
   }
 
   componentWillMount() {
     this.props.listadoDeClientes();
-  };
+  }
 
   handleChange = event => {
-    console.log("entre al handle..." + event.target.name);
     var newCliente = Object.assign({}, this.state.cliente);
-    // newCliente["pagos"]=[];
     newCliente[event.target.name] = event.target.value.toUpperCase();
     this.setState({ cliente: newCliente });
   };
@@ -65,7 +61,6 @@ class FormularioCliente extends React.Component {
 
   agregarCliente = clientes => {
     if (clientes.length === 0) {
-      console.log("hollaaa " + clientes.length);
       fetch(`http://localhost:8888/clientes`, {
         method: "POST",
         body: JSON.stringify(this.state.cliente),
@@ -77,7 +72,9 @@ class FormularioCliente extends React.Component {
         .then(this.props.listadoDeClientes)
         .then(this.estadoInicial());
     } else {
-      swal(`el cliente  ${this.state.cliente.n_cliente}, ${this.state.cliente.apellido}, ${this.state.cliente.nombre} ya tiene cuenta `);
+      swal(
+        `el cliente  ${this.state.cliente.n_cliente}, ${this.state.cliente.apellido}, ${this.state.cliente.nombre} ya tiene cuenta `
+      );
       this.estadoInicial();
     }
   };
@@ -94,7 +91,7 @@ class FormularioCliente extends React.Component {
       .then(this.props.listadoDeClientes)
       .then(this.estadoInicial());
   };
- 
+
   render() {
     return (
       <div className="container">
@@ -177,7 +174,7 @@ class FormularioCliente extends React.Component {
                 <div className="input-field col s2">
                   <button
                     type="submit"
-                    className="btn #660066"
+                    className="btn #f57f17 yellow darken-4"
                     style={{ margin: "2px" }}
                   >
                     Guardar

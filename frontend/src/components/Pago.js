@@ -5,13 +5,10 @@ class Pago extends React.Component {
     return (
       <tr key={this.props.pago._id}>
         <td>{this.props.pago.fechaPago}</td>
-        <td> - </td><td> - </td>
+        <td> - </td>
+        <td> - </td>
         <td>{this.props.pago.importePago}</td>
-        {/* <td>{this.props.pago.tipoDePago}</td> */}
-
         <td>{this.props.pago.idPago}</td>
-       
-        {/* <td>{this.props.pago.idPago}</td> */}
       </tr>
     );
   }

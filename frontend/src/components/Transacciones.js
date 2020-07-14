@@ -125,13 +125,13 @@ class Transacciones extends React.Component {
     if (this.context.rol === "usuario") {
       traerCliente = (
         <div>
-          <div class="card blue-grey darken-1">
+          <div class="card #1b5e20 green darken-4">
             <div class="card-content white-text">
               <span class="card-title"> Si desea ver sus movimientos :</span>
               <br></br>
               <button
                 type="button"
-                className="btn sm #660066"
+                className="btn sm #ff9800 orange btn"
                 style={{ margin: "2px" }}
                 onClick={() => this.resultadoBusqueda(this.context.dni)}
               >
@@ -146,7 +146,7 @@ class Transacciones extends React.Component {
       datosClientes = (
         <div>
           <div class="card blue-grey darken-1">
-            <div class="card-content white-text">
+            <div class="card-content white-text #1b5e20 green darken-4">
               <legend>
                 Movimientos del usuario:
                 {this.state.seleccionado.n_cliente} , apellido{" "}
@@ -175,7 +175,8 @@ class Transacciones extends React.Component {
             <table className="left responsive-table highlight">
               <thead className="bordered hoverable white-text">
                 {/* <legend>{this.state.seleccionado.nombre}</legend> */}
-                <tr className="border: card blue-grey darken-1">
+                <tr className="#1b5e20 green darken-4">
+                  {/* border: card blue-grey darken-1"> */}
                   <th>Fecha operación</th>
                   <th>Total operación </th>
                   <th>Monto entregado</th>
@@ -190,13 +191,12 @@ class Transacciones extends React.Component {
 
                 {this.pagosRows()}
 
-                <tr className="border: card blue-grey darken-1">
+                <tr className="#1b5e20 green darken-4">
                   <th>Total Cuenta Corriente</th>
                   <th></th>
                   <th></th>
                   <th>{this.totalAdeudado()}</th>
 
-                  {/* <th>{this.pagoPorMercadoPago()}</th>  */}
                   {this.totalAdeudado() != 0 ? (
                     <th>{mostrarBoton}</th>
                   ) : (
@@ -215,7 +215,6 @@ class Transacciones extends React.Component {
     if (this.context.rol === "administrador") {
       transaccionesClientes = (
         <div className="row input-field col s12">
-          {/* <div class="row"> */}
           <form
             onSubmit={this.handleSubmit}
             className="input-field col s10 responsive-form"
@@ -233,14 +232,16 @@ class Transacciones extends React.Component {
                     list="clientes"
                     autoComplete="off"
                   ></input>
-                  <label for="n_cliente">Buscar por DNI</label>
+                  <label className="black-text text-darken-2" for="n_cliente">
+                    Buscar por DNI
+                  </label>
                   <datalist id="clientes">{listaDniCliente}</datalist>
                 </div>
                 <div className="row">
                   <div class="input-field col s12 m12 ">
                     <button
                       type="button"
-                      className="btn sm #660066 waves-light btn"
+                      className="btn sm #ff9800 orange btn"
                       style={{ margin: "2px" }}
                       onClick={() =>
                         this.resultadoBusqueda(this.state.n_cliente)
@@ -251,7 +252,7 @@ class Transacciones extends React.Component {
 
                     <button
                       type="button"
-                      className="btn #660066 waves-light btn"
+                      className="btn sm #ff9800 orange btn"
                       style={{ margin: "2px" }}
                       onClick={this.limpiezaFormListaClientes}
                     >
@@ -261,12 +262,8 @@ class Transacciones extends React.Component {
                 </div>
               </div>
             </div>
-            {/* </div> */}
           </form>
         </div>
-        //  </div>
-        //   </div>
-        // </div>
       );
     }
     return (
@@ -326,9 +323,7 @@ class Transacciones extends React.Component {
       totalT += parseFloat(transaccion.importeTotal);
       mCobrado += parseFloat(transaccion.montoCobrado);
     });
-    // console.log("totoa ", totalT, "m cobrado", mCobrado)
-    //muestro 2 decimales
-    // return Math.round((totalT - mCobrado) * 100) / 100;
+
     return (totalT - mCobrado).toFixed(2);
   }
   pagoPorMercadoPago = () => {
@@ -338,7 +333,6 @@ class Transacciones extends React.Component {
       console.log("pago mercado pago", total);
     });
 
-    //muestro 2 decimales
     return total.toFixed(2);
   };
 

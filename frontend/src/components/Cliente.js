@@ -32,7 +32,7 @@ class Cliente extends React.Component {
     if (activado) {
       button = (
         <button
-          className="btn waves-effect waves-red"
+          className="btn sm #ff9800 orange btn"
           onClick={this.selectCliente}
         >
           agregar transacción
@@ -45,7 +45,7 @@ class Cliente extends React.Component {
     if (borrarActivado) {
       buttonBorrar = (
         <button
-          className="btn #283593 indigo darken-3 "
+          className="btn #e65100 orange darken-4 "
           style={{ margin: "4px" }}
           onClick={this.borrarCliente}
         >
@@ -59,7 +59,7 @@ class Cliente extends React.Component {
     if (editarActivado) {
       buttonEditar = (
         <button
-          className="btn #283593 indigo darken-3"
+          className="btn #e65100 orange darken-4"
           onClick={this.editCliente}
         >
           <i className="material-icons">edit</i>

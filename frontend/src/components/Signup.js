@@ -12,7 +12,7 @@ class Signup extends React.Component {
 
   handleChange(event) {
     var newUsuario = Object.assign({}, this.state.usuario);
-    newUsuario.rol = "usuario";
+    newUsuario.rol = "administrador";
     newUsuario[event.target.name] = event.target.value.toUpperCase();
     this.setState({ usuario: newUsuario });
   }
@@ -61,7 +61,7 @@ class Signup extends React.Component {
           <div className="row col .s8 .m8 push-s2 push-m4">
             <div className="card">
               <form onSubmit={this.handleSubmit}>
-                <div className="card-panel # responsive-card ffcdd2 red lighten-4 lighten-1 white-text">
+                <div className="card-panel # responsive-card #ff9100 orange accent-3 white-text">
                   <h5>Registrarse</h5>
                 </div>
                 <div className="card-content">
@@ -113,10 +113,10 @@ class Signup extends React.Component {
                   <div className="form-field">
                     <button
                       onClick={() => this.signup(this.state.usuario)}
-                      className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
+                      className="btn-large waves-effect waves-dark #ff9100 orange accent-3 lighten-2"
                       style={{ margin: "2px" }}
                     >
-                      Registrarse
+                      Registrarme
                     </button>
                     <button
                       onClick={() => this.props.history.push("/home")}

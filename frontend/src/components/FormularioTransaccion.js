@@ -9,27 +9,32 @@ class FormularioTransaccion extends React.Component {
       cliente: this.props.cliente,
 
       listado: this.props.listado,
-      
+
       transaccion: {},
       clienTransacciones: this.props.clienTransacciones,
-      clientePagos: this.props.clientePagos
+      clientePagos: this.props.clientePagos,
+      pagosMP: {}
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.agregarTransaccion = this.agregarTransaccion.bind(this);
-    this.totalPagosMP = this.totalPagosMP.bind(this);
+    // this.montoAdeudado=this.montoAdeudado.bind(this);
     // this.totalPagos=this.totalPagos.bind(this);
     // this.transaccionExitosa=this.transaccionExitosa.bind(this);
     // this.diferenciaPago=this.diferenciaPago.bind(this);
   }
   componentWillReceiveProps(props) {
-   
     this.setState({ cliente: props.cliente });
     this.setState({ clienTransacciones: props.clienTransacciones });
     this.setState({ clientes: props.clientes });
-    this.setState({clientePagos:props.clientePagos});
-    this.totalPagosMP();
+    this.setState({ clientePagos: props.clientePagos });
+
+    // this.props.totalPagosMP()
   }
+  //   totalPagosMP(){
+  // console.log(  "soy los pagos", this.state.totalPagosMP)
+  //     this.setState({pagosMP:this.props.totalPagosMP})
+  //   }
 
   handleChange(event) {
     var newTransaccion = Object.assign({}, this.state.transaccion);
@@ -43,7 +48,7 @@ class FormularioTransaccion extends React.Component {
       swal("debe seleccionar un cliente");
       this.estadoInicialTransaccion();
     } else {
-    
+      // this.totalDeuda();
       this.agregarTransaccion();
     }
     event.preventDefault(event);
@@ -55,7 +60,7 @@ class FormularioTransaccion extends React.Component {
         nombre: " ",
         apellido: " "
       },
-      clientePagos:[]
+      clientePagos: []
     });
   };
   estadoInicialTransaccion = () => {
@@ -74,27 +79,35 @@ class FormularioTransaccion extends React.Component {
   };
 
   agregarTransaccion() {
-   
-    var cobro = this.state.transaccion.montoCobrado;
-    var total = this.state.transaccion.importeTotal;
-    var diferencia = total - cobro;
+    // var cobro = this.state.transaccion.montoCobrado;
+    // var total = this.state.transaccion.importeTotal;
+    // var montoAdeudado = this.montoAdeudado;
+    // var diferencia = (total + montoAdeudado) - cobro;
+    // console.log(
+    //   "antes de agregar",
+    //   this.montoAdeudado(),
+    //   "monto cobrado",
+    //   cobro,
+    //   "total transa",
+    //   total,
 
-    if (diferencia > 0 || diferencia === 0) {
-      fetch(`http://localhost:8888/clientes/` + this.state.cliente._id, {
-        method: "PUT",
-        body: JSON.stringify(this.state.transaccion),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        }
-      })
-        .then(this.props.listado())
-        .then(res => this.error(res))
-        .then(this.estadoInicialCliente(), this.estadoInicialTransaccion());
-    }
-    if (diferencia < 0) {
-      swal(" el cliente no puede tener saldo a favor");
-    }
+    // );
+    // if ((total + montoAdeudado - cobro)> 0 || ((total + montoAdeudado) - cobro) !== 0) {
+    fetch(`http://localhost:8888/clientes/` + this.state.cliente._id, {
+      method: "PUT",
+      body: JSON.stringify(this.state.transaccion),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+      .then(this.props.listado())
+      .then(res => this.error(res))
+      .then(this.estadoInicialCliente(), this.estadoInicialTransaccion());
+    // }
+    // if ((total + montoAdeudado - cobro) < 0 ) {
+    //   swal(" el cliente no puede tener saldo a favor");
+    // }
 
     this.estadoInicialCliente();
     this.estadoInicialTransaccion();
@@ -127,7 +140,7 @@ class FormularioTransaccion extends React.Component {
                   onChange={this.handleChange}
                 />
                 <div>
-                  <label>Fecha de entrega</label>
+                  <a className="black-text text-darken-2">Fecha de entrega</a>
                 </div>
               </div>
               <div className="input-field col s3 ">
@@ -143,7 +156,7 @@ class FormularioTransaccion extends React.Component {
                   onChange={this.handleChange}
                   value={this.state.transaccion.importeTotal}
                 />
-                <a>Importe transacción</a>
+                <a className="black-text text-darken-2">Importe transacción</a>
               </div>
               <div className="input-field col s3">
                 <input
@@ -157,12 +170,12 @@ class FormularioTransaccion extends React.Component {
                   title="ingrese el monto entregado por el cliente"
                   onChange={this.handleChange}
                 />
-                <a> Entrega</a>
+                <a className="black-text text-darken-2"> Entrega</a>
               </div>
               {/* {boton} */}
               <button
                 type="submit"
-                className="btn #660066"
+                className="btn sm #ff9800 orange btn"
                 style={{ margin: "2px" }}
               >
                 Guardar
@@ -187,44 +200,49 @@ class FormularioTransaccion extends React.Component {
     // }
   };
 
-  // montoAdeudado() {
+  // totalDeuda = () => {
+  //   var total = 0;
+
+  //   // total= this.montoAdeudado() - this.totalPagosMP();
+  //   console.log("es el total", this.montoAdeudado());
+  //   // console.log("meppp", this.totalPagosMP());
+  //   // return parseFloat(total.toFixed(2));
+  // };
+
+  // montoAdeudado () {
   //   var totalT = 0;
   //   var mCobrado = 0;
   //   var totalC = 0;
   //   var totalPagos = 0;
+  //   if (this.state.clienTransacciones.length > 0) {
+  //     this.state.clienTransacciones.forEach(transaccion => {
+  //       totalT += parseFloat(transaccion.importeTotal);
+  //       mCobrado += parseFloat(transaccion.montoCobrado);
 
-  //   this.state.clienTransacciones.forEach(transaccion => {
-  //     totalT += parseFloat(transaccion.importeTotal);
-  //     mCobrado += parseFloat(transaccion.montoCobrado);
-  //   });
+  //     if (this.state.clientePagos.length > 0) {
+  //       this.state.clientePagos.forEach(pago => {
+  //         totalPagos += parseFloat(pago.importePago);
+  //       });
+  //     }
+  //   } )
+  //   }
+  //     totalC=parseFloat(totalT - (mCobrado +totalPagos));
+  //     console.log(totalT, "es el total del monto", "cobrado", mCobrado, "pago", totalPagos)
+  //     return totalC.toFixed(2);
 
-  //   return (totalT - mCobrado).toFixed(2);
-  // }
-  // totalPagosMP(){
-  //   this.props.totalPagosMP(this.props.cliente)
-  //   this.setState({totalPagosMP:this.props.totalPagosMP})
-  // }
-  totalPagosMP(){
-    var totalPagos= 0;
-    console.log(this.state.clientePagos, "soy el mpagospdodpd")
-  //    if(this.state.clientePagos.lenght >1){
-     
-  //   this.state.clientePagos.forEach(pago => {
-  //   totalPagos += parseFloat(pago.importePago);
-  //   })
-  //   console.log(totalPagos, "soy el mpagospdodpd")
-  //   this.setState({pagosMP:totalPagos});
-  // //  console.log(totalPagos, "soy el mpagospdodpd")
+  //   // return totalC;
+  // };
 
-  //  }
+  // totalPagosMP = () => {
+  //   var totalPagos = 0;
+  //   // console.log("klkflkfldkfdlme la lalal ", this.state.clientePagos)
+  //   // if (this.state.clientePagos.length > 0) {
+  //   //   this.state.clientePagos.forEach(pago => {
+  //   //     totalPagos += parseFloat(pago.importePago);
 
-  }
-  // if(this.state.cliente.pagos.lengh >1){
-  //   this.state.cliente.pagos.forEach(pago => {
-  //     return (totalPagos += parseFloat(pago.importePago));
-  //   })
-  //  totalCuentaCorriente-=totalPagos
-
-  // }
+  //       return totalPagos.toFixed(2);
+  //     });
+  //   }
+  // };
 }
 export default FormularioTransaccion;

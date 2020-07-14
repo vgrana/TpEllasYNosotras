@@ -9,7 +9,6 @@ class Home extends React.Component {
   render() {
     console.log("estoy en home");
     return (
-      
       <div className="container responsive-img">
         <div className="row">
           <div className="col s8 m12 push-s3 push-m0">
@@ -18,7 +17,7 @@ class Home extends React.Component {
               <a className="carousel-item " href="" responsive-img>
                 <img src={bufanda2} alt="" />
               </a>
-              <a className="carousel-item" href="" >
+              <a className="carousel-item" href="">
                 <img src={infinitos} alt="" />
               </a>
               <a className="carousel-item" href="" responsive-img>

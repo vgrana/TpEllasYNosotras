@@ -8,7 +8,7 @@ class BusquedaCliente extends React.Component {
     super(props);
     this.state = {
       clientes: [],
-      // seleccionado: {},
+
       cliente: " ",
       apellido: "",
       clienTransacciones: [],
@@ -86,28 +86,12 @@ class BusquedaCliente extends React.Component {
       item => apellido === item.apellido
     );
     this.setState({ clientes: elCliente });
-
-    console.log(elCliente);
   };
 
   editarCliente = unCliente => {};
 
   eliminarCliente = unCliente => {};
 
-  // totalPagosMP(){
-  //   var totalPagos= 0;
-  //    if(this.state.clientePagos.lenght >1){
-
-  //   this.state.cliente.pagos.forEach(pago => {
-  //   totalPagos += parseFloat(pago.importePago);
-  //   })
-  //   console.log(totalPagos, "soy el mpagospdodpd")
-  //   this.setState({clientePagos:totalPagos});
-  // //  console.log(totalPagos, "soy el mpagospdodpd")
-
-  // }
-
-  // }
   render() {
     var listaApellidoCliente = this.state.clientes.map(cliente => {
       return (
@@ -125,7 +109,7 @@ class BusquedaCliente extends React.Component {
             className="input-field col s10 responsive-form"
           >
             <div className="row">
-              <div className="input-field col s5 m4">
+              <div className="input-field col s12 ">
                 <div>
                   <input
                     type="text"
@@ -134,26 +118,26 @@ class BusquedaCliente extends React.Component {
                     onChange={this.handleChange}
                     list="cliente"
                   />
-                  <label for="apelllido">Apellido del cliente</label>
+                  <label for="apelllido" className="black-text text-darken-2">
+                    Apellido del cliente
+                  </label>
                   <datalist id="cliente">{listaApellidoCliente}</datalist>
                 </div>
               </div>
               <div className="row">
-                <div className="input-field col s6">
+                <div className="input-field col s12 m12">
                   <button
                     type="button"
-                    className="btn sm #660066 waves-light btn"
+                    className="btn sm #ff9800 orange btn"
                     style={{ margin: "2px" }}
                     onClick={() => this.resultadoBusqueda(this.state.apellido)}
                   >
                     Consultar
                   </button>
-                  {/* </div>
-                  <div className="input-field col s6 "> */}
 
                   <button
                     type="button"
-                    className="btn #660066 waves-light btn"
+                    className="btn sm ##ff9800 orange btn"
                     style={{ margin: "2px" }}
                     onClick={this.limpiezaFormListaClientes}
                   >
@@ -183,7 +167,7 @@ class BusquedaCliente extends React.Component {
           <FormularioTransaccion
             cliente={this.state.cliente}
             clienTransacciones={this.state.clienTransacciones}
-            // clienteSeleccionado={this.state.clienteSeleccionado}
+            // totalPagosMP={this.totalPagosMP}
             listado={this.listado}
             clientePagos={this.state.clientePagos}
           ></FormularioTransaccion>

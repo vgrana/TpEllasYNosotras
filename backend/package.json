@@ -24,8 +24,6 @@
       "morgan": "^1.10.0",
       "passport": "^0.4.1",
       "passport-local": "^1.0.0",
-      "swagger-jsdoc": "^3.4.0",
-      "swagger-ui-express": "^4.1.1",
       "userdb": "^1.0.13"
    },
    "devDependencies": {
