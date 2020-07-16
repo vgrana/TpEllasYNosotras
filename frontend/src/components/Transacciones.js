@@ -4,6 +4,7 @@ import Cliente from "./Cliente";
 import { UserContext } from "../user-context";
 import swal from "@sweetalert/with-react";
 import Pago from "./Pago";
+import { BrowserRouter as Link } from "react-router-dom";
 
 class Transacciones extends React.Component {
   static contextType = UserContext;
@@ -162,7 +163,11 @@ class Transacciones extends React.Component {
     if (this.context.rol === "usuario") {
       mostrarBoton = (
         <div>
-          <a href={mostrarBotonDePago} target="_blank">
+          <a href={mostrarBotonDePago}>
+            {" "}
+            <Link to="./logout " target="_blank">
+              {" "}
+            </Link>
             Realizar pago
           </a>
         </div>
@@ -300,8 +305,6 @@ class Transacciones extends React.Component {
 
   totalAdeudado = () => {
     var total = this.montoAdeudado() - this.pagoPorMercadoPago();
-    console.log(total, "kdslfjldsjdgljl");
-
     return total.toFixed(2);
   };
 
@@ -343,7 +346,7 @@ class Transacciones extends React.Component {
       );
     }
     if (req.status === 402) {
-      swal("Su cuenta no tiene deuda. Ellas y nosotras Agradece s visita");
+      swal("Su cuenta no tiene deuda. Ellas y nosotras Agradece su visita");
     }
   };
 }

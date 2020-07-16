@@ -63,7 +63,7 @@ class Login extends React.Component {
       .catch(err => {
         console.error(err);
         swal(
-          "email o contraseña incorrecta, por favor reingrese los datos, sino tiene cuenta haga clic en registrarse"
+          "Email o contraseña incorrecta, por favor reingrese los datos, sino tiene cuenta haga clic en registrarse"
         );
         this.estadoInicial();
       });

@@ -63,15 +63,41 @@ class Clientes extends React.Component {
   };
 
   eliminandoCliente = (_id, unCliente) => {
-    swal(`Ud. eliminó el cliente : ${unCliente.apellido},${unCliente.nombre}`);
+    // swal(`Ud. eliminó el cliente : ${unCliente.apellido},${unCliente.nombre}`);
 
-    fetch("http://localhost:8888/clientes/" + _id, {
-      method: "delete",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
+    swal({
+      title:
+        "Está seguro que desea borrar el cliente " +
+        unCliente.apellido +
+        " " +
+        unCliente.nombre,
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        swal(
+          "El cliente " +
+            unCliente.apellido +
+            " " +
+            unCliente.nombre +
+            " ha sido eliminado",
+          {
+            icon: "success"
+          }
+        );
+        fetch("http://localhost:8888/clientes/" + _id, {
+          method: "delete",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          }
+        }).then(this.actualizacionDeClientes());
+      } else {
+        this.listadoClientes();
+        swal("El cliente no ha sido borrado");
       }
-    }).then(this.actualizacionDeClientes());
+    });
   };
 
   listadoClientes = () => {

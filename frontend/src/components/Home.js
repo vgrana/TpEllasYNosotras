@@ -15,13 +15,13 @@ class Home extends React.Component {
             <br></br>
             <div className="carousel carousel-slider ">
               <a className="carousel-item " href="" responsive-img>
-                <img src={bufanda2} alt="" />
+                <img src={portada1} alt="" />
               </a>
               <a className="carousel-item" href="">
                 <img src={infinitos} alt="" />
               </a>
               <a className="carousel-item" href="" responsive-img>
-                <img src={portada1} alt="" />
+                <img src={bufanda2} alt="" />
               </a>
               <a className="carousel-item" href="" responsive-img>
                 <img src={portada} alt="" />

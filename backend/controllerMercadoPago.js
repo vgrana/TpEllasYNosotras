@@ -60,7 +60,7 @@ function controllerMercadoPago(server) {
           success: "http://localhost:3000/home",
           failure: "http://localhost:3000/home"
         },
-        notification_url: "http://0057e6fe90ad.ngrok.io/clientes/notifications",
+        notification_url: "http://25bb977c4f7b.ngrok.io/clientes/notifications",
         auto_return: "approved",
         payment_methods: {
           excluded_payment_types: [
@@ -125,7 +125,9 @@ function controllerMercadoPago(server) {
       referenciaPago: pago.body.transaction_details.payment_method_reference_id,
       dni: pago.body.payer.identification.number,
       idPago: idPago,
-      email: pago.body.payer.email
+      email: pago.body.payer.email,
+      nombre:pago.body.payer.first_name,
+      apellido:pago.body.payer.last_name
     };
 
     if (
@@ -156,18 +158,16 @@ function controllerMercadoPago(server) {
         totalCuentaCorriente -= parseFloat(totalPagos);
         console.log(
           "adentro de la preference",
-          totalCuentaCorriente,
+          totalCuentaCorriente.toFixed(2),
           "soy colbach",
-          totalCuentaCorriente
+          totalCuentaCorriente.toFixed(2)
         );
       }
 
       if (totalCuentaCorriente > 0) {
-   
-     
         get_boton_pago(cliente, response => {
+          console.log("adentro del boton ", response);
           cliente["boton_de_pago"] = response.body.init_point;
-          console.log(JSON.stringify(cliente), "adentro del boton");
           res.json(cliente);
         });
       } else {
