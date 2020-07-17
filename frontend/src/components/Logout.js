@@ -1,12 +1,12 @@
 import React from "react";
 import auth from "./Auth";
 import { UserContext } from "../user-context";
-import swal from "@sweetalert/with-react";
-
+import { BrowserRouter as Link } from "react-router-dom";
 class Logout extends React.Component {
   static contextType = UserContext;
   constructor(props) {
     super(props);
+    this.setState({ redirect: false });
     this.logoutExitoso = this.logoutExitoso.bind(this);
   }
 
@@ -16,12 +16,21 @@ class Logout extends React.Component {
     this.props.history.push("/home");
   };
 
+  redirectHome = () => {
+    if (this.state.redirect) {
+      return <Link component={() => "www.google.com.ar"} />;
+    }
+  };
+
+  setRedirect = () => {
+    // adentro del boton, es el q cambia el estado  state
+    this.setState({ redirect: true });
+  };
+  // {this.redirectHome(), en el render }
+
   salir = () => {
-    fetch(`http://localhost:8888/usuarios/logout/ `)
-      .then(this.logoutExitoso())
-      .catch(function(error) {
-        swal("Gracias por su visita");
-      });
+    this.setRedirect();
+    fetch(`http://localhost:8888/usuarios/logout/ `).then(this.logoutExitoso());
   };
 
   render() {

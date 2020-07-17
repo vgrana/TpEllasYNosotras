@@ -108,7 +108,7 @@ function controllerMercadoPago(server) {
       mercadopago.ipn
         .manage(req)
         .then(function(res) {
-          console.log("recibiendo notificacionesssss", res);
+          console.log("recibiendo notificacionesssss req", req);
           registrarPagoUsuario(res, id);
         })
         .then(function(error) {
@@ -118,6 +118,7 @@ function controllerMercadoPago(server) {
   });
 
   function registrarPagoUsuario(pago, idPago) {
+    console.log("soy el pagooooooooo", pago, "soy el id", idPago)
     const pagoRecibido = {
       fechaPago: moment(pago.body.date_created).format("DD-MM-YYYY"),
       importePago: pago.body.transaction_amount,

@@ -80,7 +80,8 @@ class Transacciones extends React.Component {
           this.setState({
             seleccionado: cliente,
             clienteTransacciones: cliente.transacciones,
-            clientePagos: cliente.pagos
+            clientePagos: cliente.pagos,
+            
           })
         )
         .catch(function(error) {
