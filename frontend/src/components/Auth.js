@@ -1,7 +1,7 @@
 import swal from "@sweetalert/with-react";
-
 class Auth {
-  constructor() {
+  constructor(){
+   
     this.authenticated = false;
   }
 
@@ -25,4 +25,4 @@ class Auth {
 }
 
 export default new Auth();
-// export default Auth;
+

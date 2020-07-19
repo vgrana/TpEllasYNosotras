@@ -8,18 +8,9 @@ class Clientes extends React.Component {
     super(props);
     this.state = {
       clientes: [],
-      // clientTransacciones: props.clientTransacciones,
       cliente: {},
       pagosCliente: []
     };
-    // this.listadoDeClientes = this.listadoDeClientes.bind(this);
-    // this.listadoClientes = this.listadoClientes.bind(this);
-    // this.clienteSeleccionado = this.clienteSeleccionado.bind(this);
-    // this.eliminarCliente = this.eliminarCliente.bind(this);
-    // this.eliminandoCliente = this.eliminandoCliente.bind(this);
-    // this.actualizacionDeClientes = this.actualizacionDeClientes.bind(this);
-    // this.editarCliente = this.editarCliente.bind(this);
-    // this.estadoInicial = this.estadoInicial.bind(this);
   }
 
   componentWillMount = () => {
@@ -40,7 +31,6 @@ class Clientes extends React.Component {
   };
 
   editarCliente = unCliente => {
-    console.log("en editar " + unCliente, "son los pagos", unCliente.pagos);
     this.setState({ cliente: unCliente, pagosCliente: unCliente.pagos });
   };
 
@@ -54,7 +44,7 @@ class Clientes extends React.Component {
     } else {
       swal({
         text:
-          "el cliente no puede ser eliminado porque tiene transacciones en su cuenta",
+          "El cliente no puede ser eliminado porque tiene transacciones en su cuenta",
         buttons: {
           cancel: "volver"
         }
@@ -63,8 +53,6 @@ class Clientes extends React.Component {
   };
 
   eliminandoCliente = (_id, unCliente) => {
-    // swal(`Ud. eliminó el cliente : ${unCliente.apellido},${unCliente.nombre}`);
-
     swal({
       title:
         "Está seguro que desea borrar el cliente " +
@@ -105,9 +93,11 @@ class Clientes extends React.Component {
       .then(res => res.json())
       .then(ctes => this.setState({ clientes: ctes, cliente: {} }));
   };
+
   listadoDeClientes = () => {
     this.listadoClientes();
   };
+  
   actualizacionDeClientes = unCliente => {
     var clienteActualizado = this.state.clientes.filter(
       item => unCliente !== item

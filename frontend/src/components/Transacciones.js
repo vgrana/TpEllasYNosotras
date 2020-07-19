@@ -69,26 +69,23 @@ class Transacciones extends React.Component {
       );
   };
 
-  resultadoBusqueda = elCliente => {
-    console.log("soy el cliente", elCliente);
-    if (elCliente === "") {
-      swal("debe ingresar un N° de cliente");
+  resultadoBusqueda = dniCliente => {
+    console.log("soy el cliente", dniCliente);
+    if (dniCliente === "") {
+      swal("Por favor seleccione un N° de cliente de la lista");
     } else {
-      fetch(`http://localhost:8888/clientes/` + elCliente)
+      fetch(`http://localhost:8888/clientes/` + dniCliente)
         .then(res => res.json())
         .then(cliente =>
           this.setState({
             seleccionado: cliente,
             clienteTransacciones: cliente.transacciones,
-            clientePagos: cliente.pagos,
-            
+            clientePagos: cliente.pagos
           })
         )
+
         .catch(function(error) {
-          console.log(error, "soy el error de resultado busqueda ");
-          // swal(
-          //   "No hay movimientos en esta cuenta "
-          // );
+          swal("Usted no tiene cuenta en Ellas y Nosotras");
         });
     }
   };
@@ -174,6 +171,7 @@ class Transacciones extends React.Component {
         </div>
       );
     }
+
     if (this.state.clienteTransacciones.length >= 1) {
       lista = (
         <div>
@@ -188,7 +186,6 @@ class Transacciones extends React.Component {
                   <th>Monto entregado</th>
                   <th>Pago Mercado pago</th>
                   <th>Transacción N°</th>
-                  <th></th>
                 </tr>
                 <tr></tr>
               </thead>
@@ -210,7 +207,7 @@ class Transacciones extends React.Component {
                       <span>Sin Deuda</span>
                     </th>
                   )}
-                  <th></th>
+                  <th> </th>
                 </tr>
               </tbody>
             </table>
@@ -218,6 +215,7 @@ class Transacciones extends React.Component {
         </div>
       );
     }
+
     if (this.context.rol === "administrador") {
       transaccionesClientes = (
         <div className="row input-field col s12">
@@ -226,17 +224,17 @@ class Transacciones extends React.Component {
             className="input-field col s10 responsive-form"
           >
             <div className="row">
-              <div className="input-field col s5 m4">
+              <div className="input-field col s6 ">
                 <div>
                   <input
-                    type="number"
+                    type="text"
                     id="n_cliente"
                     name="n_cliente"
-                    max="99999999"
                     required
                     onChange={this.handleChange}
                     list="clientes"
                     autoComplete="off"
+                    placeholder="Seleccione un dni del la lista "
                   ></input>
                   <label className="black-text text-darken-2" for="n_cliente">
                     Buscar por DNI

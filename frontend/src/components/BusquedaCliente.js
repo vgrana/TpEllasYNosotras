@@ -8,7 +8,6 @@ class BusquedaCliente extends React.Component {
     super(props);
     this.state = {
       clientes: [],
-
       cliente: " ",
       apellido: "",
       clienTransacciones: [],
@@ -18,7 +17,7 @@ class BusquedaCliente extends React.Component {
 
   handleChange = e => {
     const target = e.target;
-    const value = target.value;
+    const value = (target.value).toUpperCase();
     const name = target.name;
     this.setState({ [name]: value });
   };
@@ -109,7 +108,7 @@ class BusquedaCliente extends React.Component {
             className="input-field col s10 responsive-form"
           >
             <div className="row">
-              <div className="input-field col s12 ">
+              <div className="input-field col s6 ">
                 <div>
                   <input
                     type="text"

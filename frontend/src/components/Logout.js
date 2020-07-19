@@ -1,35 +1,35 @@
 import React from "react";
 import auth from "./Auth";
 import { UserContext } from "../user-context";
-import { BrowserRouter as Link } from "react-router-dom";
+
 class Logout extends React.Component {
   static contextType = UserContext;
   constructor(props) {
     super(props);
-    this.setState({ redirect: false });
+    // this.setState({ redirect: false });
     this.logoutExitoso = this.logoutExitoso.bind(this);
   }
 
   logoutExitoso = usuario => {
     this.props.setUser(usuario);
     auth.logout();
-    this.props.history.push("/home");
+    this.props.history.push("/")
   };
 
-  redirectHome = () => {
-    if (this.state.redirect) {
-      return <Link component={() => "www.google.com.ar"} />;
-    }
-  };
+  // redirectHome = () => {
+  //   if (this.state.redirect) {
+  //     return <Link component={() => "www.google.com.ar"} />;
+  //   }
+  // };
 
-  setRedirect = () => {
-    // adentro del boton, es el q cambia el estado  state
-    this.setState({ redirect: true });
-  };
+  // setRedirect = () => {
+  //   // adentro del boton, es el q cambia el estado  state
+  //   this.setState({ redirect: true });
+  // };
   // {this.redirectHome(), en el render }
 
   salir = () => {
-    this.setRedirect();
+    // this.setRedirect();
     fetch(`http://localhost:8888/usuarios/logout/ `).then(this.logoutExitoso());
   };
 

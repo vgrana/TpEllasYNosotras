@@ -73,7 +73,8 @@ class FormularioCliente extends React.Component {
         .then(this.estadoInicial());
     } else {
       swal(
-        `el cliente  ${this.state.cliente.n_cliente}, ${this.state.cliente.apellido}, ${this.state.cliente.nombre} ya tiene cuenta `
+        `El cliente  ${this.state.cliente.n_cliente}, ${this.state.cliente.apellido}, 
+        ${this.state.cliente.nombre} ya tiene cuenta `
       );
       this.estadoInicial();
     }

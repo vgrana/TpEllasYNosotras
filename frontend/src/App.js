@@ -12,6 +12,7 @@ import NavEmpresa from "./NavEmpresa";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { UserContext } from "./user-context";
 import "./App.css";
+
 class App extends React.Component {
   static contextType = UserContext;
 
@@ -40,7 +41,7 @@ class App extends React.Component {
                   </a>
                   <ul class=" hide-on-med-and-down">
                     <li>
-                      <Link to="/home">Home</Link>
+                      <Link to="/">Home</Link>
                     </li>
                     <li>
                       {!auth.isAuthenticated() ? (
@@ -67,7 +68,7 @@ class App extends React.Component {
               </nav>
               <ul class="sidenav" id="mobile-demo">
                 <li>
-                  <Link to="/home">Home</Link>
+                  <Link to="/">Home</Link>
                 </li>
                 <li>
                   <Link to="/signup">Signup/Registrarse</Link>
@@ -88,9 +89,9 @@ class App extends React.Component {
               </ul>
             </header>
             <main>
-              {/* <Redirect from="/" to="/home" /> */}
+             
               <Switch>
-                <Route path="/home" component={Home} />
+                <Route exact path="/" component={Home} />
                 <Route
                   exact
                   path="/login"
@@ -126,6 +127,7 @@ class App extends React.Component {
                     <Transacciones {...props} setUser={this.setUser} />
                   )}
                 />
+               
               </Switch>
             </main>
           </Router>

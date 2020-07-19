@@ -1,11 +1,11 @@
 # Sistema de control de cuenta corriente
  Ellas y Nosotras es un negocio familiar dedicado a la venta de indumentaria femenina.
  En este sistema nos proponemos llevar un control de los montos de venta a cobrar a los clientes; pudiendo de esta manera tener un control de clientes morosos. 
- Los clientes podrán realizar el pago de su cuenta corriente a través de mercado pago. Para ello deberán registrarse en la página ................, una vez regsitrados van a poder consultar el estado de su cuenta, y con solo un click en el botón PAGAR podrán abonar el total del mismo.
+ Los clientes podrán realizar el pago de su cuenta corriente a través de mercado pago. Para ello deberán registrarse Una vez regsitrados van a poder consultar el estado de su cuenta, y con solo un click en el botón PAGAR podrán abonar el total del mismo.
  
  
  ## Para ello necesitamos:
- * Registrar una venta  en cuenta corriente, llevando un registro con fecha de la operación,monto entregado a cuenta de la venta, y monto adeudado, asociada a un cliente. Para ello tendremos que poder dar de alta, modificar una cuenta corriente; ademas de dar de alta, modificar, buscar por número  de cliente o apellido,y listar todos los cliente con sus respectivas deudas.
+ * Registrar una venta  en cuenta corriente, llevando un registro con fecha de la operación,monto entregado a cuenta de la venta, y monto adeudado, asociada a un cliente. Para ello tendremos que poder dar de alta, modificar una cuenta corriente; ademas de dar de alta, modificar, buscar por número  de cliente o apellido,y listar cada cliente con sus respectivas deudas.
   
    
 Ejemplo de como funcionaria el sistema
@@ -29,7 +29,7 @@ Damos de alta un:
  * nombre: JUAN
 
  
- Por otro lado el cliente desee saldar su cuenta a través de la página de nuestro local, podrá hacerlo ingresando a la página ...................  en donde deberá de darde de alta como usuario ingresando los siguientes datos:
+ Por otro lado el cliente desee saldar su cuenta a través de la página de nuestro local, podrá hacerlo ingresando a la misma, en donde deberá darse de alta como usuario ingresando los siguientes datos:
  
    ### usuario 
  * email: usuario@gmail.com

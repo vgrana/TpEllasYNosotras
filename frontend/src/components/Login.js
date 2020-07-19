@@ -2,6 +2,7 @@ import React from "react";
 import auth from "./Auth";
 import { UserContext } from "../user-context";
 import swal from "@sweetalert/with-react";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 class Login extends React.Component {
   static contextType = UserContext;
@@ -113,10 +114,9 @@ class Login extends React.Component {
                     Ingresar
                   </button>
                   <button
-                    onClick={() => this.props.history.push("/home")}
+                    onClick={() => this.props.history.push("/")}
                     className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
-                    style={{ margin: "2px" }}
-                  >
+                    style={{ margin: "2px" }}>
                     Cancelar
                   </button>
                 </div>

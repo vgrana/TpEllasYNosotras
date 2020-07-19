@@ -57,10 +57,12 @@ function controllerMercadoPago(server) {
           }
         },
         back_urls: {
-          success: "http://localhost:3000/home",
-          failure: "http://localhost:3000/home"
+          success: "http://localhost:3000/",
+          failure: "http://localhost:3000/"
         },
-        notification_url: "http://25bb977c4f7b.ngrok.io/clientes/notifications",
+        external_reference: cliente.n_cliente,
+
+        notification_url: "http://33d4690dda79.ngrok.io/clientes/notifications",
         auto_return: "approved",
         payment_methods: {
           excluded_payment_types: [
@@ -108,7 +110,7 @@ function controllerMercadoPago(server) {
       mercadopago.ipn
         .manage(req)
         .then(function(res) {
-          console.log("recibiendo notificacionesssss req", req);
+          console.log("recibiendo notificacionesssss req", res);
           registrarPagoUsuario(res, id);
         })
         .then(function(error) {
@@ -118,17 +120,22 @@ function controllerMercadoPago(server) {
   });
 
   function registrarPagoUsuario(pago, idPago) {
-    console.log("soy el pagooooooooo", pago, "soy el id", idPago)
+    console.log(
+      "soy el dni del pagooooooooo",
+      pago.body.external_reference,
+      "soy el id",
+      idPago
+    );
     const pagoRecibido = {
       fechaPago: moment(pago.body.date_created).format("DD-MM-YYYY"),
       importePago: pago.body.transaction_amount,
       tipoDePago: pago.body.payment_method_id,
       referenciaPago: pago.body.transaction_details.payment_method_reference_id,
-      dni: pago.body.payer.identification.number,
+      dni: pago.body.external_reference,
       idPago: idPago,
       email: pago.body.payer.email,
-      nombre:pago.body.payer.first_name,
-      apellido:pago.body.payer.last_name
+      nombre: pago.body.payer.first_name,
+      apellido: pago.body.payer.last_name
     };
 
     if (
@@ -141,8 +148,10 @@ function controllerMercadoPago(server) {
   }
 
   server.get("/clientes/:ncliente", (req, res) => {
+    console.log("me llana el form de transa", res);
     var nCliente = req.params.ncliente;
-    clienteHome.getUnCliente(nCliente, cliente => {
+    clienteHome.getUnCliente(nCliente, (cliente, result) => {
+      console.log(result, "soy el rsulta");
       var totalCuentaCorriente = 0;
       if (cliente && cliente.transacciones.length >= 1) {
         cliente.transacciones.forEach(transaccion => {
@@ -151,7 +160,7 @@ function controllerMercadoPago(server) {
             parseFloat(transaccion.montoCobrado);
         });
       }
-      if (cliente.pagos.length !== 0) {
+      if (cliente && cliente.pagos.length >= 1) {
         var totalPagos = 0;
         cliente.pagos.forEach(pago => {
           return (totalPagos += parseFloat(pago.importePago));
@@ -164,10 +173,10 @@ function controllerMercadoPago(server) {
           totalCuentaCorriente.toFixed(2)
         );
       }
-
+      
       if (totalCuentaCorriente > 0) {
         get_boton_pago(cliente, response => {
-          console.log("adentro del boton ", response);
+          console.log("adentro del boton ", response.body.external_reference);
           cliente["boton_de_pago"] = response.body.init_point;
           res.json(cliente);
         });
