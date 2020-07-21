@@ -85,7 +85,9 @@ class Transacciones extends React.Component {
         )
 
         .catch(function(error) {
-          swal("Usted no tiene saldo adeudado, o no posee cuenta en Ellas y Nosotras");
+          swal(
+            "Usted no tiene saldo adeudado, o no posee cuenta en Ellas y Nosotras"
+          );
         });
     }
   };
@@ -178,9 +180,7 @@ class Transacciones extends React.Component {
           <div className="contenedor">
             <table className="left responsive-table highlight">
               <thead className="bordered hoverable white-text">
-                {/* <legend>{this.state.seleccionado.nombre}</legend> */}
                 <tr className="#1b5e20 green darken-4">
-                  {/* border: card blue-grey darken-1"> */}
                   <th>Fecha operación</th>
                   <th>Concepto</th>
                   <th>Total operación </th>
@@ -339,15 +339,15 @@ class Transacciones extends React.Component {
     return total.toFixed(2);
   };
 
-  error = req => {
-    if (req.status === 401) {
-      swal(
-        "El número de documento ingresado no es correcto. Por favor verifique y vuelva a intentarlo"
-      );
-    }
-    if (req.status === 402) {
-      swal("Su cuenta no tiene deuda. Ellas y nosotras Agradece su visita");
-    }
-  };
+  // error = req => {
+  //   if (req.status === 401) {
+  //     swal(
+  //       "El número de documento ingresado no es correcto. Por favor verifique y vuelva a intentarlo"
+  //     );
+  //   }
+  //   if (req.status === 402) {
+  //     swal("Su cuenta no tiene deuda. Ellas y nosotras Agradece su visita");
+  //   }
+  // };
 }
 export default Transacciones;

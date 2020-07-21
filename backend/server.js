@@ -59,12 +59,7 @@ function init() {
   server.put("/clientes/:id", (req, res) => {
     clienteId = req.params.id;
     tx = req.body;
-    console.log(
-      "monto cobrado",
-      tx.montoCobrado,
-      "total transaccion",
-      tx.importeTotal
-    );
+
     clienteHome.agregarTx(clienteId, tx, (result, cliente) => {
       if (result == "error") {
         res.status(400).end();
@@ -96,7 +91,6 @@ function init() {
         res.json(cliente);
         res.end();
       } else {
-        console.log("adenteor del q no esta");
         res.sendStatus(401);
       }
     });
@@ -110,9 +104,8 @@ function init() {
     });
   });
 
- 
   server.listen(8888, () => {
-    console.log('Server running on port 8888');
+    console.log("Server running on port 8888");
   });
 }
 

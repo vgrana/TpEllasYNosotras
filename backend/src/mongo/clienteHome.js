@@ -18,17 +18,6 @@ class ClienteHome {
       );
     });
   }
-  // insertPagos(elemento) {
-  //   elemento.pagos=[]
-
-  // }
-
-  // findPago(query, callback) {
-  //   this.clientes.find(query).toArray((error, result) => {
-  //     if (error) throw error;
-  //     callback(result);
-  //   });
-  // }
 
   agregarTx(clienteId, transaccion, callback) {
     var objectId = mongoDriver.ObjectID(clienteId);
@@ -58,11 +47,6 @@ class ClienteHome {
       if (error) callback("error");
       else {
         if (pago !== null) {
-          // else {
-
-          // unPago(dniUsuario,pago)
-          ///antes de insertar el pago debo hacer un filter
-
           cliente.pagos.push(pago);
           this.clientes.replaceOne(
             { n_cliente: dniUsuario },
@@ -81,16 +65,6 @@ class ClienteHome {
       }
     });
   }
-
-  // pagoDelCliente(cliente, idPago, callback) {
-  //   cliente.pagos.findOne({ idPago: idPago }, (error, pago) => {
-  //     if (error) callback("error");
-  //     else {
-  //       console.log("el cliente es" + clienteId);
-  //       callback("ok", pago);
-  //     }
-  //   });
-  // }
 
   borrarCliente(elementId, callback) {
     var objectId = mongoDriver.ObjectID(elementId);
@@ -129,14 +103,6 @@ class ClienteHome {
       callback(result);
     });
   }
-
-  // getUnCliente2(elementId) {
-  //   var objectId = elementId;
-  //   return this.clientes.findOne({ n_cliente: objectId }, (error, result) => {
-  //     if (error) throw error;
-  //     return result;
-  //   });
-  // }
 
   update(element) {
     var objectId = mongoDriver.ObjectID(element._id);

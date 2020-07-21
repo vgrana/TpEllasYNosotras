@@ -44,14 +44,6 @@ class Signup extends React.Component {
       .then(res => this.error(res))
       .then(res => this.setState({ usuario: res }))
       .then(this.usuarioNuevo());
-    // .catch(err => {
-    //   console.log(err);
-    //   if (err === 500) {
-    //     console.log("este es el error" + err);
-    //   }
-    //   //  alert(' ringrese los datos, sino tiene cuenta haga clic en registrarse');
-
-    // });
   }
 
   render() {

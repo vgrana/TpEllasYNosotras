@@ -97,7 +97,7 @@ class Clientes extends React.Component {
   listadoDeClientes = () => {
     this.listadoClientes();
   };
-  
+
   actualizacionDeClientes = unCliente => {
     var clienteActualizado = this.state.clientes.filter(
       item => unCliente !== item
@@ -111,11 +111,10 @@ class Clientes extends React.Component {
         <FormularioCliente
           eliminarCliente={this.state.eliminarCliente}
           cliente={this.state.cliente}
-          // clientTransacciones={this.state.clientTransacciones}
           actualizacionDeClientes={this.actualizacionDeClientes}
           listadoDeClientes={this.listadoDeClientes}
           clientes={this.state.clientes}
-          pagosCliente={this.state.pagosCliente}
+          // pagosCliente={this.state.pagosCliente}
         ></FormularioCliente>
 
         <div className="row">

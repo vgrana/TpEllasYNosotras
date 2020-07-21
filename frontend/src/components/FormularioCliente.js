@@ -16,7 +16,7 @@ class FormularioCliente extends React.Component {
     this.setState({ clientTransacciones: props.clientTransacciones });
     this.setState({ clientes: props.clientes });
     this.setState({ eliminarCliente: props.eliminarCliente });
-    this.setState({ pagosCliente: props.cliente.pagos });
+    // this.setState({ pagosCliente: props.cliente.pagos });
   }
 
   componentWillMount() {

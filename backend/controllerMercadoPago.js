@@ -62,7 +62,7 @@ function controllerMercadoPago(server) {
         },
         external_reference: cliente.n_cliente,
 
-        notification_url: "http://41d2a909f200.ngrok.io/clientes/notifications",
+        notification_url: "http://c2065642671b.ngrok.io/clientes/notifications",
         auto_return: "approved",
         payment_methods: {
           excluded_payment_types: [
@@ -106,11 +106,9 @@ function controllerMercadoPago(server) {
           "?access_token=" +
           "APP_USR-8310985270543526-051822-7dfe02256bc91e8a9696c0f4df98fe5d-569345333"
       );
-
       mercadopago.ipn
         .manage(req)
         .then(function(res) {
-          console.log("recibiendo notificacionesssss req", res);
           registrarPagoUsuario(res, id);
         })
         .then(function(error) {
@@ -120,12 +118,6 @@ function controllerMercadoPago(server) {
   });
 
   function registrarPagoUsuario(pago, idPago) {
-    console.log(
-      "soy el dni del pagooooooooo",
-      pago.body.external_reference,
-      "soy el id",
-      idPago
-    );
     const pagoRecibido = {
       fechaPago: moment(pago.body.date_created).format("YYYY-MM-DD"),
       importePago: pago.body.transaction_amount,
@@ -148,10 +140,8 @@ function controllerMercadoPago(server) {
   }
 
   server.get("/clientes/:ncliente", (req, res) => {
-    console.log("me llana el form de transa", res);
     var nCliente = req.params.ncliente;
     clienteHome.getUnCliente(nCliente, (cliente, result) => {
-      console.log(result, "soy el rsulta");
       var totalCuentaCorriente = 0;
       if (cliente && cliente.transacciones.length >= 1) {
         cliente.transacciones.forEach(transaccion => {
@@ -160,24 +150,15 @@ function controllerMercadoPago(server) {
             parseFloat(transaccion.montoCobrado);
         });
       }
-
       if (cliente && cliente.pagos.length >= 1) {
         var totalPagos = 0;
         cliente.pagos.forEach(pago => {
           return (totalPagos += parseFloat(pago.importePago));
         });
         totalCuentaCorriente -= parseFloat(totalPagos);
-        console.log(
-          "adentro de la preference",
-          totalCuentaCorriente.toFixed(2),
-          "soy colbach",
-          totalCuentaCorriente.toFixed(2)
-        );
       }
-
       if (totalCuentaCorriente > 0) {
         get_boton_pago(cliente, response => {
-          console.log("adentro del boton ", response.body.external_reference);
           cliente["boton_de_pago"] = response.body.init_point;
           res.json(cliente);
         });
