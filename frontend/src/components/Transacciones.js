@@ -85,7 +85,7 @@ class Transacciones extends React.Component {
         )
 
         .catch(function(error) {
-          swal("Usted no tiene cuenta en Ellas y Nosotras");
+          swal("Usted no tiene saldo adeudado, o no posee cuenta en Ellas y Nosotras");
         });
     }
   };
@@ -182,6 +182,7 @@ class Transacciones extends React.Component {
                 <tr className="#1b5e20 green darken-4">
                   {/* border: card blue-grey darken-1"> */}
                   <th>Fecha operación</th>
+                  <th>Concepto</th>
                   <th>Total operación </th>
                   <th>Monto entregado</th>
                   <th>Pago Mercado pago</th>

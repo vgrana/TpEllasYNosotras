@@ -152,6 +152,7 @@ class FormularioCliente extends React.Component {
                 <div className="input-field col s5">
                   <input
                     className="validate"
+                    required
                     type="email"
                     name="email"
                     id="email"

@@ -13,6 +13,7 @@ class Transaccion extends React.Component {
     return (
       <tr key={this.props.transaccion._id}>
         <td>{this.props.transaccion.fechaTransaccion}</td>
+        <td>{this.props.transaccion.concepto}</td>
         <td>{this.props.transaccion.importeTotal}</td>
         <td>{this.props.transaccion.montoCobrado}</td>
         <td></td><td></td>

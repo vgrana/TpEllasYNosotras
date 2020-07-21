@@ -1,5 +1,6 @@
 import React from "react";
 import swal from "@sweetalert/with-react";
+var moment = require("moment");
 class FormularioTransaccion extends React.Component {
   constructor(props) {
     super(props);
@@ -9,8 +10,7 @@ class FormularioTransaccion extends React.Component {
       listado: this.props.listado,
       transaccion: {},
       clienTransacciones: this.props.clienTransacciones,
-      clientePagos: this.props.clientePagos,
-      pagosMP: {}
+      clientePagos: this.props.clientePagos
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -54,7 +54,8 @@ class FormularioTransaccion extends React.Component {
       transaccion: {
         fechaTransaccion: " ",
         importeTotal: " ",
-        montoCobrado: " "
+        montoCobrado: " ",
+        concepto: " "
       }
     });
   };
@@ -94,8 +95,28 @@ class FormularioTransaccion extends React.Component {
                     <a>{this.state.cliente.apellido} </a>
                     <a>{this.state.cliente.nombre}</a>
                   </legend>
+
+                  <div className="input-field col s12 ">
+                    <input
+                      className="validate"
+                      id="concepto"
+                      size="8"
+                      maxlength="10"
+                      placeholder="venta,entrega,seña"
+                      type="string"
+                      required
+                      name="concepto"
+                      title="Ingrese el concepto de la operación"
+                      onChange={this.handleChange}
+                      value={this.state.transaccion.concepto}
+                    />
+                    <a className="black-text text-darken-2">
+                      concepto de la operación ej:venta,entrega,seña
+                    </a>
+                  </div>
                 </div>
               </div>
+
               <div className="input-field col s5 ">
                 <input
                   className="validate"
@@ -149,7 +170,6 @@ class FormularioTransaccion extends React.Component {
               </button>
             </div>
           </div>
-          {/* </div> */}
         </form>
       </div>
     );

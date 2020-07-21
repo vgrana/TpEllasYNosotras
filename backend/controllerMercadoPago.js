@@ -62,7 +62,7 @@ function controllerMercadoPago(server) {
         },
         external_reference: cliente.n_cliente,
 
-        notification_url: "http://33d4690dda79.ngrok.io/clientes/notifications",
+        notification_url: "http://41d2a909f200.ngrok.io/clientes/notifications",
         auto_return: "approved",
         payment_methods: {
           excluded_payment_types: [
@@ -127,7 +127,7 @@ function controllerMercadoPago(server) {
       idPago
     );
     const pagoRecibido = {
-      fechaPago: moment(pago.body.date_created).format("DD-MM-YYYY"),
+      fechaPago: moment(pago.body.date_created).format("YYYY-MM-DD"),
       importePago: pago.body.transaction_amount,
       tipoDePago: pago.body.payment_method_id,
       referenciaPago: pago.body.transaction_details.payment_method_reference_id,
@@ -160,6 +160,7 @@ function controllerMercadoPago(server) {
             parseFloat(transaccion.montoCobrado);
         });
       }
+
       if (cliente && cliente.pagos.length >= 1) {
         var totalPagos = 0;
         cliente.pagos.forEach(pago => {
@@ -173,7 +174,7 @@ function controllerMercadoPago(server) {
           totalCuentaCorriente.toFixed(2)
         );
       }
-      
+
       if (totalCuentaCorriente > 0) {
         get_boton_pago(cliente, response => {
           console.log("adentro del boton ", response.body.external_reference);
