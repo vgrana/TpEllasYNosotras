@@ -2,7 +2,7 @@ import React from "react";
 import auth from "./Auth";
 import { UserContext } from "../user-context";
 import swal from "@sweetalert/with-react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+
 
 class Login extends React.Component {
   static contextType = UserContext;

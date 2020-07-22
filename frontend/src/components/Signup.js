@@ -111,7 +111,7 @@ class Signup extends React.Component {
                       Registrarme
                     </button>
                     <button
-                      onClick={() => this.props.history.push("/home")}
+                      onClick={() => this.props.history.push("/")}
                       className="btn-large waves-effect waves-dark #ffab91 deep-orange lighten-2"
                       style={{ margin: "2px" }}
                     >

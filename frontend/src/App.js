@@ -16,8 +16,9 @@ import "./App.css";
 class App extends React.Component {
   static contextType = UserContext;
 
-  constructor(props) {
-    super(props);
+  constructor() {
+   
+    super();
     this.state = {
       usuario: {}
     };
