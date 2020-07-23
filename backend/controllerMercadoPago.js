@@ -62,7 +62,7 @@ function controllerMercadoPago(server) {
         },
         external_reference: cliente.n_cliente,
 
-        notification_url: "http://c2065642671b.ngrok.io/clientes/notifications",
+        notification_url: "http://827f277e371f.ngrok.io/clientes/notifications",
         auto_return: "approved",
         payment_methods: {
           excluded_payment_types: [

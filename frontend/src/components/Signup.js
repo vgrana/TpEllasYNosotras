@@ -12,7 +12,7 @@ class Signup extends React.Component {
 
   handleChange(event) {
     var newUsuario = Object.assign({}, this.state.usuario);
-    newUsuario.rol = "usuario";
+    newUsuario.rol = "administrador";
     newUsuario[event.target.name] = event.target.value.toUpperCase();
     this.setState({ usuario: newUsuario });
   }
